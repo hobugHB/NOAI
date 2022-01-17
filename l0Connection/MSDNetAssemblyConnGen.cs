@@ -7,30 +7,21 @@ using System.Threading.Tasks;
 
 namespace NOAI.l0Connection
 {
-    public class ConnGenPropeties
-    {
-        public string Output { get; set; }
-
-        public string FixPathSymbol(string path)
-        {
-            return (path ?? "").Replace(" ", "__").
-                Replace(".", "__").Replace(",", "__").
-                Replace("=", "__").Replace(":", "__");
-        }
-    }
-
     public class MSDNetAssemblyConnGen
     {
-        public void CodeConnMembers(TypeInfo typeInfo, ConnGenPropeties prop)
+        public void CodeConnMembers(TypeInfo typeInfo, ConnGenContext context)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
+            builder.AppendLine(context.CodeRefNamespace());
+            builder.AppendLine("");
 
             var ns = "NOAI_" +
-                prop.FixPathSymbol(typeInfo.AssemblyQualifiedName) + "_" +
-                prop.FixPathSymbol(DateTime.Now.ToUniversalTime().ToLongTimeString());
+                context.FixPathSymbol(typeInfo.AssemblyQualifiedName ?? "") + "_" +
+                context.FixPathSymbol(DateTime.Now.ToUniversalTime().ToLongTimeString());
             builder.AppendLine("namespace " + ns);
             builder.AppendLine("{");
 
+            builder.AppendLine("\t" + context.CodeConnGenAttribute(typeInfo));
             builder.AppendLine("\tpublic class " + typeInfo.Name + "");
             builder.AppendLine("\t{");
             foreach (var i in typeInfo.DeclaredMembers)
@@ -41,22 +32,22 @@ namespace NOAI.l0Connection
 
             builder.AppendLine("}");
 
-            if (!Directory.Exists(prop.FixPathSymbol(prop.Output)))
+            if (!Directory.Exists(context.FixPathSymbol(context.Output)))
             {
-                Directory.CreateDirectory(prop.FixPathSymbol(prop.Output));
+                Directory.CreateDirectory(context.FixPathSymbol(context.Output));
             }
 
-            var path = prop.FixPathSymbol(Path.Combine(prop.Output, ns + "_" + typeInfo.Name));
+            var path = context.FixPathSymbol(Path.Combine(context.Output, ns + "_" + typeInfo.Name));
             File.WriteAllTextAsync(
-                path.Substring(0, path.Length < 250 ? path.Length : 250) + ".cs",
+                context.FixPathLength(path, ".cs"),
                 builder.ToString());
         }
 
-        public void CodeConnMembers(Assembly assembly, ConnGenPropeties prop)
+        public void CodeConnMembers(Assembly assembly, ConnGenContext context)
         {
             foreach (var i in assembly.ExportedTypes)
             {
-                CodeConnMembers(i.GetTypeInfo(), prop);
+                CodeConnMembers(i.GetTypeInfo(), context);
 
             }
 
