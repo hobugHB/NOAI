@@ -18,4 +18,8 @@
     <ProjectReference Include="..\l0Connection\NOAI.l0Connection.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestCases\" />
+  </ItemGroup>
+
 </Project>

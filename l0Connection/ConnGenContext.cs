@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace NOAI.l0Connection
 {
@@ -21,9 +22,35 @@ namespace NOAI.l0Connection
         public string CodeConnGenAttribute(TypeInfo typeInfo)
         {
             var builder = new StringBuilder();
+            var errors = new List<Exception>();
             builder.Append("[ConnGen(\r\n" +
-                "AssemblyQualifiedName:\"" + (typeInfo.AssemblyQualifiedName ?? "") + "\"), \r\n" +
-                "AssemblyCodeBase:\"" + (typeInfo.Assembly.CodeBase ?? "") + "\", \r\n" +
+                "//TypeInfoJson:\"" + JsonConvert.SerializeObject(typeInfo, Formatting.None,
+                        new JsonSerializerSettings()
+                        {
+                            Error = (sender, args) =>
+                            {
+                                errors.Add(args.ErrorContext.Error);
+                                args.ErrorContext.Handled = true;
+                            },
+                        }).Replace("\"", "\\\"") + "\", \r\n" +
+                //"//AssemblyJson:\"" + JsonConvert.SerializeObject(typeInfo.Assembly, Formatting.None,
+                //        new JsonSerializerSettings()
+                //        {
+                //            Error = ( sender,  args)=>
+                //            {
+                //                errors.Add(args.ErrorContext.Error);
+                //                args.ErrorContext.Handled = true;
+                //            },
+                //        }) + "\", \r\n" +
+                "AssemblyNameJson:\"" + JsonConvert.SerializeObject(typeInfo.Assembly.GetName(), Formatting.None,
+                        new JsonSerializerSettings()
+                        {
+                            Error = (sender, args) =>
+                            {
+                                errors.Add(args.ErrorContext.Error);
+                                args.ErrorContext.Handled = true;
+                            },
+                        }).Replace("\"", "\\\"") + "\", \r\n" +
                 "Namespace:\"" + (typeInfo.Namespace ?? "") + "\")]");
             return builder.ToString();
         }
