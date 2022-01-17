@@ -21,7 +21,10 @@ namespace NOAI.l0Connection
         public string CodeConnGenAttribute(TypeInfo typeInfo)
         {
             var builder = new StringBuilder();
-            builder.Append("[ConnGen(TypeBase:\"" + (typeInfo.AssemblyQualifiedName ?? "") + "\")]");
+            builder.Append("[ConnGen(\r\n" +
+                "AssemblyQualifiedName:\"" + (typeInfo.AssemblyQualifiedName ?? "") + "\"), \r\n" +
+                "AssemblyCodeBase:\"" + (typeInfo.Assembly.CodeBase ?? "") + "\", \r\n" +
+                "Namespace:\"" + (typeInfo.Namespace ?? "") + "\")]");
             return builder.ToString();
         }
 
