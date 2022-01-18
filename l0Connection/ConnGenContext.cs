@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace NOAI.l0Connection
 {
@@ -19,8 +19,17 @@ namespace NOAI.l0Connection
             return builder.ToString();
         }
 
-        private object ExtractData(Func<object> extract)
+        private object ExtractValue<T>(Func<T> extract)
         {
+            if(typeof(T) == typeof(string))
+            {
+
+            }
+            else
+            {
+                return null;
+            }
+
             try
             {
                 return extract();
@@ -39,31 +48,84 @@ namespace NOAI.l0Connection
             var typeAssemblyName = typeInfo.Assembly.GetName();
             builder.Append(
                 "[ConnGen(\r\n" +
-                    "TypeInfoJson:\"" + JsonConvert.SerializeObject(new
+                    "TypeInfoJson:\"" + JsonSerializer.Serialize(new
                     {
-                        Namespace = ExtractData(() => typeInfo.Namespace),
+                        Namespace = ExtractValue(() => typeInfo.Namespace ?? ""),
 
-                        GUID = ExtractData(() => typeInfo.GUID),
-                        Attributes = ExtractData(() => typeInfo.Attributes),
+                        IsPrimitive = ExtractValue(() => typeInfo.IsPrimitive),
+                        IsPublic = ExtractValue(() => typeInfo.IsPublic),
+                        IsSealed = ExtractValue(() => typeInfo.IsSealed),
+                        IsVisible = ExtractValue(() => typeInfo.IsVisible),
 
-                        GenericParameterAttributes = ExtractData(() => typeInfo.GenericParameterAttributes),
-                        GenericParameterPosition = ExtractData(() => typeInfo.GenericParameterPosition),
-                        GenericTypeArguments = ExtractData(() => typeInfo.GenericTypeArguments),
-                        GenericTypeParameters = ExtractData(() => typeInfo.GenericTypeParameters),
+                        IsValueType = ExtractValue(() => typeInfo.IsValueType),
 
-                        HasElementType = ExtractData(() => typeInfo.HasElementType),
-                        IsAbstract = ExtractData(() => typeInfo.IsAbstract),
-                        IsAnsiClass = ExtractData(() => typeInfo.IsAnsiClass),
-                        IsArray = ExtractData(() => typeInfo.IsArray),
-                        IsAutoClass = ExtractData(() => typeInfo.IsAutoClass),
-                        IsAutoLayout = ExtractData(() => typeInfo.IsAutoLayout),
-                        IsByRef = ExtractData(() => typeInfo.IsByRef),
-                        IsByRefLike = ExtractData(() => typeInfo.IsByRefLike),
-                        IsClass = ExtractData(() => typeInfo.IsClass),
+                        GUID = ExtractValue(() => typeInfo.GUID),
+                        Attributes = ExtractValue(() => typeInfo.Attributes),
+                        HasElementType = ExtractValue(() => typeInfo.HasElementType),
+
+                        IsGenericMethodParameter = ExtractValue(() => typeInfo.IsGenericMethodParameter),
+                        IsGenericParameter = ExtractValue(() => typeInfo.IsGenericParameter),
+                        IsGenericType = ExtractValue(() => typeInfo.IsGenericType),
+                        IsGenericTypeDefinition = ExtractValue(() => typeInfo.IsGenericTypeDefinition),
+                        IsGenericTypeParameter = ExtractValue(() => typeInfo.IsGenericTypeParameter),
+
+                        GenericParameterAttributes = ExtractValue(() => typeInfo.GenericParameterAttributes),
+                        GenericParameterPosition = ExtractValue(() => typeInfo.GenericParameterPosition),
+                        GenericTypeArguments = ExtractValue(() => typeInfo.GenericTypeArguments),
+                        //GenericTypeParameters = ExtractValue(() => typeInfo.GenericTypeParameters),
+
+                        IsAbstract = ExtractValue(() => typeInfo.IsAbstract),
+                        IsAnsiClass = ExtractValue(() => typeInfo.IsAnsiClass),
+                        IsArray = ExtractValue(() => typeInfo.IsArray),
+                        IsAutoClass = ExtractValue(() => typeInfo.IsAutoClass),
+                        IsAutoLayout = ExtractValue(() => typeInfo.IsAutoLayout),
+                        IsByRef = ExtractValue(() => typeInfo.IsByRef),
+                        IsByRefLike = ExtractValue(() => typeInfo.IsByRefLike),
+                        IsClass = ExtractValue(() => typeInfo.IsClass),
+                        IsCOMObject = ExtractValue(() => typeInfo.IsCOMObject),
+                        IsConstructedGenericType = ExtractValue(() => typeInfo.IsConstructedGenericType),
+                        IsContextful = ExtractValue(() => typeInfo.IsContextful),
+                        IsEnum = ExtractValue(() => typeInfo.IsEnum),
+                        IsExplicitLayout = ExtractValue(() => typeInfo.IsExplicitLayout),
+
+
+                        IsImport = ExtractValue(() => typeInfo.IsImport),
+                        IsInterface = ExtractValue(() => typeInfo.IsInterface),
+                        IsLayoutSequential = ExtractValue(() => typeInfo.IsLayoutSequential),
+                        IsMarshalByRef = ExtractValue(() => typeInfo.IsMarshalByRef),
+
+                        IsNested = ExtractValue(() => typeInfo.IsNested),
+                        IsNestedAssembly = ExtractValue(() => typeInfo.IsNestedAssembly),
+                        IsNestedFamANDAssem = ExtractValue(() => typeInfo.IsNestedFamANDAssem),
+                        IsNestedFamily = ExtractValue(() => typeInfo.IsNestedFamily),
+                        IsNestedFamORAssem = ExtractValue(() => typeInfo.IsNestedFamORAssem),
+                        IsNestedPrivate = ExtractValue(() => typeInfo.IsNestedPrivate),
+                        IsNestedPublic = ExtractValue(() => typeInfo.IsNestedPublic),
+
+                        IsNotPublic = ExtractValue(() => typeInfo.IsNotPublic),
+                        IsPointer = ExtractValue(() => typeInfo.IsPointer),
+                        IsSecurityCritical = ExtractValue(() => typeInfo.IsSecurityCritical),
+                        IsSecuritySafeCritical = ExtractValue(() => typeInfo.IsSecuritySafeCritical),
+                        IsSecurityTransparent = ExtractValue(() => typeInfo.IsSecurityTransparent),
+                        IsSerializable = ExtractValue(() => typeInfo.IsSerializable),
+                        IsSignatureType = ExtractValue(() => typeInfo.IsSignatureType),
+                        IsSpecialName = ExtractValue(() => typeInfo.IsSpecialName),
+                        IsSZArray = ExtractValue(() => typeInfo.IsSZArray),
+                        IsTypeDefinition = ExtractValue(() => typeInfo.IsTypeDefinition),
+                        IsUnicodeClass = ExtractValue(() => typeInfo.IsUnicodeClass),
+                        IsVariableBoundArray = ExtractValue(() => typeInfo.IsVariableBoundArray),
+
+                        //MemberTypes = ExtractValue(() => typeInfo.MemberType),
+                        //Module = ExtractValue(() => typeInfo.Module),
+                        //ReflectedType = ExtractValue(() => typeInfo.ReflectedType),
+                        //StructLayoutAttribute = ExtractValue(() => typeInfo.StructLayoutAttribute),
+                        //TypeHandle = ExtractValue(() => typeInfo.TypeHandle),
+                        //TypeInitializer = ExtractValue(() => typeInfo.TypeInitializer),
+                        //UnderlyingSystemType = ExtractValue(() => typeInfo.UnderlyingSystemType),
 
                         AssemblyName = new
                         {
-                            Name = ExtractData(() => typeAssemblyName.Name),
+                            Name = ExtractValue(() => typeAssemblyName.Name),
                         },
                     }).Replace("\"", "\\\"") + "\", \r\n" +
                 ")]");
