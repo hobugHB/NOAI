@@ -19,39 +19,54 @@ namespace NOAI.l0Connection
             return builder.ToString();
         }
 
+        private object ExtractData(Func<object> extract)
+        {
+            try
+            {
+                return extract();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public string CodeConnGenAttribute(TypeInfo typeInfo)
         {
             var builder = new StringBuilder();
             var errors = new List<Exception>();
-            builder.Append("[ConnGen(\r\n" +
-                "//TypeInfoJson:\"" + JsonConvert.SerializeObject(typeInfo, Formatting.None,
-                        new JsonSerializerSettings()
+
+            var typeAssemblyName = typeInfo.Assembly.GetName();
+            builder.Append(
+                "[ConnGen(\r\n" +
+                    "TypeInfoJson:\"" + JsonConvert.SerializeObject(new
+                    {
+                        Namespace = ExtractData(() => typeInfo.Namespace),
+
+                        GUID = ExtractData(() => typeInfo.GUID),
+                        Attributes = ExtractData(() => typeInfo.Attributes),
+
+                        GenericParameterAttributes = ExtractData(() => typeInfo.GenericParameterAttributes),
+                        GenericParameterPosition = ExtractData(() => typeInfo.GenericParameterPosition),
+                        GenericTypeArguments = ExtractData(() => typeInfo.GenericTypeArguments),
+                        GenericTypeParameters = ExtractData(() => typeInfo.GenericTypeParameters),
+
+                        HasElementType = ExtractData(() => typeInfo.HasElementType),
+                        IsAbstract = ExtractData(() => typeInfo.IsAbstract),
+                        IsAnsiClass = ExtractData(() => typeInfo.IsAnsiClass),
+                        IsArray = ExtractData(() => typeInfo.IsArray),
+                        IsAutoClass = ExtractData(() => typeInfo.IsAutoClass),
+                        IsAutoLayout = ExtractData(() => typeInfo.IsAutoLayout),
+                        IsByRef = ExtractData(() => typeInfo.IsByRef),
+                        IsByRefLike = ExtractData(() => typeInfo.IsByRefLike),
+                        IsClass = ExtractData(() => typeInfo.IsClass),
+
+                        AssemblyName = new
                         {
-                            Error = (sender, args) =>
-                            {
-                                errors.Add(args.ErrorContext.Error);
-                                args.ErrorContext.Handled = true;
-                            },
-                        }).Replace("\"", "\\\"") + "\", \r\n" +
-                //"//AssemblyJson:\"" + JsonConvert.SerializeObject(typeInfo.Assembly, Formatting.None,
-                //        new JsonSerializerSettings()
-                //        {
-                //            Error = ( sender,  args)=>
-                //            {
-                //                errors.Add(args.ErrorContext.Error);
-                //                args.ErrorContext.Handled = true;
-                //            },
-                //        }) + "\", \r\n" +
-                "AssemblyNameJson:\"" + JsonConvert.SerializeObject(typeInfo.Assembly.GetName(), Formatting.None,
-                        new JsonSerializerSettings()
-                        {
-                            Error = (sender, args) =>
-                            {
-                                errors.Add(args.ErrorContext.Error);
-                                args.ErrorContext.Handled = true;
-                            },
-                        }).Replace("\"", "\\\"") + "\", \r\n" +
-                "Namespace:\"" + (typeInfo.Namespace ?? "") + "\")]");
+                            Name = ExtractData(() => typeAssemblyName.Name),
+                        },
+                    }).Replace("\"", "\\\"") + "\", \r\n" +
+                ")]");
             return builder.ToString();
         }
 

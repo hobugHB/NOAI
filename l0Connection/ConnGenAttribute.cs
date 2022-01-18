@@ -8,7 +8,6 @@ namespace NOAI.l0Connection
 {
     public class ConnGenAttribute : Attribute
     {
-        public string AssemblyNameJson { get; set; } = "{}";
-        public string Namespace { get; set; } = "";
+        public string TypeInfoJson { get; set; } = "{}";
     }
 }
