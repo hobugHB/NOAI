@@ -21,12 +21,40 @@ namespace NOAI.l0Connection
             builder.AppendLine("namespace " + ns);
             builder.AppendLine("{");
 
-            builder.AppendLine("\t" + context.CodeConnGenAttribute(typeInfo));
-            builder.AppendLine("\tpublic class " + typeInfo.Name + "");
+            TypeConnGenAttribute attribute;
+            builder.AppendLine("\t" + context.CodeConnGenAttribute(typeInfo, out attribute));
+            builder.AppendLine("\tpublic " + (attribute.IsStaticType ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
             builder.AppendLine("\t{");
-            foreach (var i in typeInfo.DeclaredMembers)
-            {
 
+            builder.AppendLine("\t\tprivate " + attribute.Namespace + "." + attribute.Name + " _NOAI_l0Connection_BaseInstance;");
+            builder.AppendLine("");
+
+            builder.AppendLine("\t\tpublic " + attribute.Name + "()");
+            builder.AppendLine("\t\t{");
+            builder.AppendLine("\t\t\t_NOAI_l0Connection_BaseInstance = new " + attribute.Namespace + "." + attribute.Name + "();");
+            builder.AppendLine("\t\t}");
+            builder.AppendLine("");
+
+            foreach (var i in typeInfo.DeclaredProperties)
+            {
+                builder.AppendLine("\t\tpublic " + i.PropertyType.Name + " " + i.Name);
+                builder.AppendLine("\t\t{");
+                if (i.CanRead)
+                {
+                    builder.AppendLine("\t\t\tget { return _NOAI_l0Connection_BaseInstance." + i.Name + "; }");
+                }
+                if (i.CanWrite)
+                {
+                    builder.AppendLine("\t\t\tset { _NOAI_l0Connection_BaseInstance." + i.Name + " = value; }");
+                }
+                builder.AppendLine("\t\t}");
+
+                //if(i is propert)
+
+                //builder.AppendLine("\t\tpublic object " + i.Name + "()");
+                //builder.AppendLine("\t\t{");
+                //builder.AppendLine("\t\t\treturn _NOAI_l0Connection_BaseInstance();");
+                //builder.AppendLine("\t\t}");
             }
             builder.AppendLine("\t}");
 
