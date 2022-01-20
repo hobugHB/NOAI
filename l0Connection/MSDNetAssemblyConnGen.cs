@@ -29,11 +29,16 @@ namespace NOAI.l0Connection
             builder.AppendLine("\t\tprivate " + attribute.Namespace + "." + attribute.Name + " _NOAI_l0Connection_BaseInstance;");
             builder.AppendLine("");
 
-            builder.AppendLine("\t\tpublic " + attribute.Name + "()");
-            builder.AppendLine("\t\t{");
-            builder.AppendLine("\t\t\t_NOAI_l0Connection_BaseInstance = new " + attribute.Namespace + "." + attribute.Name + "();");
-            builder.AppendLine("\t\t}");
-            builder.AppendLine("");
+            foreach (var i in typeInfo.DeclaredConstructors)
+            {
+                var ps = i.GetParameters();
+                builder.AppendLine("\t\tpublic " + attribute.Name + "(" + string.Join(", ", ps.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
+                builder.AppendLine("\t\t{");
+                builder.AppendLine("\t\t\t_NOAI_l0Connection_BaseInstance = new " + attribute.Namespace + "." + attribute.Name +
+                    "(" + string.Join(", ", ps.Select(p => p.Name)) + ")");
+                builder.AppendLine("\t\t}");
+                builder.AppendLine("");
+            }
 
             foreach (var i in typeInfo.DeclaredProperties)
             {
@@ -49,7 +54,6 @@ namespace NOAI.l0Connection
                 }
                 builder.AppendLine("\t\t}");
             }
-            builder.AppendLine("");
 
             foreach (var i in typeInfo.DeclaredMethods)
             {
@@ -62,12 +66,15 @@ namespace NOAI.l0Connection
                     continue;
                 }
 
+                var ps = i.GetParameters();
                 builder.AppendLine("\t\tpublic " + 
                     (i.ReturnType.FullName == "System.Void" ? "void" : i.ReturnType.FullName) +
-                    " " + i.Name + "()");
+                    " " + i.Name + "("+ string.Join(", ", ps.Select(p=>p.ParameterType.FullName+" "+p.Name)) + ")");
                 builder.AppendLine("\t\t{");
-                builder.AppendLine("\t\t\treturn _NOAI_l0Connection_BaseInstance();");
+                builder.AppendLine("\t\t\treturn _NOAI_l0Connection_BaseInstance."+ i.Name +
+                    "(" + string.Join(", ", ps.Select(p => p.Name)) + ")");
                 builder.AppendLine("\t\t}");
+                builder.AppendLine("");
             }
 
             builder.AppendLine("\t}");

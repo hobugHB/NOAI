@@ -30,5 +30,16 @@ namespace NOAI.l0Connection.TestProject1
             new MSDNetAssemblyConnGen().CodeConnMembers(
                 typeof(string).Assembly.GetExportedTypes().First().GetTypeInfo(), context);
         }
+
+        [TestMethod]
+        public void TestCodeConnMembers_System_Private_CoreLib_Console()
+        {
+            var context = new ConnGenContext();
+            context.Output = "Test_CodeConnMembers_" +
+                Path.GetFileName(typeof(string).Assembly.CodeBase);
+
+            new MSDNetAssemblyConnGen().CodeConnMembers(
+                typeof(string).Assembly.GetExportedTypes().Where(i=>i.Name.Contains("Console")).First().GetTypeInfo(), context);
+        }
     }
 }
