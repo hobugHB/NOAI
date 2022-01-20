@@ -11,7 +11,7 @@ namespace NOAI.l0Connection
     {
         public object Namespace { get; set; }
         public object IsPublic { get; set; }
-        public bool IsStaticType { get; set; }
+        public bool IsStatic { get; set; }
         public object Name { get; set; }
 
         public object IsPrimitive { get; set; }
@@ -83,7 +83,7 @@ namespace NOAI.l0Connection
 
             this.Namespace = ExtractValue(() => typeInfo.Namespace ?? "");
             this.IsPublic = ExtractValue(() => typeInfo.IsPublic);
-            this.IsStaticType = typeInfo.IsAbstract && typeInfo.IsSealed;
+            this.IsStatic = typeInfo.IsAbstract && typeInfo.IsSealed;
             this.Name = ExtractValue(() => typeInfo.Name);
 
             this.IsPrimitive = ExtractValue(() => typeInfo.IsPrimitive);

@@ -23,16 +23,16 @@ namespace NOAI.l0Connection
 
             TypeConnGenAttribute attribute;
             builder.AppendLine("\t" + context.CodeConnGenAttribute(typeInfo, out attribute));
-            builder.AppendLine("\tpublic " + (attribute.IsStaticType ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
+            builder.AppendLine("\tpublic " + (attribute.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
             builder.AppendLine("\t{");
 
-            builder.AppendLine("\t\tprivate " + attribute.Namespace + "." + attribute.Name + " _NOAI_l0Connection_BaseInstance;");
+            builder.AppendLine("\t\tprivate " + (attribute.IsStatic ? "static " : "/*static*/ ") + attribute.Namespace + "." + attribute.Name + " _NOAI_l0Connection_BaseInstance;");
             builder.AppendLine("");
 
             foreach (var i in typeInfo.DeclaredConstructors)
             {
                 var ps = i.GetParameters();
-                builder.AppendLine("\t\tpublic " + attribute.Name + "(" + string.Join(", ", ps.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
+                builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + attribute.Name + "(" + string.Join(", ", ps.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
                 builder.AppendLine("\t\t{");
                 builder.AppendLine("\t\t\t_NOAI_l0Connection_BaseInstance = new " + attribute.Namespace + "." + attribute.Name +
                     "(" + string.Join(", ", ps.Select(p => p.Name)) + ")");
@@ -67,11 +67,11 @@ namespace NOAI.l0Connection
                 }
 
                 var ps = i.GetParameters();
-                builder.AppendLine("\t\tpublic " + 
+                builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") +
                     (i.ReturnType.FullName == "System.Void" ? "void" : i.ReturnType.FullName) +
-                    " " + i.Name + "("+ string.Join(", ", ps.Select(p=>p.ParameterType.FullName+" "+p.Name)) + ")");
+                    " " + i.Name + "(" + string.Join(", ", ps.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
                 builder.AppendLine("\t\t{");
-                builder.AppendLine("\t\t\treturn _NOAI_l0Connection_BaseInstance."+ i.Name +
+                builder.AppendLine("\t\t\treturn _NOAI_l0Connection_BaseInstance." + i.Name +
                     "(" + string.Join(", ", ps.Select(p => p.Name)) + ")");
                 builder.AppendLine("\t\t}");
                 builder.AppendLine("");
