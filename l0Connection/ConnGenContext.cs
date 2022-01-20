@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace NOAI.l0Connection
 {
@@ -27,7 +28,11 @@ namespace NOAI.l0Connection
 
             builder.Append(
                 "[ConnGen(\r\n" +
-                    "TypeInfoJson:\"" + JsonSerializer.Serialize(attribute).Replace("\"", "\\\"") + "\", \r\n" +
+                    "TypeInfoJson:\"" + JsonSerializer.Serialize(attribute, options: new JsonSerializerOptions()
+                    {
+                        ReferenceHandler = ReferenceHandler.Preserve,
+                    }).
+                    Replace("\"", "\\\"") + "\", \r\n" +
                 ")]");
             return builder.ToString();
         }

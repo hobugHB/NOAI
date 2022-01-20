@@ -37,7 +37,7 @@ namespace NOAI.l0Connection
 
             foreach (var i in typeInfo.DeclaredProperties)
             {
-                builder.AppendLine("\t\tpublic " + i.PropertyType.Name + " " + i.Name);
+                builder.AppendLine("\t\tpublic " + i.PropertyType.FullName + " " + i.Name);
                 builder.AppendLine("\t\t{");
                 if (i.CanRead)
                 {
@@ -48,14 +48,28 @@ namespace NOAI.l0Connection
                     builder.AppendLine("\t\t\tset { _NOAI_l0Connection_BaseInstance." + i.Name + " = value; }");
                 }
                 builder.AppendLine("\t\t}");
-
-                //if(i is propert)
-
-                //builder.AppendLine("\t\tpublic object " + i.Name + "()");
-                //builder.AppendLine("\t\t{");
-                //builder.AppendLine("\t\t\treturn _NOAI_l0Connection_BaseInstance();");
-                //builder.AppendLine("\t\t}");
             }
+            builder.AppendLine("");
+
+            foreach (var i in typeInfo.DeclaredMethods)
+            {
+                if (i.Name.StartsWith("get_"))
+                {
+                    continue;
+                }
+                if (i.Name.StartsWith("set_"))
+                {
+                    continue;
+                }
+
+                builder.AppendLine("\t\tpublic " + 
+                    (i.ReturnType.FullName == "System.Void" ? "void" : i.ReturnType.FullName) +
+                    " " + i.Name + "()");
+                builder.AppendLine("\t\t{");
+                builder.AppendLine("\t\t\treturn _NOAI_l0Connection_BaseInstance();");
+                builder.AppendLine("\t\t}");
+            }
+
             builder.AppendLine("\t}");
 
             builder.AppendLine("}");
@@ -73,11 +87,11 @@ namespace NOAI.l0Connection
 
         public void CodeConnMembers(Assembly assembly, ConnGenContext context)
         {
-            foreach (var i in assembly.ExportedTypes)
-            {
-                CodeConnMembers(i.GetTypeInfo(), context);
+            Parallel.ForEach(assembly.ExportedTypes, i =>
+             {
+                 CodeConnMembers(i.GetTypeInfo(), context);
 
-            }
+             });
 
         }
     }

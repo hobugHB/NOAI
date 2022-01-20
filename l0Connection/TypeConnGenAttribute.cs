@@ -158,6 +158,22 @@ namespace NOAI.l0Connection
             this.AssemblyName = new
             {
                 Name = ExtractValue(() => typeAssemblyName.Name),
+                Version = ExtractValue(() => typeAssemblyName.Version),
+                FullName = ExtractValue(() => typeAssemblyName.FullName),
+                CodeBase = ExtractValue(() => typeAssemblyName.CodeBase),
+                EscapedCodeBase = ExtractValue(() => typeAssemblyName.EscapedCodeBase),
+                VersionCompatibility = ExtractValue(() => typeAssemblyName.VersionCompatibility),
+
+                ContentType = ExtractValue(() => typeAssemblyName.ContentType),
+                //too large too slow
+                //CultureInfo = ExtractValue(() => typeAssemblyName.CultureInfo),
+                CultureName = ExtractValue(() => typeAssemblyName.CultureName),
+
+                Flags = ExtractValue(() => typeAssemblyName.Flags),
+                HashAlgorithm = ExtractValue(() => typeAssemblyName.HashAlgorithm),
+                KeyPair = ExtractValue(() => typeAssemblyName.KeyPair),
+                ProcessorArchitecture = ExtractValue(() => typeAssemblyName.ProcessorArchitecture),
+
             };
         }
 
