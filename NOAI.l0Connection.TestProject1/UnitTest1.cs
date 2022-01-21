@@ -10,7 +10,7 @@ namespace NOAI.l0Connection.TestProject1
     public class UnitTest1
     {
         [TestMethod]
-        public void TestCodeConnMembers_System_Private_CoreLib()
+        public void TestCodeConnMembers_System_String_Assembly()
         {
             var context = new ConnGenContext();
             context.Output = "Test_CodeConnMembers_" +
@@ -21,25 +21,14 @@ namespace NOAI.l0Connection.TestProject1
         }
 
         [TestMethod]
-        public void TestCodeConnMembers_System_Private_CoreLib_First()
+        public void TestCodeConnMembers_System_Console()
         {
             var context = new ConnGenContext();
             context.Output = "Test_CodeConnMembers_" +
-                Path.GetFileName(typeof(string).Assembly.CodeBase);
+                Path.GetFileName(typeof(Console).Assembly.CodeBase);
 
             new MSDNetAssemblyConnGen().CodeConnMembers(
-                typeof(string).Assembly.GetExportedTypes().First().GetTypeInfo(), context);
-        }
-
-        [TestMethod]
-        public void TestCodeConnMembers_System_Private_CoreLib_Console()
-        {
-            var context = new ConnGenContext();
-            context.Output = "Test_CodeConnMembers_" +
-                Path.GetFileName(typeof(string).Assembly.CodeBase);
-
-            new MSDNetAssemblyConnGen().CodeConnMembers(
-                typeof(string).Assembly.GetExportedTypes().Where(i=>i.Name.Contains("Console")).First().GetTypeInfo(), context);
+                typeof(Console).GetTypeInfo(), context);
         }
     }
 }
