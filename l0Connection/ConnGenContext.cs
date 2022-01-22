@@ -13,6 +13,8 @@ namespace NOAI.l0Connection
     {
         public string Output { get; set; } = "";
 
+        public string AssemblyXmlDocFilesStore { get; set; } = "";
+
         public string CodeRefNamespace()
         {
             var builder = new StringBuilder();

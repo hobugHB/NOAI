@@ -26,6 +26,7 @@ namespace NOAI.l0Connection.TestProject1
             var context = new ConnGenContext();
             context.Output = "Test_CodeConnMembers_" +
                 Path.GetFileName(typeof(Console).Assembly.CodeBase);
+            context.AssemblyXmlDocFilesStore = @"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.1\ref\net6.0";
 
             new MSDNetAssemblyConnGen().CodeConnMembers(
                 typeof(Console).GetTypeInfo(), context);

@@ -21,6 +21,10 @@ namespace NOAI.l0Connection
             builder.AppendLine("namespace " + ns);
             builder.AppendLine("{");
 
+            builder.AppendLine("\t///" + 
+                typeInfo.GetDocumentation(context.AssemblyXmlDocFilesStore).
+                Trim('\r').Trim('\n').Trim('\t').Trim(' ').Trim('\r').Trim('\n'));
+
             TypeConnGenAttribute attribute;
             builder.AppendLine("\t" + context.CodeConnGenAttribute(typeInfo, out attribute));
             builder.AppendLine("\tpublic " + (attribute.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
