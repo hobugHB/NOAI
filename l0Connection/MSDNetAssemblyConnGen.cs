@@ -50,7 +50,7 @@ namespace NOAI.l0Connection
             {
                 CodeDocumentation(context, builder, i, 2);
 
-                builder.AppendLine("\t\tpublic " + i.PropertyType.FullName + " " + i.Name);
+                builder.AppendLine("\t\tpublic " + (attribute.IsStatic ? "static " : "/*static*/ ") + i.PropertyType.FullName + " " + i.Name);
                 builder.AppendLine("\t\t{");
                 if (i.CanRead)
                 {
@@ -106,9 +106,11 @@ namespace NOAI.l0Connection
             var header = string.Join("", new int[deep].Select(z => "\t")) + "/// ";
 
             builder.AppendLine(header +
+                String.Join(Environment.NewLine+ header,
                 (i.GetDocumentation(context.AssemblyXmlDocFilesStore) ?? "").
                 Trim('\r').Trim('\n').Trim('\t').Trim(' ').Trim('\r').Trim('\n').
-                Replace('\n', '\r').Replace("\r\r", "\r").Replace("\r", "\r\n" + header));
+                Replace('\n', '\r').Replace("\r\r", "\r").Replace("\r", Environment.NewLine).
+                Split(Environment.NewLine).Select(z=>z.Trim())));
         }
 
         public void CodeReflectable(Assembly assembly, ConnGenContext context)
