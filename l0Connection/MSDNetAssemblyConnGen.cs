@@ -9,7 +9,7 @@ namespace NOAI.l0Connection
 {
     public class MSDNetAssemblyConnGen
     {
-        public void CodeConnMembers(TypeInfo typeInfo, ConnGenContext context)
+        public void CodeReflectable(TypeInfo typeInfo, ConnGenContext context)
         {
             var builder = new StringBuilder();
             builder.AppendLine(context.CodeRefNamespace());
@@ -21,22 +21,24 @@ namespace NOAI.l0Connection
             builder.AppendLine("namespace " + ns);
             builder.AppendLine("{");
 
-            builder.AppendLine("\t///" + 
-                typeInfo.GetDocumentation(context.AssemblyXmlDocFilesStore).
-                Trim('\r').Trim('\n').Trim('\t').Trim(' ').Trim('\r').Trim('\n'));
+            CodeDocumentation(context, builder, typeInfo, 1);
 
             TypeConnGenAttribute attribute;
             builder.AppendLine("\t" + context.CodeConnGenAttribute(typeInfo, out attribute));
             builder.AppendLine("\tpublic " + (attribute.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
             builder.AppendLine("\t{");
 
-            builder.AppendLine("\t\tprivate " + (attribute.IsStatic ? "static " : "/*static*/ ") + attribute.Namespace + "." + attribute.Name + " _NOAI_l0Connection_BaseInstance;");
+            builder.AppendLine("\t\tprivate " + (attribute.IsStatic ? "static " : "/*static*/ ") + attribute.Namespace + "." +
+                attribute.Name + " _NOAI_l0Connection_BaseInstance;");
             builder.AppendLine("");
 
             foreach (var i in typeInfo.DeclaredConstructors)
             {
+                CodeDocumentation(context, builder, i, 2);
+
                 var ps = i.GetParameters();
-                builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + attribute.Name + "(" + string.Join(", ", ps.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
+                builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + attribute.Name +
+                    "(" + string.Join(", ", ps.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
                 builder.AppendLine("\t\t{");
                 builder.AppendLine("\t\t\t_NOAI_l0Connection_BaseInstance = new " + attribute.Namespace + "." + attribute.Name +
                     "(" + string.Join(", ", ps.Select(p => p.Name)) + ")");
@@ -46,6 +48,8 @@ namespace NOAI.l0Connection
 
             foreach (var i in typeInfo.DeclaredProperties)
             {
+                CodeDocumentation(context, builder, i, 2);
+
                 builder.AppendLine("\t\tpublic " + i.PropertyType.FullName + " " + i.Name);
                 builder.AppendLine("\t\t{");
                 if (i.CanRead)
@@ -57,6 +61,7 @@ namespace NOAI.l0Connection
                     builder.AppendLine("\t\t\tset { _NOAI_l0Connection_BaseInstance." + i.Name + " = value; }");
                 }
                 builder.AppendLine("\t\t}");
+                builder.AppendLine("");
             }
 
             foreach (var i in typeInfo.DeclaredMethods)
@@ -96,11 +101,21 @@ namespace NOAI.l0Connection
                 builder.ToString());
         }
 
-        public void CodeConnMembers(Assembly assembly, ConnGenContext context)
+        private static void CodeDocumentation(ConnGenContext context, StringBuilder builder, MemberInfo i, int deep)
+        {
+            var header = string.Join("", new int[deep].Select(z => "\t")) + "/// ";
+
+            builder.AppendLine(header +
+                (i.GetDocumentation(context.AssemblyXmlDocFilesStore) ?? "").
+                Trim('\r').Trim('\n').Trim('\t').Trim(' ').Trim('\r').Trim('\n').
+                Replace('\n', '\r').Replace("\r\r", "\r").Replace("\r", "\r\n" + header));
+        }
+
+        public void CodeReflectable(Assembly assembly, ConnGenContext context)
         {
             Parallel.ForEach(assembly.ExportedTypes, i =>
              {
-                 CodeConnMembers(i.GetTypeInfo(), context);
+                 CodeReflectable(i.GetTypeInfo(), context);
 
              });
 

@@ -59,19 +59,52 @@ namespace NOAI.l0Connection
             return documentation;
         }
 
+        public static string GetDocumentation(this FieldInfo fieldInfo, string assemblyXmlDocFilesStore)
+        {
+            string key = "F:" + XmlDocumentationKeyHelper(
+              fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+            loadedXmlDocumentation.TryGetValue(key, out string documentation);
+            return documentation;
+        }
+
         public static string GetDocumentation(this PropertyInfo propertyInfo, string assemblyXmlDocFilesStore)
         {
-            LoadXmlDocumentation(propertyInfo.DeclaringType.Assembly, assemblyXmlDocFilesStore);
-
             string key = "P:" + XmlDocumentationKeyHelper(
               propertyInfo.DeclaringType.FullName, propertyInfo.Name);
             loadedXmlDocumentation.TryGetValue(key, out string documentation);
             return documentation;
         }
 
+        public static string GetDocumentation(this EventInfo eventInfo, string assemblyXmlDocFilesStore)
+        {
+            string key = "E:" + XmlDocumentationKeyHelper(
+              eventInfo.DeclaringType.FullName, eventInfo.Name);
+            loadedXmlDocumentation.TryGetValue(key, out string documentation);
+            return documentation;
+        }
+
+        public static string GetDocumentation(this ConstructorInfo constructorInfo, string assemblyXmlDocFilesStore)
+        {
+            string key = "C:" + XmlDocumentationKeyHelper(
+              constructorInfo.DeclaringType.FullName, constructorInfo.Name);
+            loadedXmlDocumentation.TryGetValue(key, out string documentation);
+            return documentation;
+        }
+
+        public static string GetDocumentation(this MethodInfo methodInfo, string assemblyXmlDocFilesStore)
+        {
+            string key = "M:" + XmlDocumentationKeyHelper(
+              methodInfo.DeclaringType.FullName, methodInfo.Name);
+            loadedXmlDocumentation.TryGetValue(key, out string documentation);
+            return documentation;
+        }
+
         public static string GetDocumentation(this MemberInfo memberInfo, string assemblyXmlDocFilesStore)
         {
-            LoadXmlDocumentation(memberInfo.DeclaringType.Assembly, assemblyXmlDocFilesStore);
+            if (memberInfo.DeclaringType != null)
+            {
+                LoadXmlDocumentation(memberInfo.DeclaringType.Assembly, assemblyXmlDocFilesStore);
+            }
 
             if (memberInfo.MemberType.HasFlag(MemberTypes.Field))
             {

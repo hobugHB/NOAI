@@ -10,25 +10,25 @@ namespace NOAI.l0Connection.TestProject1
     public class UnitTest1
     {
         [TestMethod]
-        public void TestCodeConnMembers_System_String_Assembly()
+        public void TestCodeReflectable_System_String_Assembly()
         {
             var context = new ConnGenContext();
             context.Output = "Test_CodeConnMembers_" +
                 Path.GetFileName(typeof(string).Assembly.CodeBase);
 
-            new MSDNetAssemblyConnGen().CodeConnMembers(
+            new MSDNetAssemblyConnGen().CodeReflectable(
                 typeof(string).Assembly, context);
         }
 
         [TestMethod]
-        public void TestCodeConnMembers_System_Console()
+        public void TestReflectable_System_Console()
         {
             var context = new ConnGenContext();
             context.Output = "Test_CodeConnMembers_" +
                 Path.GetFileName(typeof(Console).Assembly.CodeBase);
             context.AssemblyXmlDocFilesStore = @"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.1\ref\net6.0";
 
-            new MSDNetAssemblyConnGen().CodeConnMembers(
+            new MSDNetAssemblyConnGen().CodeReflectable(
                 typeof(Console).GetTypeInfo(), context);
         }
     }
