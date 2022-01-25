@@ -24,7 +24,7 @@ namespace NOAI.l0Connection
             return builder.ToString();
         }
 
-        public string CodeConnGenAttribute(TypeInfo typeInfo, out NOAI_l0Connection_TypeConnGenProperties properties)
+        public string CodeConnGenTypeProperties_MSDNetTypeAttribute(TypeInfo typeInfo, out NOAI_l0Connection_TypeConnGenProperties properties)
         {
             properties = new NOAI_l0Connection_TypeConnGenProperties(typeInfo);
             properties.ContextDate = ContextDate;

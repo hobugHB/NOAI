@@ -9,7 +9,7 @@ namespace NOAI.l0Connection
 {
     public class MSDNetAssemblyConnGen
     {
-        public void CodeReflectable(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
+        public void CodeReflectableObject(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
         {
             var builder = new StringBuilder();
             builder.AppendLine(context.CodeRefNamespace());
@@ -23,13 +23,13 @@ namespace NOAI.l0Connection
 
             CodeDocumentation(context, builder, typeInfo, 1);
 
-            NOAI_l0Connection_TypeConnGenProperties attribute;
-            builder.AppendLine("\t" + context.CodeConnGenAttribute(typeInfo, out attribute));
-            builder.AppendLine("\tpublic " + (attribute.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
+            NOAI_l0Connection_TypeConnGenProperties properties;
+            builder.AppendLine("\t" + context.CodeConnGenTypeProperties_MSDNetTypeAttribute(typeInfo, out properties));
+            builder.AppendLine("\tpublic " + (properties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
             builder.AppendLine("\t{");
 
-            builder.AppendLine("\t\tprivate " + (attribute.IsStatic ? "static " : "/*static*/ ") + attribute.Namespace + "." +
-                attribute.Name + " _NOAI_l0Connection_BaseInstance;");
+            builder.AppendLine("\t\tprivate " + (properties.IsStatic ? "static " : "/*static*/ ") + properties.Namespace + "." +
+                properties.Name + " _NOAI_l0Connection_BaseInstance;");
             builder.AppendLine("");
 
             foreach (var i in typeInfo.DeclaredConstructors)
@@ -37,10 +37,10 @@ namespace NOAI.l0Connection
                 CodeDocumentation(context, builder, i, 2);
 
                 var ps = i.GetParameters();
-                builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + attribute.Name +
+                builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + properties.Name +
                     "(" + string.Join(", ", ps.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
                 builder.AppendLine("\t\t{");
-                builder.AppendLine("\t\t\t_NOAI_l0Connection_BaseInstance = new " + attribute.Namespace + "." + attribute.Name +
+                builder.AppendLine("\t\t\t_NOAI_l0Connection_BaseInstance = new " + properties.Namespace + "." + properties.Name +
                     "(" + string.Join(", ", ps.Select(p => p.Name)) + ")");
                 builder.AppendLine("\t\t}");
                 builder.AppendLine("");
@@ -50,7 +50,7 @@ namespace NOAI.l0Connection
             {
                 CodeDocumentation(context, builder, i, 2);
 
-                builder.AppendLine("\t\tpublic " + (attribute.IsStatic ? "static " : "/*static*/ ") + i.PropertyType.FullName + " " + i.Name);
+                builder.AppendLine("\t\tpublic " + (properties.IsStatic ? "static " : "/*static*/ ") + i.PropertyType.FullName + " " + i.Name);
                 builder.AppendLine("\t\t{");
                 if (i.CanRead)
                 {
@@ -113,11 +113,11 @@ namespace NOAI.l0Connection
                 Split(Environment.NewLine).Select(z=>z.Trim())));
         }
 
-        public void CodeReflectable(Assembly assembly, NOAI_l0Connection_ConnGenContext context)
+        public void CodeReflectableObject(Assembly assembly, NOAI_l0Connection_ConnGenContext context)
         {
             Parallel.ForEach(assembly.ExportedTypes, i =>
              {
-                 CodeReflectable(i.GetTypeInfo(), context);
+                 CodeReflectableObject(i.GetTypeInfo(), context);
 
              });
 
