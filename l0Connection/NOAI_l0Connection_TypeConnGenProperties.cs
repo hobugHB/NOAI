@@ -9,6 +9,7 @@ namespace NOAI.l0Connection
 {
     public class NOAI_l0Connection_TypeConnGenProperties
     {
+        public Guid ContextGuid { get; set; }
         public DateTime ContextDate { get; set; }
 
         public object Namespace { get; set; }

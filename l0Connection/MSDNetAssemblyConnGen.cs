@@ -9,22 +9,22 @@ namespace NOAI.l0Connection
 {
     public class MSDNetAssemblyConnGen
     {
-        public void CodeReflectableObject(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
+        public void CodeReflectableCSharpCode(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
         {
             var builder = new StringBuilder();
-            builder.AppendLine(context.CodeRefNamespace());
+            builder.AppendLine(context.CodeGlobalRefNameCSharpCode());
             builder.AppendLine("");
 
             var ns = "NOAI_" +
-                context.FixPathSymbol(typeInfo.AssemblyQualifiedName ?? "") + "_" +
-                context.FixPathSymbol(context.ContextDate.ToUniversalTime().ToLongTimeString());
+                context.FixWin32PathSymbol(typeInfo.AssemblyQualifiedName ?? "") + "_" +
+                context.FixWin32PathSymbol(context.ContextDate.ToUniversalTime().ToLongTimeString());
             builder.AppendLine("namespace " + ns);
             builder.AppendLine("{");
 
-            CodeDocumentation(context, builder, typeInfo, 1);
+            context.CodeDocumentationCSharpCode(typeInfo, 1, builder);
 
             NOAI_l0Connection_TypeConnGenProperties properties;
-            builder.AppendLine("\t" + context.CodeConnGenTypeProperties_MSDNetTypeAttribute(typeInfo, out properties));
+            builder.AppendLine("\t" + context.CodeTypePropertiesCSharpCode(typeInfo, out properties));
             builder.AppendLine("\tpublic " + (properties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
             builder.AppendLine("\t{");
 
@@ -34,7 +34,7 @@ namespace NOAI.l0Connection
 
             foreach (var i in typeInfo.DeclaredConstructors)
             {
-                CodeDocumentation(context, builder, i, 2);
+                context.CodeDocumentationCSharpCode(i, 2, builder);
 
                 var ps = i.GetParameters();
                 builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + properties.Name +
@@ -48,7 +48,7 @@ namespace NOAI.l0Connection
 
             foreach (var i in typeInfo.DeclaredProperties)
             {
-                CodeDocumentation(context, builder, i, 2);
+                context.CodeDocumentationCSharpCode(i, 2, builder);
 
                 builder.AppendLine("\t\tpublic " + (properties.IsStatic ? "static " : "/*static*/ ") + i.PropertyType.FullName + " " + i.Name);
                 builder.AppendLine("\t\t{");
@@ -90,34 +90,22 @@ namespace NOAI.l0Connection
 
             builder.AppendLine("}");
 
-            if (!Directory.Exists(context.FixPathSymbol(context.Output)))
+            if (!Directory.Exists(context.FixWin32PathSymbol(context.OutputCodeFileDirectory)))
             {
-                Directory.CreateDirectory(context.FixPathSymbol(context.Output));
+                Directory.CreateDirectory(context.FixWin32PathSymbol(context.OutputCodeFileDirectory));
             }
 
-            var path = context.FixPathSymbol(Path.Combine(context.Output, ns + "_" + typeInfo.Name));
+            var path = context.FixWin32PathSymbol(Path.Combine(context.OutputCodeFileDirectory, ns + "_" + typeInfo.Name));
             File.WriteAllTextAsync(
-                context.FixPathLength(path, ".cs"),
+                context.FixWin32PathLength(path, ".cs"),
                 builder.ToString());
         }
 
-        private static void CodeDocumentation(NOAI_l0Connection_ConnGenContext context, StringBuilder builder, MemberInfo i, int deep)
-        {
-            var header = string.Join("", new int[deep].Select(z => "\t")) + "/// ";
-
-            builder.AppendLine(header +
-                String.Join(Environment.NewLine+ header,
-                (i.GetDocumentation(context.AssemblyXmlDocFilesStore) ?? "").
-                Trim('\r').Trim('\n').Trim('\t').Trim(' ').Trim('\r').Trim('\n').
-                Replace('\n', '\r').Replace("\r\r", "\r").Replace("\r", Environment.NewLine).
-                Split(Environment.NewLine).Select(z=>z.Trim())));
-        }
-
-        public void CodeReflectableObject(Assembly assembly, NOAI_l0Connection_ConnGenContext context)
+        public void CodeReflectableCSharpCode(Assembly assembly, NOAI_l0Connection_ConnGenContext context)
         {
             Parallel.ForEach(assembly.ExportedTypes, i =>
              {
-                 CodeReflectableObject(i.GetTypeInfo(), context);
+                 CodeReflectableCSharpCode(i.GetTypeInfo(), context);
 
              });
 
