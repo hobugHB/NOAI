@@ -12,7 +12,7 @@ namespace NOAI.l0Connection.TestProject1
         [TestMethod]
         public void TestCodeReflectable_System_String_Assembly()
         {
-            var context = new ConnGenContext();
+            var context = new NOAI_l0Connection_ConnGenContext();
             context.Output = "Test_CodeConnMembers_" +
                 Path.GetFileName(typeof(string).Assembly.CodeBase);
 
@@ -23,7 +23,7 @@ namespace NOAI.l0Connection.TestProject1
         [TestMethod]
         public void TestReflectable_System_Console()
         {
-            var context = new ConnGenContext();
+            var context = new NOAI_l0Connection_ConnGenContext();
             context.Output = "Test_CodeConnMembers_" +
                 Path.GetFileName(typeof(Console).Assembly.CodeBase);
             context.AssemblyXmlDocFilesStore = @"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.1\ref\net6.0";

@@ -9,28 +9,31 @@ using System.Text.Json.Serialization;
 
 namespace NOAI.l0Connection
 {
-    public class ConnGenContext
+    public class NOAI_l0Connection_ConnGenContext
     {
         public string Output { get; set; } = "";
 
         public string AssemblyXmlDocFilesStore { get; set; } = "";
 
+        public DateTime ContextDate { get; set; } = DateTime.Now;
+
         public string CodeRefNamespace()
         {
             var builder = new StringBuilder();
-            builder.Append("using NOAI.l0Connection;");
+            builder.Append("using " + typeof(NOAI_l0Connection_ConnGenAttribute).Namespace + ";");
             return builder.ToString();
         }
 
-        public string CodeConnGenAttribute(TypeInfo typeInfo, out TypeConnGenAttribute attribute)
+        public string CodeConnGenAttribute(TypeInfo typeInfo, out NOAI_l0Connection_TypeConnGenProperties properties)
         {
-            attribute = new TypeConnGenAttribute(typeInfo);
+            properties = new NOAI_l0Connection_TypeConnGenProperties(typeInfo);
+            properties.ContextDate = ContextDate;
             var builder = new StringBuilder();
             var errors = new List<Exception>();
 
             builder.Append(
-                "[ConnGen(\r\n" +
-                    "TypeInfoJson:\"" + JsonSerializer.Serialize(attribute, options: new JsonSerializerOptions()
+                "[" + typeof(NOAI_l0Connection_ConnGenAttribute).Name + "(\r\n" +
+                    "TypeInfoJson:\"" + JsonSerializer.Serialize(properties, options: new JsonSerializerOptions()
                     {
                         ReferenceHandler = ReferenceHandler.Preserve,
                     }).

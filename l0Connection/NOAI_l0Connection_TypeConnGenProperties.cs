@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace NOAI.l0Connection
 {
-    public class TypeConnGenAttribute
+    public class NOAI_l0Connection_TypeConnGenProperties
     {
+        public DateTime ContextDate { get; set; }
+
         public object Namespace { get; set; }
         public object IsPublic { get; set; }
         public bool IsStatic { get; set; }
@@ -77,7 +79,7 @@ namespace NOAI.l0Connection
 
         public object AssemblyName { get; set; }
 
-        public TypeConnGenAttribute(TypeInfo typeInfo)
+        public NOAI_l0Connection_TypeConnGenProperties(TypeInfo typeInfo)
         {
             var typeAssemblyName = typeInfo.Assembly.GetName();
 

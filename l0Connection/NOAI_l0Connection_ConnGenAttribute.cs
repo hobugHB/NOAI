@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NOAI.l0Connection
 {
-    public class ConnGenAttribute : Attribute
+    public class NOAI_l0Connection_ConnGenAttribute : Attribute
     {
         public string TypeInfoJson { get; set; } = "{}";
     }

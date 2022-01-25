@@ -9,7 +9,7 @@ namespace NOAI.l0Connection
 {
     public class MSDNetAssemblyConnGen
     {
-        public void CodeReflectable(TypeInfo typeInfo, ConnGenContext context)
+        public void CodeReflectable(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
         {
             var builder = new StringBuilder();
             builder.AppendLine(context.CodeRefNamespace());
@@ -17,13 +17,13 @@ namespace NOAI.l0Connection
 
             var ns = "NOAI_" +
                 context.FixPathSymbol(typeInfo.AssemblyQualifiedName ?? "") + "_" +
-                context.FixPathSymbol(DateTime.Now.ToUniversalTime().ToLongTimeString());
+                context.FixPathSymbol(context.ContextDate.ToUniversalTime().ToLongTimeString());
             builder.AppendLine("namespace " + ns);
             builder.AppendLine("{");
 
             CodeDocumentation(context, builder, typeInfo, 1);
 
-            TypeConnGenAttribute attribute;
+            NOAI_l0Connection_TypeConnGenProperties attribute;
             builder.AppendLine("\t" + context.CodeConnGenAttribute(typeInfo, out attribute));
             builder.AppendLine("\tpublic " + (attribute.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
             builder.AppendLine("\t{");
@@ -101,7 +101,7 @@ namespace NOAI.l0Connection
                 builder.ToString());
         }
 
-        private static void CodeDocumentation(ConnGenContext context, StringBuilder builder, MemberInfo i, int deep)
+        private static void CodeDocumentation(NOAI_l0Connection_ConnGenContext context, StringBuilder builder, MemberInfo i, int deep)
         {
             var header = string.Join("", new int[deep].Select(z => "\t")) + "/// ";
 
@@ -113,7 +113,7 @@ namespace NOAI.l0Connection
                 Split(Environment.NewLine).Select(z=>z.Trim())));
         }
 
-        public void CodeReflectable(Assembly assembly, ConnGenContext context)
+        public void CodeReflectable(Assembly assembly, NOAI_l0Connection_ConnGenContext context)
         {
             Parallel.ForEach(assembly.ExportedTypes, i =>
              {

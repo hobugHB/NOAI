@@ -15,7 +15,7 @@ namespace NOAI.l0Connection
     /// <remarks>
     /// https://docs.microsoft.com/en-us/archive/msdn-magazine/2019/october/csharp-accessing-xml-documentation-via-reflection
     /// </remarks>
-    public static class ReflectionExtensions
+    public static class MSDNetReflectionExtensions
     {
         internal static Dictionary<string, string> loadedXmlDocumentation =
      new Dictionary<string, string>();
