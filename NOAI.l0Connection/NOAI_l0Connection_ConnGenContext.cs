@@ -6,27 +6,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.CSharp;
+using System.CodeDom;
 
 namespace NOAI.l0Connection
 {
-    public class NOAI_l0Connection_ConnGenContext
+    public class NOAI_l0Connection_ConnGenContext : IDisposable
     {
         public Guid ContextGuid { get; set; } = Guid.NewGuid();
 
         public DateTime ContextDate { get; set; } = DateTime.Now;
 
+        public CSharpCodeProvider CSharpCodeProvider { get; set; } = new CSharpCodeProvider();
+
         public string OutputCodeFileDirectory { get; set; } = "";
 
         public string AssemblyXmlDocFileDirectory { get; set; } = "";
 
-        public string CodeGlobalRefNameCSharpCode()
+        public string CodeGlobalConnGenRefNameCSharpCode()
         {
             var builder = new StringBuilder();
             builder.Append("using " + typeof(NOAI_l0Connection_ConnGenAttribute).Namespace + ";");
             return builder.ToString();
         }
 
-        public string CodeTypePropertiesCSharpCode(TypeInfo typeInfo, out NOAI_l0Connection_TypeConnGenProperties properties)
+        public string CodeTypeConnGenPropertiesCSharpCode(TypeInfo typeInfo, out NOAI_l0Connection_TypeConnGenProperties properties)
         {
             properties = new NOAI_l0Connection_TypeConnGenProperties(typeInfo);
             properties.ContextGuid = ContextGuid;
@@ -45,7 +49,7 @@ namespace NOAI.l0Connection
             return builder.ToString();
         }
 
-        public void CodeDocumentationCSharpCode(MemberInfo i, int deep, StringBuilder builder)
+        public void CodeMemberDocumentBlockCSharpCode(MemberInfo i, int deep, StringBuilder builder)
         {
             var header = string.Join("", new int[deep].Select(z => "\t")) + "/// ";
 
@@ -55,6 +59,27 @@ namespace NOAI.l0Connection
                 Trim('\r').Trim('\n').Trim('\t').Trim(' ').Trim('\r').Trim('\n').
                 Replace('\n', '\r').Replace("\r\r", "\r").Replace("\r", Environment.NewLine).
                 Split(Environment.NewLine).Select(z => z.Trim())));
+        }
+
+        public void CodeMemberAttributeBlockCSharpCode(MemberInfo i, int deep, StringBuilder builder)
+        {
+            var header = string.Join("", new int[deep].Select(z => "\t")) + "";
+
+            foreach (var attribute in i.CustomAttributes)
+            {
+                builder.AppendLine(header +
+                   "[" + attribute.Constructor.DeclaringType.FullName + "(" +
+                   string.Join(",", attribute.ConstructorArguments.Select(arg =>
+                   {
+                       using (var writer = new StringWriter())
+                       {
+                           CSharpCodeProvider.GenerateCodeFromExpression(
+                              new CodePrimitiveExpression(arg.Value), writer, null);
+                           return writer.ToString();
+                       }
+                   }
+                   )) + ")]");
+            }
         }
 
         public string FixWin32PathSymbol(string path)
@@ -75,6 +100,11 @@ namespace NOAI.l0Connection
             var fullPath = Path.GetFullPath(path);
 
             return fullPath.Substring(0, fullPath.Length < maxSubLength ? fullPath.Length : maxSubLength) + extension;
+        }
+
+        public void Dispose()
+        {
+            CSharpCodeProvider.Dispose();
         }
     }
 }

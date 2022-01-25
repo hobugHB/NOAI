@@ -12,7 +12,7 @@ namespace NOAI.l0Connection
         public void CodeReflectableCSharpCode(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
         {
             var builder = new StringBuilder();
-            builder.AppendLine(context.CodeGlobalRefNameCSharpCode());
+            builder.AppendLine(context.CodeGlobalConnGenRefNameCSharpCode());
             builder.AppendLine("");
 
             var ns = "NOAI_" +
@@ -21,10 +21,10 @@ namespace NOAI.l0Connection
             builder.AppendLine("namespace " + ns);
             builder.AppendLine("{");
 
-            context.CodeDocumentationCSharpCode(typeInfo, 1, builder);
+            context.CodeMemberDocumentBlockCSharpCode(typeInfo, 1, builder);
 
             NOAI_l0Connection_TypeConnGenProperties properties;
-            builder.AppendLine("\t" + context.CodeTypePropertiesCSharpCode(typeInfo, out properties));
+            builder.AppendLine("\t" + context.CodeTypeConnGenPropertiesCSharpCode(typeInfo, out properties));
             builder.AppendLine("\tpublic " + (properties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
             builder.AppendLine("\t{");
 
@@ -34,7 +34,7 @@ namespace NOAI.l0Connection
 
             foreach (var i in typeInfo.DeclaredConstructors)
             {
-                context.CodeDocumentationCSharpCode(i, 2, builder);
+                context.CodeMemberDocumentBlockCSharpCode(i, 2, builder);
 
                 var ps = i.GetParameters();
                 builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + properties.Name +
@@ -48,7 +48,8 @@ namespace NOAI.l0Connection
 
             foreach (var i in typeInfo.DeclaredProperties)
             {
-                context.CodeDocumentationCSharpCode(i, 2, builder);
+                context.CodeMemberDocumentBlockCSharpCode(i, 2, builder);
+                context.CodeMemberAttributeBlockCSharpCode(i, 2, builder);
 
                 builder.AppendLine("\t\tpublic " + (properties.IsStatic ? "static " : "/*static*/ ") + i.PropertyType.FullName + " " + i.Name);
                 builder.AppendLine("\t\t{");
