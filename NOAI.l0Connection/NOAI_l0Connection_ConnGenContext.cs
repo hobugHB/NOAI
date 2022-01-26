@@ -30,6 +30,8 @@ namespace NOAI.l0Connection
             return builder.ToString();
         }
 
+        public List<TypeInfo> RequestedCodeTypeSet { get; set; } = new List<TypeInfo>() { };
+
         public string CodeTypeConnGenPropertiesCSharpCode(TypeInfo typeInfo, out NOAI_l0Connection_TypeConnGenProperties properties)
         {
             properties = new NOAI_l0Connection_TypeConnGenProperties(typeInfo);
@@ -63,23 +65,30 @@ namespace NOAI.l0Connection
 
         public void CodeMemberAttributeBlockCSharpCode(MemberInfo i, int deep, StringBuilder builder)
         {
-            var header = string.Join("", new int[deep].Select(z => "\t")) + "";
-
             foreach (var attribute in i.CustomAttributes)
             {
-                builder.AppendLine(header +
-                   "[" + attribute.Constructor.DeclaringType.FullName + "(" +
-                   string.Join(",", attribute.ConstructorArguments.Select(arg =>
-                   {
-                       using (var writer = new StringWriter())
-                       {
-                           CSharpCodeProvider.GenerateCodeFromExpression(
-                              new CodePrimitiveExpression(arg.Value), writer, null);
-                           return writer.ToString();
-                       }
-                   }
-                   )) + ")]");
+                CodeMemberAttributeBlockCSharpCode(attribute, deep, builder,
+                    typeInfo=> typeInfo.FullName);
             }
+        }
+
+        public void CodeMemberAttributeBlockCSharpCode(CustomAttributeData i, int deep, StringBuilder builder,
+            Func<TypeInfo, string> getDeclaringTypeName)
+        {
+            var header = string.Join("", new int[deep].Select(z => "\t")) + "";
+
+            builder.AppendLine(header +
+                "[" + getDeclaringTypeName(i.Constructor.DeclaringType.GetTypeInfo()) + "(" +
+                string.Join(",", i.ConstructorArguments.Select(arg =>
+                {
+                    using (var writer = new StringWriter())
+                    {
+                        CSharpCodeProvider.GenerateCodeFromExpression(
+                            new CodePrimitiveExpression(arg.Value), writer, null);
+                        return writer.ToString();
+                    }
+                }
+                )) + ")]");
         }
 
         public string FixWin32PathSymbol(string path)

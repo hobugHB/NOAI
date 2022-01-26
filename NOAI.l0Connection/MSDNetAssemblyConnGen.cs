@@ -11,6 +11,16 @@ namespace NOAI.l0Connection
     {
         public void CodeReflectableCSharpCode(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
         {
+            lock (context.RequestedCodeTypeSet)
+            {
+                if (context.RequestedCodeTypeSet.Contains(typeInfo))
+                {
+                    return;
+                }
+
+                context.RequestedCodeTypeSet.Add(typeInfo);
+            }
+
             var builder = new StringBuilder();
             builder.AppendLine(context.CodeGlobalConnGenRefNameCSharpCode());
             builder.AppendLine("");
@@ -50,6 +60,12 @@ namespace NOAI.l0Connection
             {
                 context.CodeMemberDocumentBlockCSharpCode(i, 2, builder);
                 context.CodeMemberAttributeBlockCSharpCode(i, 2, builder);
+                foreach (var attribute in i.CustomAttributes)
+                {
+                    CodeReflectableCSharpCode(attribute.Constructor.DeclaringType.GetTypeInfo(), context);
+                    context.CodeMemberAttributeBlockCSharpCode(attribute, 2, builder,
+                    typeInfo => typeInfo.Name);
+                }
 
                 builder.AppendLine("\t\tpublic " + (properties.IsStatic ? "static " : "/*static*/ ") + i.PropertyType.FullName + " " + i.Name);
                 builder.AppendLine("\t\t{");
