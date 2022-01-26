@@ -29,7 +29,7 @@ namespace NOAI.l0Connection
 
             var typeConnGenBodyBuilder = new StringBuilder();
             properties.Namespace = "NOAI_" +
-                context.FixWin32PathSymbol(typeInfo.AssemblyQualifiedName ?? "") + "_" +
+                context.FixWin32PathSymbol(typeInfo.Assembly.FullName ?? "") + "_" +
                 context.FixWin32PathSymbol(context.ContextDate.ToUniversalTime().ToLongTimeString());
             typeConnGenBodyBuilder.AppendLine("namespace " + properties.Namespace);
             typeConnGenBodyBuilder.AppendLine("{");
@@ -125,7 +125,7 @@ namespace NOAI.l0Connection
 
             var builder = new StringBuilder();
             builder.AppendLine(typeConnGenRefNameBuilder.ToString());
-            builder.AppendLine("");
+            //builder.AppendLine("");
             builder.AppendLine(typeConnGenBodyBuilder.ToString());
 
             var path = context.FixWin32PathSymbol(Path.Combine(context.OutputCodeFileDirectory,
