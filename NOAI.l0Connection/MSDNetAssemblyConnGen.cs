@@ -9,76 +9,87 @@ namespace NOAI.l0Connection
 {
     public class MSDNetAssemblyConnGen
     {
-        public void CodeReflectableCSharpCode(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
+        public NOAI_l0Connection_TypeConnGenProperties CodeReflectableCSharpCode(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
         {
+            NOAI_l0Connection_TypeConnGenProperties properties;
+
             lock (context.RequestedCodeTypeSet)
             {
-                if (context.RequestedCodeTypeSet.Contains(typeInfo))
+                if (context.RequestedCodeTypeSet.ContainsKey(typeInfo))
                 {
-                    return;
+                    return context.RequestedCodeTypeSet[typeInfo];
                 }
 
-                context.RequestedCodeTypeSet.Add(typeInfo);
+                properties = new NOAI_l0Connection_TypeConnGenProperties();
+                context.RequestedCodeTypeSet.Add(typeInfo, properties);
             }
 
-            var builder = new StringBuilder();
-            builder.AppendLine(context.CodeGlobalConnGenRefNameCSharpCode());
-            builder.AppendLine("");
+            var typeConnGenRefNameBuilder = new StringBuilder();
+            typeConnGenRefNameBuilder.AppendLine(context.CodeTypeConnGenRefNameCSharpCode());
 
-            var ns = "NOAI_" +
+            var typeConnGenBodyBuilder = new StringBuilder();
+            properties.Namespace = "NOAI_" +
                 context.FixWin32PathSymbol(typeInfo.AssemblyQualifiedName ?? "") + "_" +
                 context.FixWin32PathSymbol(context.ContextDate.ToUniversalTime().ToLongTimeString());
-            builder.AppendLine("namespace " + ns);
-            builder.AppendLine("{");
+            typeConnGenBodyBuilder.AppendLine("namespace " + properties.Namespace);
+            typeConnGenBodyBuilder.AppendLine("{");
 
-            context.CodeMemberDocumentBlockCSharpCode(typeInfo, 1, builder);
+            context.CodeMemberDocumentBlockCSharpCode(typeInfo, 1, typeConnGenBodyBuilder);
 
-            NOAI_l0Connection_TypeConnGenProperties properties;
-            builder.AppendLine("\t" + context.CodeTypeConnGenPropertiesCSharpCode(typeInfo, out properties));
-            builder.AppendLine("\tpublic " + (properties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
-            builder.AppendLine("\t{");
+            NOAI_l0Connection_TypeConnGenProperties srcTypeProperties;
+            typeConnGenBodyBuilder.AppendLine("\t" + context.CodeTypeConnGenPropertiesCSharpCode(typeInfo, out srcTypeProperties));
+            typeConnGenBodyBuilder.AppendLine("\tpublic " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
+            typeConnGenBodyBuilder.AppendLine("\t{");
 
-            builder.AppendLine("\t\tprivate " + (properties.IsStatic ? "static " : "/*static*/ ") + properties.Namespace + "." +
-                properties.Name + " _NOAI_l0Connection_BaseInstance;");
-            builder.AppendLine("");
+            typeConnGenBodyBuilder.AppendLine("\t\tprivate " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + srcTypeProperties.Namespace + "." +
+                srcTypeProperties.Name + " _NOAI_l0Connection_BaseInstance;");
+            typeConnGenBodyBuilder.AppendLine("");
 
             foreach (var i in typeInfo.DeclaredConstructors)
             {
-                context.CodeMemberDocumentBlockCSharpCode(i, 2, builder);
+                context.CodeMemberDocumentBlockCSharpCode(i, 2, typeConnGenBodyBuilder);
 
                 var ps = i.GetParameters();
-                builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + properties.Name +
+                typeConnGenBodyBuilder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + srcTypeProperties.Name +
                     "(" + string.Join(", ", ps.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
-                builder.AppendLine("\t\t{");
-                builder.AppendLine("\t\t\t_NOAI_l0Connection_BaseInstance = new " + properties.Namespace + "." + properties.Name +
+                typeConnGenBodyBuilder.AppendLine("\t\t{");
+                typeConnGenBodyBuilder.AppendLine("\t\t\t_NOAI_l0Connection_BaseInstance = new " + srcTypeProperties.Namespace + "." + srcTypeProperties.Name +
                     "(" + string.Join(", ", ps.Select(p => p.Name)) + ")");
-                builder.AppendLine("\t\t}");
-                builder.AppendLine("");
+                typeConnGenBodyBuilder.AppendLine("\t\t}");
+                typeConnGenBodyBuilder.AppendLine("");
             }
 
+            var codedAttributeNamespace = new List<string>();
             foreach (var i in typeInfo.DeclaredProperties)
             {
-                context.CodeMemberDocumentBlockCSharpCode(i, 2, builder);
-                context.CodeMemberAttributeBlockCSharpCode(i, 2, builder);
+                context.CodeMemberDocumentBlockCSharpCode(i, 2, typeConnGenBodyBuilder);
+                context.CodeMemberAttributeBlockCSharpCode(i, 2, typeConnGenBodyBuilder);
                 foreach (var attribute in i.CustomAttributes)
                 {
-                    CodeReflectableCSharpCode(attribute.Constructor.DeclaringType.GetTypeInfo(), context);
-                    context.CodeMemberAttributeBlockCSharpCode(attribute, 2, builder,
+                    var attributeConnGenProperties = CodeReflectableCSharpCode(
+                        attribute.Constructor.DeclaringType.GetTypeInfo(), context);
+                    if (!codedAttributeNamespace.Contains(attributeConnGenProperties.Namespace))
+                    {
+                        codedAttributeNamespace.Add(attributeConnGenProperties.Namespace);
+                        typeConnGenRefNameBuilder.AppendLine("using " + attributeConnGenProperties.Namespace + ";");
+                    }
+
+                    context.CodeMemberAttributeBlockCSharpCode(attribute, 2, typeConnGenBodyBuilder,
                     typeInfo => typeInfo.Name);
                 }
 
-                builder.AppendLine("\t\tpublic " + (properties.IsStatic ? "static " : "/*static*/ ") + i.PropertyType.FullName + " " + i.Name);
-                builder.AppendLine("\t\t{");
+                typeConnGenBodyBuilder.AppendLine("\t\tpublic " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + i.PropertyType.FullName + " " + i.Name);
+                typeConnGenBodyBuilder.AppendLine("\t\t{");
                 if (i.CanRead)
                 {
-                    builder.AppendLine("\t\t\tget { return _NOAI_l0Connection_BaseInstance." + i.Name + "; }");
+                    typeConnGenBodyBuilder.AppendLine("\t\t\tget { return _NOAI_l0Connection_BaseInstance." + i.Name + "; }");
                 }
                 if (i.CanWrite)
                 {
-                    builder.AppendLine("\t\t\tset { _NOAI_l0Connection_BaseInstance." + i.Name + " = value; }");
+                    typeConnGenBodyBuilder.AppendLine("\t\t\tset { _NOAI_l0Connection_BaseInstance." + i.Name + " = value; }");
                 }
-                builder.AppendLine("\t\t}");
-                builder.AppendLine("");
+                typeConnGenBodyBuilder.AppendLine("\t\t}");
+                typeConnGenBodyBuilder.AppendLine("");
             }
 
             foreach (var i in typeInfo.DeclaredMethods)
@@ -93,29 +104,37 @@ namespace NOAI.l0Connection
                 }
 
                 var ps = i.GetParameters();
-                builder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") +
+                typeConnGenBodyBuilder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") +
                     (i.ReturnType.FullName == "System.Void" ? "void" : i.ReturnType.FullName) +
                     " " + i.Name + "(" + string.Join(", ", ps.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
-                builder.AppendLine("\t\t{");
-                builder.AppendLine("\t\t\treturn _NOAI_l0Connection_BaseInstance." + i.Name +
+                typeConnGenBodyBuilder.AppendLine("\t\t{");
+                typeConnGenBodyBuilder.AppendLine("\t\t\treturn _NOAI_l0Connection_BaseInstance." + i.Name +
                     "(" + string.Join(", ", ps.Select(p => p.Name)) + ")");
-                builder.AppendLine("\t\t}");
-                builder.AppendLine("");
+                typeConnGenBodyBuilder.AppendLine("\t\t}");
+                typeConnGenBodyBuilder.AppendLine("");
             }
 
-            builder.AppendLine("\t}");
+            typeConnGenBodyBuilder.AppendLine("\t}");
 
-            builder.AppendLine("}");
+            typeConnGenBodyBuilder.AppendLine("}");
 
             if (!Directory.Exists(context.FixWin32PathSymbol(context.OutputCodeFileDirectory)))
             {
                 Directory.CreateDirectory(context.FixWin32PathSymbol(context.OutputCodeFileDirectory));
             }
 
-            var path = context.FixWin32PathSymbol(Path.Combine(context.OutputCodeFileDirectory, ns + "_" + typeInfo.Name));
+            var builder = new StringBuilder();
+            builder.AppendLine(typeConnGenRefNameBuilder.ToString());
+            builder.AppendLine("");
+            builder.AppendLine(typeConnGenBodyBuilder.ToString());
+
+            var path = context.FixWin32PathSymbol(Path.Combine(context.OutputCodeFileDirectory,
+                properties.Namespace + "_" + typeInfo.Name));
             File.WriteAllTextAsync(
                 context.FixWin32PathLength(path, ".cs"),
                 builder.ToString());
+
+            return properties;
         }
 
         public void CodeReflectableCSharpCode(Assembly assembly, NOAI_l0Connection_ConnGenContext context)

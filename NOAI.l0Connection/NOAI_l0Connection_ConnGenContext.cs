@@ -23,14 +23,15 @@ namespace NOAI.l0Connection
 
         public string AssemblyXmlDocFileDirectory { get; set; } = "";
 
-        public string CodeGlobalConnGenRefNameCSharpCode()
+        public string CodeTypeConnGenRefNameCSharpCode()
         {
             var builder = new StringBuilder();
             builder.Append("using " + typeof(NOAI_l0Connection_ConnGenAttribute).Namespace + ";");
             return builder.ToString();
         }
 
-        public List<TypeInfo> RequestedCodeTypeSet { get; set; } = new List<TypeInfo>() { };
+        public Dictionary<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> RequestedCodeTypeSet { get; set; } = 
+            new Dictionary<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>();
 
         public string CodeTypeConnGenPropertiesCSharpCode(TypeInfo typeInfo, out NOAI_l0Connection_TypeConnGenProperties properties)
         {

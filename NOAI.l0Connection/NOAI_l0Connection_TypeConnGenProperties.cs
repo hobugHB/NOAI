@@ -12,7 +12,7 @@ namespace NOAI.l0Connection
         public Guid ContextGuid { get; set; }
         public DateTime ContextDate { get; set; }
 
-        public object Namespace { get; set; }
+        public string Namespace { get; set; }
         public object IsPublic { get; set; }
         public bool IsStatic { get; set; }
         public object Name { get; set; }
@@ -80,11 +80,15 @@ namespace NOAI.l0Connection
 
         public object AssemblyName { get; set; }
 
+        public NOAI_l0Connection_TypeConnGenProperties()
+        {
+        }
+
         public NOAI_l0Connection_TypeConnGenProperties(TypeInfo typeInfo)
         {
             var typeAssemblyName = typeInfo.Assembly.GetName();
 
-            this.Namespace = ExtractValue(() => typeInfo.Namespace ?? "");
+            this.Namespace = (string)ExtractValue(() => typeInfo.Namespace ?? "");
             this.IsPublic = ExtractValue(() => typeInfo.IsPublic);
             this.IsStatic = typeInfo.IsAbstract && typeInfo.IsSealed;
             this.Name = ExtractValue(() => typeInfo.Name);
