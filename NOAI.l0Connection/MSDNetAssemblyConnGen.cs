@@ -32,6 +32,8 @@ namespace NOAI.l0Connection
                 }
 
                 properties = new NOAI_l0Connection_TypeConnGenProperties();
+                properties.Name = typeInfo.Name;
+
                 context.RequestedCodeTypeSet.Add(typeInfo, properties);
             }
 
@@ -56,11 +58,20 @@ namespace NOAI.l0Connection
                 srcTypeProperties.Name + " _NOAI_l0Connection_BaseInstance;");
             typeConnGenBodyBuilder.AppendLine("");
 
+            var referCodedReflectableNamespace = new List<string>();
+
             foreach (var i in typeInfo.DeclaredConstructors.Where(ii => ii.IsPublic))
             {
+                var parameters = i.GetParameters();
+                foreach (var parameter in parameters)
+                {
+                    var referConnGenProperties = CodeReferReflectableCSharpCode(
+                        referCodedReflectableNamespace, referConnGenNamespaceBuilder,
+                        parameter.ParameterType.GetTypeInfo(), context);
+                }
+
                 context.CodeMemberDocumentBlockCSharpCode(i, 2, typeConnGenBodyBuilder);
 
-                var parameters = i.GetParameters();
                 typeConnGenBodyBuilder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") + srcTypeProperties.Name +
                     "(" + string.Join(", ", parameters.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
                 typeConnGenBodyBuilder.AppendLine("\t\t{");
@@ -70,7 +81,6 @@ namespace NOAI.l0Connection
                 typeConnGenBodyBuilder.AppendLine("");
             }
 
-            var referCodedReflectableNamespace = new List<string>();
             foreach (var i in typeInfo.DeclaredProperties//.Where(ii => ii.IsPublic)
                 )
             {
@@ -115,8 +125,8 @@ namespace NOAI.l0Connection
                 foreach (var parameter in parameters)
                 {
                     var referConnGenProperties = CodeReferReflectableCSharpCode(
-                    referCodedReflectableNamespace, referConnGenNamespaceBuilder,
-                    parameter.ParameterType.GetTypeInfo(), context);
+                        referCodedReflectableNamespace, referConnGenNamespaceBuilder,
+                        parameter.ParameterType.GetTypeInfo(), context);
                 }
 
                 typeConnGenBodyBuilder.AppendLine("\t\tpublic " + (i.IsStatic ? "static " : "/*static*/ ") +
