@@ -30,7 +30,7 @@ namespace NOAI.l0Connection
             return builder.ToString();
         }
 
-        public Dictionary<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> RequestedCodeTypeSet { get; set; } = 
+        public Dictionary<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> RequestedCodeTypeSet { get; set; } =
             new Dictionary<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>();
 
         public string CodeTypeConnGenPropertiesCSharpCode(TypeInfo typeInfo, out NOAI_l0Connection_TypeConnGenProperties properties)
@@ -43,13 +43,24 @@ namespace NOAI.l0Connection
 
             builder.Append(
                 "[" + typeof(NOAI_l0Connection_ConnGenAttribute).Name + "(\r\n" +
-                    "TypeInfoJson:\"" + JsonSerializer.Serialize(properties, options: new JsonSerializerOptions()
-                    {
-                        ReferenceHandler = ReferenceHandler.Preserve,
-                    }).
-                    Replace("\"", "\\\"") + "\", \r\n" +
+                    "TypeInfoJson:\"" + JsonSerialize(properties).Replace("\"", "\\\"") + "\", \r\n" +
                 ")]");
             return builder.ToString();
+        }
+
+        private static string JsonSerialize(NOAI_l0Connection_TypeConnGenProperties properties)
+        {
+            try
+            {
+                return JsonSerializer.Serialize(properties, options: new JsonSerializerOptions()
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                });
+            }
+            catch (Exception ex)
+            {
+                return "{\"JsonSerializeErrors\":\"" + ex.ToString() + "\"}";
+            }
         }
 
         public void CodeMemberDocumentBlockCSharpCode(MemberInfo i, int deep, StringBuilder builder)
@@ -69,7 +80,7 @@ namespace NOAI.l0Connection
             foreach (var attribute in i.CustomAttributes)
             {
                 CodeMemberAttributeBlockCSharpCode(attribute, deep, builder,
-                    typeInfo=> typeInfo.FullName);
+                    typeInfo => typeInfo.FullName);
             }
         }
 
@@ -80,23 +91,44 @@ namespace NOAI.l0Connection
 
             builder.AppendLine(header +
                 "[" + getDeclaringTypeName(i.Constructor.DeclaringType.GetTypeInfo()) + "(" +
-                string.Join(",", i.ConstructorArguments.Select(arg =>
-                {
-                    using (var writer = new StringWriter())
-                    {
-                        CSharpCodeProvider.GenerateCodeFromExpression(
-                            new CodePrimitiveExpression(arg.Value), writer, null);
-                        return writer.ToString();
-                    }
-                }
-                )) + ")]");
+
+               string.Join(",", i.ConstructorArguments.Select(arg =>
+               {
+                   using (var writer = new StringWriter())
+                   {
+                       if(!(arg.Value is string) && typeof(System.Collections.IEnumerable).IsAssignableFrom(arg.Value.GetType()))
+                       {
+                           CSharpCodeProvider.GenerateCodeFromExpression(
+                                new CodeArrayCreateExpression(
+                                    arg.ArgumentType,
+                                    ((System.Collections.IEnumerable)arg.Value).AsQueryable().Cast<CustomAttributeTypedArgument>().AsEnumerable().
+                                        Select(v =>
+                                        {
+                                            return new CodePrimitiveExpression(v.Value);
+                                        }).
+                                        ToArray()),
+                               writer, null);
+                       }
+                       else
+                       {
+                           CSharpCodeProvider.GenerateCodeFromExpression(
+                               new CodePrimitiveExpression(arg.Value), writer, null);
+                       }
+
+                       return writer.ToString();
+                   }
+               }
+            )) +
+
+            ")]");
         }
 
         public string FixWin32PathSymbol(string path)
         {
             return (path ?? "").Replace(" ", "__").
                 Replace(".", "__").Replace(",", "__").
-                Replace("=", "__").Replace(":", "__");
+                Replace("=", "__").Replace(":", "__").
+                Replace("*", "__").Replace(":", "__");
         }
 
         public string FixWin32PathLength(string path, string extension)

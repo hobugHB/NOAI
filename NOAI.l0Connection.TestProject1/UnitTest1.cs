@@ -7,10 +7,10 @@ using System.Reflection;
 namespace NOAI.l0Connection.TestProject1
 {
     [TestClass]
-    public class UnitTest1
+    public class CodeReflectableCSharpCode_UnitTest1
     {
         [TestMethod]
-        public void Test_CodeReflectableCSharpCode_SystemString_Assembly()
+        public void Test_SystemString_Assembly()
         {
             using (var context = new NOAI_l0Connection_ConnGenContext())
             {
@@ -23,7 +23,7 @@ namespace NOAI.l0Connection.TestProject1
         }
 
         [TestMethod]
-        public void Test_CodeReflectableCSharpCode_SystemConsole_Type_Renew()
+        public void Test_SystemConsole_Type_Renew()
         {
             var root = "Test_CodeReflectableCSharpCode_SystemConsole_Type_Renew";
             if (Directory.Exists(root))

@@ -53,6 +53,11 @@ namespace NOAI.l0Connection
         public static string GetDocumentation(this TypeInfo typeInfo, string assemblyXmlDocFilesStore)
         {
             LoadXmlDocumentation(typeInfo.Assembly, assemblyXmlDocFilesStore);
+            //+		typeInfo	{Name = "IEnumerable`1" FullName = null}	System.Reflection.TypeInfo {System.RuntimeType}
+            if (string.IsNullOrEmpty(typeInfo.FullName))
+            {
+                return "";
+            }
 
             string key = "T:" + XmlDocumentationKeyHelper(typeInfo.FullName, null);
             loadedXmlDocumentation.TryGetValue(key, out string documentation);
@@ -61,6 +66,11 @@ namespace NOAI.l0Connection
 
         public static string GetDocumentation(this FieldInfo fieldInfo, string assemblyXmlDocFilesStore)
         {
+            if (string.IsNullOrEmpty(fieldInfo.DeclaringType.FullName))
+            {
+                return "";
+            }
+
             string key = "F:" + XmlDocumentationKeyHelper(
               fieldInfo.DeclaringType.FullName, fieldInfo.Name);
             loadedXmlDocumentation.TryGetValue(key, out string documentation);
@@ -69,6 +79,11 @@ namespace NOAI.l0Connection
 
         public static string GetDocumentation(this PropertyInfo propertyInfo, string assemblyXmlDocFilesStore)
         {
+            if (string.IsNullOrEmpty(propertyInfo.DeclaringType.FullName))
+            {
+                return "";
+            }
+
             string key = "P:" + XmlDocumentationKeyHelper(
               propertyInfo.DeclaringType.FullName, propertyInfo.Name);
             loadedXmlDocumentation.TryGetValue(key, out string documentation);
@@ -77,6 +92,11 @@ namespace NOAI.l0Connection
 
         public static string GetDocumentation(this EventInfo eventInfo, string assemblyXmlDocFilesStore)
         {
+            if (string.IsNullOrEmpty(eventInfo.DeclaringType.FullName))
+            {
+                return "";
+            }
+
             string key = "E:" + XmlDocumentationKeyHelper(
               eventInfo.DeclaringType.FullName, eventInfo.Name);
             loadedXmlDocumentation.TryGetValue(key, out string documentation);
@@ -85,6 +105,11 @@ namespace NOAI.l0Connection
 
         public static string GetDocumentation(this ConstructorInfo constructorInfo, string assemblyXmlDocFilesStore)
         {
+            if (string.IsNullOrEmpty(constructorInfo.DeclaringType.FullName))
+            {
+                return "";
+            }
+
             string key = "C:" + XmlDocumentationKeyHelper(
               constructorInfo.DeclaringType.FullName, constructorInfo.Name);
             loadedXmlDocumentation.TryGetValue(key, out string documentation);
@@ -93,6 +118,11 @@ namespace NOAI.l0Connection
 
         public static string GetDocumentation(this MethodInfo methodInfo, string assemblyXmlDocFilesStore)
         {
+            if (string.IsNullOrEmpty(methodInfo.DeclaringType.FullName))
+            {
+                return "";
+            }
+
             string key = "M:" + XmlDocumentationKeyHelper(
               methodInfo.DeclaringType.FullName, methodInfo.Name);
             loadedXmlDocumentation.TryGetValue(key, out string documentation);
