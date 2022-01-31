@@ -63,9 +63,9 @@ namespace NOAI.l0Connection
             }
         }
 
-        public void CodeMemberDocumentBlockCSharpCode(MemberInfo i, int deep, StringBuilder builder)
+        public void CodeMemberDocumentBlockCSharpCode(MemberInfo i, int indent, StringBuilder builder)
         {
-            var header = string.Join("", new int[deep].Select(z => "\t")) + "/// ";
+            var header = CodeIndentBlankHeader(indent) + "/// ";
 
             builder.AppendLine(header +
                 String.Join(Environment.NewLine + header,
@@ -75,19 +75,24 @@ namespace NOAI.l0Connection
                 Split(Environment.NewLine).Select(z => z.Trim())));
         }
 
-        public void CodeMemberAttributeBlockCSharpCode(MemberInfo i, int deep, StringBuilder builder)
+        public string CodeIndentBlankHeader(int indent)
+        {
+            return string.Join("", new int[indent].Select(z => "\t"));
+        }
+
+        public void CodeMemberAttributeBlockCSharpCode(MemberInfo i, int indent, StringBuilder builder)
         {
             foreach (var attribute in i.CustomAttributes)
             {
-                CodeMemberAttributeBlockCSharpCode(attribute, deep, builder,
+                CodeMemberAttributeBlockCSharpCode(attribute, indent, builder,
                     typeInfo => typeInfo.FullName);
             }
         }
 
-        public void CodeMemberAttributeBlockCSharpCode(CustomAttributeData i, int deep, StringBuilder builder,
+        public void CodeMemberAttributeBlockCSharpCode(CustomAttributeData i, int indent, StringBuilder builder,
             Func<TypeInfo, string> getDeclaringTypeName)
         {
-            var header = string.Join("", new int[deep].Select(z => "\t")) + "";
+            var header = CodeIndentBlankHeader(indent);
 
             builder.AppendLine(header +
                 "[" + getDeclaringTypeName(i.Constructor.DeclaringType.GetTypeInfo()) + "(" +
