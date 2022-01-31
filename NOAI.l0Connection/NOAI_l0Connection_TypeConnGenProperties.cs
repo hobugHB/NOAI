@@ -17,7 +17,7 @@ namespace NOAI.l0Connection
         public bool IsStatic { get; set; }
         public string Name { get; set; }
 
-        public object IsPrimitive { get; set; }
+        public bool IsPrimitive { get; set; }
         public object IsSealed { get; set; }
         public object IsVisible { get; set; }
 
@@ -93,7 +93,7 @@ namespace NOAI.l0Connection
             this.IsStatic = typeInfo.IsAbstract && typeInfo.IsSealed;
             this.Name = (string)ExtractValue(() => typeInfo.Name);
 
-            this.IsPrimitive = ExtractValue(() => typeInfo.IsPrimitive);
+            this.IsPrimitive = (bool)ExtractValue(() => typeInfo.IsPrimitive);
             this.IsSealed = ExtractValue(() => typeInfo.IsSealed);
             this.IsVisible = ExtractValue(() => typeInfo.IsVisible);
 

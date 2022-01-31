@@ -63,6 +63,26 @@ namespace NOAI.l0Connection
             }
         }
 
+        public string CodeIndentBlankHeader(int indent)
+        {
+            return string.Join("", new int[indent].Select(z => "\t"));
+        }
+
+        public string CodeTypeConnGenCodeBodyName(TypeInfo typeInfo)
+        {
+            if(typeInfo.IsPrimitive)
+            {
+                return typeInfo.FullName;
+            }
+
+            return typeInfo.Name;
+        }
+
+        public string CodeTypeBaseInstanceCodeBodyName(TypeInfo typeInfo)
+        {
+            return typeInfo.FullName;
+        }
+
         public void CodeMemberDocumentBlockCSharpCode(MemberInfo i, int indent, StringBuilder builder)
         {
             var header = CodeIndentBlankHeader(indent) + "/// ";
@@ -75,17 +95,12 @@ namespace NOAI.l0Connection
                 Split(Environment.NewLine).Select(z => z.Trim())));
         }
 
-        public string CodeIndentBlankHeader(int indent)
-        {
-            return string.Join("", new int[indent].Select(z => "\t"));
-        }
-
         public void CodeMemberAttributeBlockCSharpCode(MemberInfo i, int indent, StringBuilder builder)
         {
             foreach (var attribute in i.CustomAttributes)
             {
                 CodeMemberAttributeBlockCSharpCode(attribute, indent, builder,
-                    typeInfo => typeInfo.FullName);
+                    CodeTypeBaseInstanceCodeBodyName);
             }
         }
 
