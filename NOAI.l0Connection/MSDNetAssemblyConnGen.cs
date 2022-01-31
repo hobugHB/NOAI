@@ -173,7 +173,8 @@ namespace NOAI.l0Connection
                     }
 
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (i.IsStatic ? "static " : "/*static*/ ") +
-                        (i.ReturnType.FullName == "System.Void" ? "void" : i.ReturnType.FullName) +
+                        (i.ReturnType.FullName == "System.Void" ? "void" :
+                        context.CodeTypeConnGenCodeBodyName(i.ReturnType.GetTypeInfo())) +
                         " " + i.Name + "(" + string.Join(", ", parameters.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +

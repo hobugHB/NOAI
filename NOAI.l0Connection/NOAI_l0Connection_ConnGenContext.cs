@@ -70,13 +70,15 @@ namespace NOAI.l0Connection
 
         public bool IsConnGenHiddenCodeType(TypeInfo typeInfo)
         {
-            var isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler = typeInfo.IsPrimitive;
-            return isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler;
+            var isHiddenByValueFormInCodeManagedByUnderlyingTypeInfo = typeInfo.IsPrimitive;
+            var isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler = typeInfo.FullName == "System.String";
+            return isHiddenByValueFormInCodeManagedByUnderlyingTypeInfo ||
+                isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler;
         }
 
         public string CodeTypeConnGenCodeBodyName(TypeInfo typeInfo)
         {
-            if(IsConnGenHiddenCodeType(typeInfo))
+            if (IsConnGenHiddenCodeType(typeInfo))
             {
                 return typeInfo.FullName;
             }
@@ -122,7 +124,7 @@ namespace NOAI.l0Connection
                {
                    using (var writer = new StringWriter())
                    {
-                       if(!(arg.Value is string) && typeof(System.Collections.IEnumerable).IsAssignableFrom(arg.Value.GetType()))
+                       if (!(arg.Value is string) && typeof(System.Collections.IEnumerable).IsAssignableFrom(arg.Value.GetType()))
                        {
                            CSharpCodeProvider.GenerateCodeFromExpression(
                                 new CodeArrayCreateExpression(
