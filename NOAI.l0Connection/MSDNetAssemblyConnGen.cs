@@ -73,7 +73,7 @@ namespace NOAI.l0Connection
                     srcTypeProperties.Name + " _NOAI_l0Connection_UnderlyingTypeBaseInstance;");
                 typeConnGenBodyBuilder.AppendLine("");
 
-                if(!srcTypeProperties.IsStatic)
+                if (!srcTypeProperties.IsStatic)
                 {
                     var underlyingTypeBaseInstanceMethodParameterName = srcTypeProperties.Namespace + "." +
                             srcTypeProperties.Name + " _NOAI_l0Connection_Constructor_UnderlyingTypeBaseInstance;";
@@ -177,8 +177,11 @@ namespace NOAI.l0Connection
                         " " + i.Name + "(" + string.Join(", ", parameters.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                        "return _NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name +
-                        "(" + string.Join(", ", parameters.Select(p => p.Name)) + ")");
+                        (i.ReturnType.FullName == "System.Void" ? "" : ("return new "+ i.ReturnType.Name + "(")) + 
+                        "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name +
+                        "(" + string.Join(", ", parameters.Select(p => p.Name)) + ")"+
+                        (i.ReturnType.FullName == "System.Void" ? "" : (")"))+
+                        ";");
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
                 }
