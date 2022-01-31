@@ -177,10 +177,11 @@ namespace NOAI.l0Connection
                         " " + i.Name + "(" + string.Join(", ", parameters.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                        (i.ReturnType.FullName == "System.Void" ? "" : ("return new "+ i.ReturnType.Name + "(")) + 
+                        (i.ReturnType.FullName == "System.Void" ? "" : ("return "+(context.IsConnGenHiddenCodeType(i.ReturnType.GetTypeInfo()) ? "" : ("new " +
+                            context.CodeTypeConnGenCodeBodyName(i.ReturnType.GetTypeInfo()) + "(")))) +
                         "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name +
-                        "(" + string.Join(", ", parameters.Select(p => p.Name)) + ")"+
-                        (i.ReturnType.FullName == "System.Void" ? "" : (")"))+
+                        "(" + string.Join(", ", parameters.Select(p => p.Name)) + ")" +
+                        (i.ReturnType.FullName == "System.Void" ? "" : (context.IsConnGenHiddenCodeType(i.ReturnType.GetTypeInfo()) ? "" : (")"))) +
                         ";");
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");

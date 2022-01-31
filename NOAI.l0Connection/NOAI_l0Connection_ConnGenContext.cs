@@ -68,9 +68,15 @@ namespace NOAI.l0Connection
             return string.Join("", new int[indent].Select(z => "\t"));
         }
 
+        public bool IsConnGenHiddenCodeType(TypeInfo typeInfo)
+        {
+            var isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler = typeInfo.IsPrimitive;
+            return isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler;
+        }
+
         public string CodeTypeConnGenCodeBodyName(TypeInfo typeInfo)
         {
-            if(typeInfo.IsPrimitive)
+            if(IsConnGenHiddenCodeType(typeInfo))
             {
                 return typeInfo.FullName;
             }
