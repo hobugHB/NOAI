@@ -30,8 +30,40 @@ namespace NOAI.l0Connection
             return builder.ToString();
         }
 
-        public Dictionary<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> RequestedCodeTypeSet { get; set; } =
-            new Dictionary<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>();
+        public Dictionary<string, NOAI_l0Connection_TypeConnGenProperties> RequestedCodeTypeSet { get; set; } =
+            new Dictionary<string, NOAI_l0Connection_TypeConnGenProperties>();
+
+        private string pathOutputContext;
+        private string pathOutputContextWin32CSharpCode;
+
+        public NOAI_l0Connection_ConnGenContext()
+        {
+            pathOutputContext = Path.Combine(
+                this.FixWin32PathSymbol(Guid.NewGuid().ToString()));
+            pathOutputContextWin32CSharpCode = Path.Combine(
+                pathOutputContext,
+                this.FixWin32PathSymbol("OutputContextWin32CSharpCode"));
+
+            if (Directory.Exists(pathOutputContextWin32CSharpCode))
+            {
+                Directory.Delete(pathOutputContextWin32CSharpCode, true);
+            }
+            if (!Directory.Exists(pathOutputContextWin32CSharpCode))
+            {
+                Directory.CreateDirectory(pathOutputContextWin32CSharpCode);
+            }
+
+        }
+
+        public string GetFullName(TypeInfo typeInfo)
+        {
+            if(!string.IsNullOrEmpty(typeInfo.FullName))
+            {
+                return typeInfo.FullName;
+            }
+
+            return typeInfo.Assembly.FullName + "+" + typeInfo.Name;
+        }
 
         public string CodeTypeConnGenPropertiesCSharpCode(TypeInfo typeInfo, out NOAI_l0Connection_TypeConnGenProperties properties)
         {
@@ -153,28 +185,100 @@ namespace NOAI.l0Connection
 
         public string FixWin32PathSymbol(string path)
         {
-            return (path ?? "").Replace(" ", "__").
-                Replace(".", "__").Replace(",", "__").
-                Replace("=", "__").Replace(":", "__").
-                Replace("*", "__").Replace(":", "__");
+            return (path ?? "").
+                Replace(" ", "__").
+                Replace(".", "__").
+                Replace(",", "__").
+                Replace("=", "__").
+                Replace(":", "__").
+                Replace("*", "__");
         }
 
-        public string FixWin32PathLength(string path, string extension)
+        private List<NOAI_l0Connection_ConnGenOutputContext> outputContextList = new List<NOAI_l0Connection_ConnGenOutputContext>();
+        private Dictionary<string, List<int>> outputDiskPathLengthDeltaList = new Dictionary<string, List<int>>();
+
+        public void SaveOutputContextWin32CSharpCode(NOAI_l0Connection_ConnGenOutputContext outputContext)
         {
-            if (string.IsNullOrEmpty(path))
+            outputContext.OutputFileContextPath = this.FixWin32PathSymbol(Path.Combine(
+                pathOutputContextWin32CSharpCode,
+                outputContext.ContextGuid.ToString() + ".cs"));
+            var builder = new StringBuilder();
+            builder.AppendLine(outputContext.ReferConnGenNamespaceBuilder.ToString());
+            //builder.AppendLine("");
+            builder.AppendLine(outputContext.TypeConnGenBodyBuilder.ToString());
+            File.WriteAllTextAsync(outputContext.OutputFileContextPath, builder.ToString());
+
+            var contextPathNamespace = this.FixWin32PathSymbol(outputContext.Properties.Namespace);
+            var contextPath = Path.GetFullPath(Path.Combine(
+                    this.OutputCodeFileDirectory,
+                    contextPathNamespace,
+                    this.FixWin32PathSymbol(outputContext.Properties.Name) + ".cs"));
+            var contextPathLength = contextPath.Length;
+            var diskPathLength = contextPathLength;
+            var diskPathLengthDelta = contextPathLength - 255;
+            outputContext.contextPathNamespace = contextPathNamespace;
+
+            outputContextList.Add(outputContext);
+            if (!outputDiskPathLengthDeltaList.ContainsKey(outputContext.Properties.Namespace))
             {
-                return extension;
+                outputDiskPathLengthDeltaList[outputContext.Properties.Namespace] = new List<int>();
+            }
+            outputDiskPathLengthDeltaList[outputContext.Properties.Namespace].Add(diskPathLengthDelta);
+        }
+
+        public void SaveOutputWin32CSharpCode()
+        {
+            {
+                var path = this.OutputCodeFileDirectory;
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
             }
 
-            var maxSubLength = 255 - (extension ?? "").Length;
-            var fullPath = Path.GetFullPath(path);
+            var group = outputContextList.GroupBy(i => i.Properties.Namespace);
+            foreach (var i in group)
+            {
+                var diskPathLengthDelta = outputDiskPathLengthDeltaList[i.Key].Max();
+                foreach (var outputContext in i)
+                {
+                    var diskPathNamespace = outputContext.contextPathNamespace;
+                    if (diskPathLengthDelta > 0)
+                    {
+                        diskPathNamespace = outputContext.contextPathNamespace.Substring(0,
+                            outputContext.contextPathNamespace.Length - diskPathLengthDelta);
+                    }
 
-            return fullPath.Substring(0, fullPath.Length < maxSubLength ? fullPath.Length : maxSubLength) + extension;
+                    {
+                        var path = Path.Combine(
+                                this.OutputCodeFileDirectory,
+                                diskPathNamespace);
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                    }
+
+                    {
+                        var path = Path.Combine(
+                                this.OutputCodeFileDirectory,
+                                diskPathNamespace,
+                                this.FixWin32PathSymbol(outputContext.Properties.Name) + ".cs");
+
+                        File.Move(outputContext.OutputFileContextPath, path);
+                    }
+                }
+            }
         }
 
         public void Dispose()
         {
             CSharpCodeProvider.Dispose();
+
+            if (Directory.Exists(pathOutputContext))
+            {
+                Directory.Delete(pathOutputContext, true);
+            }
         }
     }
 }

@@ -22,19 +22,24 @@ namespace NOAI.l0Connection
                 return new NOAI_l0Connection_TypeConnGenProperties();
             }
 
+            if (typeInfo.GenericTypeArguments.Length>0)
+            {
+                return new NOAI_l0Connection_TypeConnGenProperties();
+            }
+
             NOAI_l0Connection_TypeConnGenProperties properties;
 
             lock (context.RequestedCodeTypeSet)
             {
-                if (context.RequestedCodeTypeSet.ContainsKey(typeInfo))
+                if (context.RequestedCodeTypeSet.ContainsKey(context.GetFullName(typeInfo)))
                 {
-                    return context.RequestedCodeTypeSet[typeInfo];
+                    return context.RequestedCodeTypeSet[context.GetFullName(typeInfo)];
                 }
 
                 properties = new NOAI_l0Connection_TypeConnGenProperties();
                 properties.Name = typeInfo.Name;
 
-                context.RequestedCodeTypeSet.Add(typeInfo, properties);
+                context.RequestedCodeTypeSet.Add(context.GetFullName(typeInfo), properties);
             }
             {
                 properties.Namespace = "NOAI_" +
@@ -178,7 +183,7 @@ namespace NOAI.l0Connection
                         " " + i.Name + "(" + string.Join(", ", parameters.Select(p => p.ParameterType.FullName + " " + p.Name)) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                        (i.ReturnType.FullName == "System.Void" ? "" : ("return "+(context.IsConnGenHiddenCodeType(i.ReturnType.GetTypeInfo()) ? "" : ("new " +
+                        (i.ReturnType.FullName == "System.Void" ? "" : ("return " + (context.IsConnGenHiddenCodeType(i.ReturnType.GetTypeInfo()) ? "" : ("new " +
                             context.CodeTypeConnGenCodeBodyName(i.ReturnType.GetTypeInfo()) + "(")))) +
                         "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name +
                         "(" + string.Join(", ", parameters.Select(p => p.Name)) + ")" +
@@ -203,21 +208,13 @@ namespace NOAI.l0Connection
                 typeConnGenBodyBuilder.AppendLine("}");
             }
 
-            if (!Directory.Exists(context.FixWin32PathSymbol(context.OutputCodeFileDirectory)))
+            context.SaveOutputContextWin32CSharpCode(new NOAI_l0Connection_ConnGenOutputContext()
             {
-                Directory.CreateDirectory(context.FixWin32PathSymbol(context.OutputCodeFileDirectory));
-            }
-
-            var builder = new StringBuilder();
-            builder.AppendLine(referConnGenNamespaceBuilder.ToString());
-            //builder.AppendLine("");
-            builder.AppendLine(typeConnGenBodyBuilder.ToString());
-
-            var path = context.FixWin32PathSymbol(Path.Combine(context.OutputCodeFileDirectory,
-                 typeInfo.Name + "_" + properties.Namespace));
-            File.WriteAllTextAsync(
-                context.FixWin32PathLength(path, ".cs"),
-                builder.ToString());
+                TypeInfo = typeInfo,
+                Properties = properties,
+                ReferConnGenNamespaceBuilder = referConnGenNamespaceBuilder,
+                TypeConnGenBodyBuilder = typeConnGenBodyBuilder,
+            });
 
             return properties;
         }
