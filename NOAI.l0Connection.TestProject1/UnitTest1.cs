@@ -15,8 +15,7 @@ namespace NOAI.l0Connection.TestProject1
             using (var context = new NOAI_l0Connection_ConnGenContext())
             {
                 context.OutputCodeFileDirectory = Path.Combine(
-                    "e:\\Test_CodeReflectableCSharpCode",
-                    Path.GetFileName(typeof(string).Assembly.CodeBase));
+                    "e:\\Test_CodeReflectableCSharpCode");
 
                 new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(
                     typeof(string).Assembly, context);
@@ -39,8 +38,7 @@ namespace NOAI.l0Connection.TestProject1
                 context.ContextGuid = Guid.Empty;
                 context.ContextDate = DateTime.MinValue;
 
-                context.OutputCodeFileDirectory = Path.Combine(root,
-                    Path.GetFileName(typeof(Console).Assembly.CodeBase));
+                context.OutputCodeFileDirectory = Path.Combine(root);
                 context.AssemblyXmlDocFileDirectory = @"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.1\ref\net6.0";
 
                 new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(

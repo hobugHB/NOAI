@@ -108,17 +108,23 @@ namespace NOAI.l0Connection
                 isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler;
         }
 
-        public string CodeTypeConnGenCodeBodyName(TypeInfo typeInfo)
+        public string CodeTypeNameInConnGenWithContext(TypeInfo typeInfo, 
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
         {
             if (IsConnGenHiddenCodeType(typeInfo))
             {
                 return typeInfo.FullName;
             }
 
+            {
+                var codeConnGenTypeProperties = codeConnGenType(typeInfo);
+            }
+
             return typeInfo.Name;
         }
 
-        public string CodeTypeBaseInstanceCodeBodyName(TypeInfo typeInfo)
+        public string CodeTypeNameInUnderlyingTypeBase(TypeInfo typeInfo,
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
         {
             return typeInfo.FullName;
         }
@@ -135,22 +141,24 @@ namespace NOAI.l0Connection
                 Split(Environment.NewLine).Select(z => z.Trim())));
         }
 
-        public void CodeMemberAttributeBlockCSharpCode(MemberInfo i, int indent, StringBuilder builder)
+        public void CodeMemberAttributeBlockCSharpCode(MemberInfo i, int indent, StringBuilder builder,
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
         {
             foreach (var attribute in i.CustomAttributes)
             {
                 CodeMemberAttributeBlockCSharpCode(attribute, indent, builder,
-                    CodeTypeBaseInstanceCodeBodyName);
+                    CodeTypeNameInUnderlyingTypeBase, codeConnGenType);
             }
         }
 
         public void CodeMemberAttributeBlockCSharpCode(CustomAttributeData i, int indent, StringBuilder builder,
-            Func<TypeInfo, string> getDeclaringTypeName)
+            Func<TypeInfo, Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>, string> codeTypeName,
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
         {
             var header = CodeIndentBlankHeader(indent);
 
             builder.AppendLine(header +
-                "[" + getDeclaringTypeName(i.Constructor.DeclaringType.GetTypeInfo()) + "(" +
+                "[" + codeTypeName(i.Constructor.DeclaringType.GetTypeInfo(), codeConnGenType) + "(" +
 
                string.Join(",", i.ConstructorArguments.Select(arg =>
                {
@@ -169,6 +177,10 @@ namespace NOAI.l0Connection
                                         ToArray()),
                                writer, null);
                        }
+                       else if(arg.Value is Type)
+                       {
+                           writer.Write("typeof("+ CodeTypeNameInConnGenWithContext(((Type)arg.Value).GetTypeInfo(), codeConnGenType) + ")");
+                       }
                        else
                        {
                            CSharpCodeProvider.GenerateCodeFromExpression(
@@ -186,6 +198,8 @@ namespace NOAI.l0Connection
         public string FixWin32PathSymbol(string path)
         {
             return (path ?? "").
+                Replace(">", "__").
+                Replace("<", "__").
                 Replace(" ", "__").
                 Replace(".", "__").
                 Replace(",", "__").
