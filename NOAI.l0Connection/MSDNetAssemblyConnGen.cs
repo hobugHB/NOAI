@@ -66,8 +66,8 @@ namespace NOAI.l0Connection
             indent++;
             {
                 var header = context.CodeIndentBlankHeader(indent);
-                context.CodeMemberDocumentBlockCSharpCode(typeInfo, 2, typeConnGenBodyBuilder);
-                context.CodeMemberAttributeBlockCSharpCode(typeInfo, 2, typeConnGenBodyBuilder, codeConnGenType);
+                context.CodeMemberDocumentBlockCSharpCode(typeInfo, indent, typeConnGenBodyBuilder);
+                context.CodeMemberAttributeBlockCSharpCode(typeInfo, indent, typeConnGenBodyBuilder, codeConnGenType);
                 typeConnGenBodyBuilder.AppendLine(header + "" + context.CodeTypeConnGenPropertiesCSharpCode(typeInfo, out srcTypeProperties));
                 typeConnGenBodyBuilder.AppendLine(header + "public " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
                 typeConnGenBodyBuilder.AppendLine(header + "{");
@@ -104,8 +104,8 @@ namespace NOAI.l0Connection
                             parameter.ParameterType.GetTypeInfo(), context);
                     }
 
-                    context.CodeMemberDocumentBlockCSharpCode(i, 2, typeConnGenBodyBuilder);
-                    context.CodeMemberAttributeBlockCSharpCode(i, 2, typeConnGenBodyBuilder, codeConnGenType);
+                    context.CodeMemberDocumentBlockCSharpCode(i, indent, typeConnGenBodyBuilder);
+                    context.CodeMemberAttributeBlockCSharpCode(i, indent, typeConnGenBodyBuilder, codeConnGenType);
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (i.IsStatic ? "static " : "/*static*/ ") + srcTypeProperties.Name +
                         "(" + string.Join(", ", parameters.Select(p =>
                         context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenType) + " " + p.Name)) + ")");
@@ -123,8 +123,8 @@ namespace NOAI.l0Connection
                 foreach (var i in typeInfo.DeclaredProperties//.Where(ii => ii.IsPublic)
                 )
                 {
-                    context.CodeMemberDocumentBlockCSharpCode(i, 2, typeConnGenBodyBuilder);
-                    context.CodeMemberAttributeBlockCSharpCode(i, 2, typeConnGenBodyBuilder, codeConnGenType);
+                    context.CodeMemberDocumentBlockCSharpCode(i, indent, typeConnGenBodyBuilder);
+                    context.CodeMemberAttributeBlockCSharpCode(i, indent, typeConnGenBodyBuilder, codeConnGenType);
                     foreach (var attribute in i.CustomAttributes)
                     {
                         var referConnGenProperties = CodeReferReflectableCSharpCode(
@@ -148,12 +148,12 @@ namespace NOAI.l0Connection
                     if (i.CanRead)
                     {
                         typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                            "get { return _NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + "; }");
+                            "get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + "); }");
                     }
                     if (i.CanWrite)
                     {
                         typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                            "set { _NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + " = value; }");
+                            "set { NOAI_l1Runtime_IOCenterContext.Instance.Write(()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + " = value}; }");
                     }
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
@@ -186,8 +186,8 @@ namespace NOAI.l0Connection
                                 i.ReturnType.GetTypeInfo(), context);
                     }
 
-                    context.CodeMemberDocumentBlockCSharpCode(i, 2, typeConnGenBodyBuilder);
-                    context.CodeMemberAttributeBlockCSharpCode(i, 2, typeConnGenBodyBuilder, codeConnGenType);
+                    context.CodeMemberDocumentBlockCSharpCode(i, indent, typeConnGenBodyBuilder);
+                    context.CodeMemberAttributeBlockCSharpCode(i, indent, typeConnGenBodyBuilder, codeConnGenType);
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (i.IsStatic ? "static " : "/*static*/ ") +
                         (i.ReturnType.FullName == "System.Void" ? "void" :
                         context.CodeTypeNameInConnGenWithContext(i.ReturnType.GetTypeInfo(), codeConnGenType)) +
