@@ -7,17 +7,15 @@ using System.Reflection;
 namespace NOAI.l0Connection.TestProject1
 {
     [TestClass]
-    public class CodeReflectableCSharpCode_UnitTest1
+    public class CodeReflectableCSharpCode_UnitTest1 : UnitTest
     {
         [TestMethod]
         public void Test_SystemString_Assembly()
         {
             using (var context = new NOAI_l0Connection_ConnGenContext())
             {
-                context.OutputCodeFileDirectory = Path.Combine(
-                    "e:\\Test_CodeReflectableCSharpCode");
-                context.AssemblyXmlDocFileDirectory =
-                    @"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.1\ref\net6.0";
+                var root = GetAvialibleTestMethodOutputRoot();
+                context.OutputCodeFileDirectory = root;
 
                 new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(
                     typeof(string).Assembly, context);
@@ -28,8 +26,8 @@ namespace NOAI.l0Connection.TestProject1
         [TestMethod]
         public void Test_SystemConsole_Type_Renew()
         {
-            var root = 
-                "e:\\Test_CodeReflectableCSharpCode_SystemConsole_Type_Renew";
+
+            var root = GetAvialibleTestMethodOutputRoot();
             if (Directory.Exists(root))
             {
                 Directory.Delete(root, true);
@@ -40,9 +38,7 @@ namespace NOAI.l0Connection.TestProject1
                 context.ContextGuid = Guid.Empty;
                 context.ContextDate = DateTime.MinValue;
 
-                context.OutputCodeFileDirectory = Path.Combine(root);
-                context.AssemblyXmlDocFileDirectory = 
-                    @"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.1\ref\net6.0";
+                context.OutputCodeFileDirectory = root;
 
                 new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(
                     typeof(Console).GetTypeInfo(), context);

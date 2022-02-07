@@ -21,7 +21,19 @@ namespace NOAI.l0Connection
 
         public string OutputCodeFileDirectory { get; set; } = "";
 
-        public string AssemblyXmlDocFileDirectory { get; set; } = "";
+        private string _AssemblyXmlDocFileDirectory;
+
+        public string AssemblyXmlDocFileDirectory
+        {
+            get
+            {
+                return _AssemblyXmlDocFileDirectory;
+            }
+            set
+            {
+                _AssemblyXmlDocFileDirectory = value;
+            }
+        }
 
         public string CodeTypeConnGenRefNameCSharpCode()
         {
@@ -38,11 +50,13 @@ namespace NOAI.l0Connection
 
         public NOAI_l0Connection_ConnGenContext()
         {
-            pathOutputContext = Path.Combine(
-                this.FixWin32PathSymbol(Guid.NewGuid().ToString()));
-            pathOutputContextWin32CSharpCode = Path.Combine(
-                pathOutputContext,
-                this.FixWin32PathSymbol("OutputContextWin32CSharpCode"));
+            {
+                pathOutputContext = Path.Combine(
+                    this.FixWin32PathSymbol(Guid.NewGuid().ToString()));
+                pathOutputContextWin32CSharpCode = Path.Combine(
+                    pathOutputContext,
+                    this.FixWin32PathSymbol("OutputContextWin32CSharpCode"));
+            }
 
             if (Directory.Exists(pathOutputContextWin32CSharpCode))
             {
@@ -53,11 +67,36 @@ namespace NOAI.l0Connection
                 Directory.CreateDirectory(pathOutputContextWin32CSharpCode);
             }
 
+            {
+                var root = @"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref";
+                if (Directory.Exists(root))
+                {
+                    root = Path.Combine(root, FindSubDirectoryWithMaxVersionName(root));
+                }
+                if (Directory.Exists(root))
+                {
+                    root = Path.Combine(root, "ref");
+                }
+                if (Directory.Exists(root))
+                {
+                    root = Path.Combine(root, FindSubDirectoryWithMaxVersionName(root));
+                }
+                if (Directory.Exists(root))
+                {
+                    _AssemblyXmlDocFileDirectory = root;
+                }
+            }
+
+        }
+
+        private string FindSubDirectoryWithMaxVersionName(string dir)
+        {
+            return Directory.GetDirectories(dir).OrderBy(i => i.Sum(ii => (int)ii)).Reverse().FirstOrDefault();
         }
 
         public string GetFullName(TypeInfo typeInfo)
         {
-            if(!string.IsNullOrEmpty(typeInfo.FullName))
+            if (!string.IsNullOrEmpty(typeInfo.FullName))
             {
                 return typeInfo.FullName;
             }
@@ -108,7 +147,7 @@ namespace NOAI.l0Connection
                 isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler;
         }
 
-        public string CodeTypeNameInConnGenWithContext(TypeInfo typeInfo, 
+        public string CodeTypeNameInConnGenWithContext(TypeInfo typeInfo,
             Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
         {
             if (IsConnGenHiddenCodeType(typeInfo))
@@ -177,9 +216,9 @@ namespace NOAI.l0Connection
                                         ToArray()),
                                writer, null);
                        }
-                       else if(arg.Value is Type)
+                       else if (arg.Value is Type)
                        {
-                           writer.Write("typeof("+ CodeTypeNameInConnGenWithContext(((Type)arg.Value).GetTypeInfo(), codeConnGenType) + ")");
+                           writer.Write("typeof(" + CodeTypeNameInConnGenWithContext(((Type)arg.Value).GetTypeInfo(), codeConnGenType) + ")");
                        }
                        else
                        {
