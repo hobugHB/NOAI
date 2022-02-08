@@ -269,7 +269,7 @@ namespace NOAI.l0Connection
             var contextPathLength = contextPath.Length;
             var diskPathLength = contextPathLength;
             var diskPathLengthDelta = contextPathLength - 255;
-            outputContext.contextPathNamespace = contextPathNamespace;
+            outputContext.ContextPathNamespace = contextPathNamespace;
 
             outputContextList.Add(outputContext);
             if (!outputDiskPathLengthDeltaList.ContainsKey(outputContext.Properties.Namespace))
@@ -295,11 +295,11 @@ namespace NOAI.l0Connection
                 var diskPathLengthDelta = outputDiskPathLengthDeltaList[i.Key].Max();
                 foreach (var outputContext in i)
                 {
-                    var diskPathNamespace = outputContext.contextPathNamespace;
+                    var diskPathNamespace = outputContext.ContextPathNamespace;
                     if (diskPathLengthDelta > 0)
                     {
-                        diskPathNamespace = outputContext.contextPathNamespace.Substring(0,
-                            outputContext.contextPathNamespace.Length - diskPathLengthDelta);
+                        diskPathNamespace = outputContext.ContextPathNamespace.Substring(0,
+                            outputContext.ContextPathNamespace.Length - diskPathLengthDelta);
                     }
 
                     {

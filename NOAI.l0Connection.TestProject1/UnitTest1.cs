@@ -26,7 +26,6 @@ namespace NOAI.l0Connection.TestProject1
         [TestMethod]
         public void Test_SystemConsole_Type_Renew()
         {
-
             var root = GetAvialibleTestMethodOutputRoot();
             if (Directory.Exists(root))
             {
