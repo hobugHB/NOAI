@@ -45,7 +45,7 @@ namespace NOAI.l0Connection
         public object IsAutoLayout { get; set; }
         public object IsByRef { get; set; }
         public object IsByRefLike { get; set; }
-        public object IsClass { get; set; }
+        public bool IsClass { get; set; }
         public object IsCOMObject { get; set; }
         public object IsConstructedGenericType { get; set; }
         public object IsContextful { get; set; }
@@ -53,7 +53,7 @@ namespace NOAI.l0Connection
         public object IsExplicitLayout { get; set; }
 
         public object IsImport { get; set; }
-        public object IsInterface { get; set; }
+        public bool IsInterface { get; set; }
         public object IsLayoutSequential { get; set; }
         public object IsMarshalByRef { get; set; }
 
@@ -88,12 +88,12 @@ namespace NOAI.l0Connection
         {
             var typeAssemblyName = typeInfo.Assembly.GetName();
 
-            this.Namespace = (string)ExtractValue(() => typeInfo.Namespace ?? "");
+            this.Namespace = ExtractValue(() => typeInfo.Namespace ?? "");
             this.IsPublic = ExtractValue(() => typeInfo.IsPublic);
             this.IsStatic = typeInfo.IsAbstract && typeInfo.IsSealed;
-            this.Name = (string)ExtractValue(() => typeInfo.Name);
+            this.Name = ExtractValue(() => typeInfo.Name);
 
-            this.IsPrimitive = (bool)ExtractValue(() => typeInfo.IsPrimitive);
+            this.IsPrimitive = ExtractValue(() => typeInfo.IsPrimitive);
             this.IsSealed = ExtractValue(() => typeInfo.IsSealed);
             this.IsVisible = ExtractValue(() => typeInfo.IsVisible);
 
@@ -184,7 +184,7 @@ namespace NOAI.l0Connection
             };
         }
 
-        private object ExtractValue<T>(Func<T> extract)
+        private T ExtractValue<T>(Func<T> extract)
         {
             try
             {
@@ -192,7 +192,7 @@ namespace NOAI.l0Connection
             }
             catch
             {
-                return null;
+                return default(T);
             }
         }
 

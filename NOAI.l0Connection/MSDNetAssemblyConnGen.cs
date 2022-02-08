@@ -27,6 +27,11 @@ namespace NOAI.l0Connection
                 return new NOAI_l0Connection_TypeConnGenProperties();
             }
 
+            if (string.IsNullOrEmpty(typeInfo.AssemblyQualifiedName))
+            {
+                return new NOAI_l0Connection_TypeConnGenProperties();
+            }
+
             NOAI_l0Connection_TypeConnGenProperties properties;
 
             lock (context.RequestedCodeTypeSet)
@@ -70,10 +75,45 @@ namespace NOAI.l0Connection
                 context.CodeMemberDocumentBlockCSharpCode(typeInfo, indent, typeConnGenBodyBuilder);
                 context.CodeMemberAttributeBlockCSharpCode(typeInfo, indent, typeConnGenBodyBuilder, codeConnGenType);
                 typeConnGenBodyBuilder.AppendLine(header + "" + context.CodeTypeConnGenPropertiesCSharpCode(typeInfo, out srcTypeProperties));
-                typeConnGenBodyBuilder.AppendLine(header + "public " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
+                if (srcTypeProperties.IsInterface)
+                {
+                    typeConnGenBodyBuilder.AppendLine(header + "public " + "interface " + typeInfo.Name + " : " + context.GetFullName(typeInfo));
+                }
+                if (srcTypeProperties.IsClass)
+                {
+                    typeConnGenBodyBuilder.AppendLine(header + "public " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name + "");
+                }
+
                 typeConnGenBodyBuilder.AppendLine(header + "{");
+                if (srcTypeProperties.IsClass)
+                {
+                    CodeClassBody(typeInfo, context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent, srcTypeProperties, referCodedReflectableNamespace, codeConnGenType);
+                }
+                {
+                    typeConnGenBodyBuilder.AppendLine(header + "}");
+                }
             }
 
+            indent--;
+            {
+                var header = context.CodeIndentBlankHeader(indent);
+
+                typeConnGenBodyBuilder.AppendLine("}");
+            }
+
+            context.SaveOutputContextWin32CSharpCode(new NOAI_l0Connection_ConnGenOutputContext()
+            {
+                TypeInfo = typeInfo,
+                Properties = properties,
+                ReferConnGenNamespaceBuilder = referConnGenNamespaceBuilder,
+                TypeConnGenBodyBuilder = typeConnGenBodyBuilder,
+            });
+
+            return properties;
+        }
+
+        private void CodeClassBody(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context, StringBuilder referConnGenNamespaceBuilder, StringBuilder typeConnGenBodyBuilder, int indent, NOAI_l0Connection_TypeConnGenProperties srcTypeProperties, List<string> referCodedReflectableNamespace, Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
+        {
             indent++;
             {
                 var header = context.CodeIndentBlankHeader(indent);
@@ -212,28 +252,6 @@ namespace NOAI.l0Connection
             }
 
             indent--;
-            {
-                var header = context.CodeIndentBlankHeader(indent);
-
-                typeConnGenBodyBuilder.AppendLine(header + "}");
-            }
-
-            indent--;
-            {
-                var header = context.CodeIndentBlankHeader(indent);
-
-                typeConnGenBodyBuilder.AppendLine("}");
-            }
-
-            context.SaveOutputContextWin32CSharpCode(new NOAI_l0Connection_ConnGenOutputContext()
-            {
-                TypeInfo = typeInfo,
-                Properties = properties,
-                ReferConnGenNamespaceBuilder = referConnGenNamespaceBuilder,
-                TypeConnGenBodyBuilder = typeConnGenBodyBuilder,
-            });
-
-            return properties;
         }
 
         private NOAI_l0Connection_TypeConnGenProperties CodeReferReflectableCSharpCode(
