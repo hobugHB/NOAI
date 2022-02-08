@@ -43,6 +43,14 @@ namespace NOAI.l0Connection.TestProject1
                 new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(
                     typeof(Console).GetTypeInfo(), context);
                 context.SaveOutputWin32CSharpCode();
+
+                var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
+                    Where(i => new DirectoryInfo(i).Name.Contains("Console")).Single(), "Console.cs"));
+                var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode_UnitTest1\Console_1.cs");
+                if(!result.SequenceEqual(sample))
+                {
+                    throw new Exception("result is not equals to sample.");
+                }
             }
         }
     }

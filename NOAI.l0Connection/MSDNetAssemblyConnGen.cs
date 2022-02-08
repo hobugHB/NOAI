@@ -131,7 +131,7 @@ namespace NOAI.l0Connection
                             referCodedReflectableNamespace, referConnGenNamespaceBuilder,
                             attribute.Constructor.DeclaringType.GetTypeInfo(), context);
 
-                        context.CodeMemberAttributeBlockCSharpCode(attribute, 2, typeConnGenBodyBuilder,
+                        context.CodeMemberAttributeBlockCSharpCode(attribute, indent, typeConnGenBodyBuilder,
                             context.CodeTypeNameInConnGenWithContext, codeConnGenType);
                     }
 
@@ -148,12 +148,16 @@ namespace NOAI.l0Connection
                     if (i.CanRead)
                     {
                         typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                            "get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + "); }");
+                            "get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(\r\n" +
+                                header + context.CodeIndentBlankHeader(2) +
+                                "()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + "); }");
                     }
                     if (i.CanWrite)
                     {
                         typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                            "set { NOAI_l1Runtime_IOCenterContext.Instance.Write(()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + " = value}; }");
+                            "set { NOAI_l1Runtime_IOCenterContext.Instance.Write((\r\n" +
+                                header + context.CodeIndentBlankHeader(2) +
+                                "()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + " = value}; }");
                     }
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
