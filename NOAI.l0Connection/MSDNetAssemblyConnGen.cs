@@ -33,7 +33,6 @@ namespace NOAI.l0Connection
             }
 
             NOAI_l0Connection_TypeConnGenProperties properties;
-
             lock (context.RequestedCodeTypeSet)
             {
                 if (context.RequestedCodeTypeSet.ContainsKey(context.GetFullName(typeInfo)))
@@ -117,15 +116,18 @@ namespace NOAI.l0Connection
             indent++;
             {
                 var header = context.CodeIndentBlankHeader(indent);
-
-                typeConnGenBodyBuilder.AppendLine(header + "private " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + srcTypeProperties.Namespace + "." +
-                    srcTypeProperties.Name + " _NOAI_l0Connection_UnderlyingTypeBaseInstance;");
-                typeConnGenBodyBuilder.AppendLine("");
-
-                if (!srcTypeProperties.IsStatic)
+                if (srcTypeProperties.IsStatic)
                 {
-                    var underlyingTypeBaseInstanceMethodParameterName = srcTypeProperties.Namespace + "." +
-                            srcTypeProperties.Name + " _NOAI_l0Connection_Constructor_UnderlyingTypeBaseInstance;";
+                    typeConnGenBodyBuilder.AppendLine(header + "private " + ("static ") + context.GetFullName(typeInfo) +
+                        " _NOAI_l0Connection_UnderlyingTypeBaseInstance = " + context.GetFullName(typeInfo) + ";");
+                }
+                else
+                {
+                    typeConnGenBodyBuilder.AppendLine(header + "private " + ("/*static*/ ") + srcTypeProperties.Namespace + "." +
+                        srcTypeProperties.Name + " _NOAI_l0Connection_UnderlyingTypeBaseInstance;");
+
+                    var underlyingTypeBaseInstanceMethodParameterName = context.GetFullName(typeInfo) 
+                        + " _NOAI_l0Connection_Constructor_UnderlyingTypeBaseInstance;";
                     typeConnGenBodyBuilder.AppendLine(header + "public " + ("/*static*/ ") + srcTypeProperties.Name +
                         "(" + underlyingTypeBaseInstanceMethodParameterName + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
@@ -134,6 +136,7 @@ namespace NOAI.l0Connection
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
                 }
+                typeConnGenBodyBuilder.AppendLine("");
 
                 foreach (var i in typeInfo.DeclaredConstructors.Where(ii => ii.IsPublic))
                 {
@@ -152,7 +155,7 @@ namespace NOAI.l0Connection
                         context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenType) + " " + p.Name)) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                        "_NOAI_l0Connection_UnderlyingTypeBaseInstance = new " + srcTypeProperties.Namespace + "." + srcTypeProperties.Name +
+                        "_NOAI_l0Connection_UnderlyingTypeBaseInstance = new " + context.GetFullName(typeInfo) +
                         "(" + string.Join(", ", parameters.Select(p => p.Name)) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
@@ -189,14 +192,14 @@ namespace NOAI.l0Connection
                     if (i.CanRead)
                     {
                         typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                            "get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(\r\n" +
+                            "get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(\r\n" +
                                 header + context.CodeIndentBlankHeader(2) +
                                 "()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + "); }");
                     }
                     if (i.CanWrite)
                     {
                         typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                            "set { NOAI_l1Runtime_IOCenterContext.Instance.Write((\r\n" +
+                            "set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((\r\n" +
                                 header + context.CodeIndentBlankHeader(2) +
                                 "()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + " = value}; }");
                     }
@@ -242,10 +245,12 @@ namespace NOAI.l0Connection
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
                         (i.ReturnType.FullName == "System.Void" ? "" : ("return " + (context.IsConnGenHiddenCodeType(i.ReturnType.GetTypeInfo()) ? "" : ("new " +
                             context.CodeTypeNameInConnGenWithContext(i.ReturnType.GetTypeInfo(), codeConnGenType) + "(")))) +
-                        "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name +
+                        "NOAI_l1Runtime_IOCenterContext.Instance.Enter(\r\n" +
+                                header + context.CodeIndentBlankHeader(2) +
+                                "()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name +
                         "(" + string.Join(", ", parameters.Select(p => p.Name)) + ")" +
                         (i.ReturnType.FullName == "System.Void" ? "" : (context.IsConnGenHiddenCodeType(i.ReturnType.GetTypeInfo()) ? "" : (")"))) +
-                        ";");
+                        ");");
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
                 }

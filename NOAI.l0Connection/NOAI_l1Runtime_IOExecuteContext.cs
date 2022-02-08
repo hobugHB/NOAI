@@ -8,6 +8,8 @@ namespace NOAI.l0Connection
 {
     public class NOAI_l1Runtime_IOExecuteContext
     {
+        public static readonly object Empty = new object();
+
         public Action IOAction { get; set; }
 
         public Func<object> IOFunc0 { get; set; }
@@ -17,7 +19,8 @@ namespace NOAI.l0Connection
             if(IOAction != null)
             {
                 IOAction();
-                return null;
+
+                return Empty;
             }
 
             if (IOFunc0 != null)

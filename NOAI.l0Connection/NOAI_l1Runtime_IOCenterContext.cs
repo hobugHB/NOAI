@@ -10,23 +10,23 @@ namespace NOAI.l0Connection
     {
         public static readonly NOAI_l1Runtime_IOCenterContext Instance = new NOAI_l1Runtime_IOCenterContext();
 
-        public void Write(Action action)
+        public void Enter(Action action)
         {
             EnterIOMonitorFlow(action);
         }
 
-        public T Read<T>(Func<T> action)
+        public T Enter<T>(Func<T> action)
         {
             return EnterIOMonitorFlow(action);
         }
 
-        private void EnterIOMonitorFlow(Action action)
+        private object EnterIOMonitorFlow(Action action)
         {
             var context = new NOAI_l1Runtime_IOExecuteContext()
             {
                 IOAction = action,
             };
-            context.Execute();
+            return context.Execute();
         }
 
         private T EnterIOMonitorFlow<T>(Func<T> action)

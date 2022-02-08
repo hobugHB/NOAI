@@ -15,7 +15,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 )]
 	public static class Console
 	{
-		private static System.Console _NOAI_l0Connection_UnderlyingTypeBaseInstance;
+		private static System.Console _NOAI_l0Connection_UnderlyingTypeBaseInstance = System.Console;
 
 		/// <summary>Gets the standard input stream.</summary>
 		/// <returns>A <see cref="T:System.IO.TextReader" /> that represents the standard input stream.</returns>
@@ -29,7 +29,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("tvos")]
 		public static TextReader In
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.In); }
 		}
 
@@ -48,9 +48,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("tvos")]
 		public static Encoding InputEncoding
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.InputEncoding); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.InputEncoding = value}; }
 		}
 
@@ -61,9 +61,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>The encoding used to write console output.</returns>
 		public static Encoding OutputEncoding
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.OutputEncoding); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.OutputEncoding = value}; }
 		}
 
@@ -74,7 +74,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <see langword="true" /> if a key press is available; otherwise, <see langword="false" />.</returns>
 		public static System.Boolean KeyAvailable
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.KeyAvailable); }
 		}
 
@@ -82,7 +82,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>A <see cref="T:System.IO.TextWriter" /> that represents the standard output stream.</returns>
 		public static TextWriter Out
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Out); }
 		}
 
@@ -90,7 +90,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>A <see cref="T:System.IO.TextWriter" /> that represents the standard error output stream.</returns>
 		public static TextWriter Error
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Error); }
 		}
 
@@ -99,7 +99,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <see langword="true" /> if input is redirected; otherwise, <see langword="false" />.</returns>
 		public static System.Boolean IsInputRedirected
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsInputRedirected); }
 		}
 
@@ -108,7 +108,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <see langword="true" /> if output is redirected; otherwise, <see langword="false" />.</returns>
 		public static System.Boolean IsOutputRedirected
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsOutputRedirected); }
 		}
 
@@ -117,7 +117,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <see langword="true" /> if error output is redirected; otherwise, <see langword="false" />.</returns>
 		public static System.Boolean IsErrorRedirected
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsErrorRedirected); }
 		}
 
@@ -129,9 +129,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>The size of the cursor expressed as a percentage of the height of a character cell. The property value ranges from 1 to 100.</returns>
 		public static System.Int32 CursorSize
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorSize); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorSize = value}; }
 		}
 
@@ -143,7 +143,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[SupportedOSPlatformAttribute("windows")]
 		public static System.Boolean NumberLock
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.NumberLock); }
 		}
 
@@ -155,7 +155,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[SupportedOSPlatformAttribute("windows")]
 		public static System.Boolean CapsLock
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CapsLock); }
 		}
 
@@ -174,9 +174,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("tvos")]
 		public static ConsoleColor BackgroundColor
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.BackgroundColor); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.BackgroundColor = value}; }
 		}
 
@@ -195,9 +195,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("tvos")]
 		public static ConsoleColor ForegroundColor
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.ForegroundColor); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.ForegroundColor = value}; }
 		}
 
@@ -213,9 +213,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>The current width, in columns, of the buffer area.</returns>
 		public static System.Int32 BufferWidth
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferWidth); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferWidth = value}; }
 		}
 
@@ -231,9 +231,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>The current height, in rows, of the buffer area.</returns>
 		public static System.Int32 BufferHeight
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferHeight); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferHeight = value}; }
 		}
 
@@ -246,9 +246,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>The leftmost console window position measured in columns.</returns>
 		public static System.Int32 WindowLeft
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowLeft); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowLeft = value}; }
 		}
 
@@ -261,9 +261,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>The uppermost console window position measured in rows.</returns>
 		public static System.Int32 WindowTop
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowTop); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowTop = value}; }
 		}
 
@@ -278,9 +278,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>The width of the console window measured in columns.</returns>
 		public static System.Int32 WindowWidth
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowWidth); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowWidth = value}; }
 		}
 
@@ -295,9 +295,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>The height of the console window measured in rows.</returns>
 		public static System.Int32 WindowHeight
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowHeight); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowHeight = value}; }
 		}
 
@@ -313,7 +313,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("tvos")]
 		public static System.Int32 LargestWindowWidth
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.LargestWindowWidth); }
 		}
 
@@ -329,7 +329,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("tvos")]
 		public static System.Int32 LargestWindowHeight
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.LargestWindowHeight); }
 		}
 
@@ -341,9 +341,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <see langword="true" /> if the cursor is visible; otherwise, <see langword="false" />.</returns>
 		public static System.Boolean CursorVisible
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorVisible); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorVisible = value}; }
 		}
 
@@ -364,9 +364,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("tvos")]
 		public static System.Int32 CursorLeft
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorLeft); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorLeft = value}; }
 		}
 
@@ -387,9 +387,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("tvos")]
 		public static System.Int32 CursorTop
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorTop); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorTop = value}; }
 		}
 
@@ -402,9 +402,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <returns>The string to be displayed in the title bar of the console. The maximum length of the title string is 24500 characters.</returns>
 		public static System.String Title
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Title); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Title = value}; }
 		}
 
@@ -422,9 +422,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("tvos")]
 		public static System.Boolean TreatControlCAsInput
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Read(
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.TreatControlCAsInput); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Write((
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
 				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.TreatControlCAsInput = value}; }
 		}
 
@@ -432,7 +432,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(System.String format, Object arg0)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(format, arg0);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(format, arg0));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
@@ -440,7 +441,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void WriteLine(System.String format, Object arg0, Object arg1)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(format, arg0, arg1);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(format, arg0, arg1));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
@@ -448,123 +450,142 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void WriteLine(System.String format, Object arg0, Object arg1, Object arg2)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(format, arg0, arg1, arg2);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(format, arg0, arg1, arg2));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(System.String format, Object[] arg)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(format, arg);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(format, arg));
 		}
 
 		/// 
 		public static void Write(System.String format, Object arg0)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(format, arg0);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(format, arg0));
 		}
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void Write(System.String format, Object arg0, Object arg1)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(format, arg0, arg1);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(format, arg0, arg1));
 		}
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void Write(System.String format, Object arg0, Object arg1, Object arg2)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(format, arg0, arg1, arg2);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(format, arg0, arg1, arg2));
 		}
 
 		/// 
 		public static void Write(System.String format, Object[] arg)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(format, arg);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(format, arg));
 		}
 
 		/// 
 		public static void Write(System.Boolean value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		public static void Write(System.Char value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void Write(Char[] buffer)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(buffer);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(buffer));
 		}
 
 		/// 
 		public static void Write(Char[] buffer, System.Int32 index, System.Int32 count)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(buffer, index, count);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(buffer, index, count));
 		}
 
 		/// 
 		public static void Write(System.Double value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		public static void Write(Decimal value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		public static void Write(System.Single value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		public static void Write(System.Int32 value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		[System.CLSCompliantAttribute(false)]
 		public static void Write(System.UInt32 value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		public static void Write(System.Int64 value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		[System.CLSCompliantAttribute(false)]
 		public static void Write(System.UInt64 value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void Write(Object value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void Write(System.String value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(value));
 		}
 
 		/// <summary>Obtains the next character or function key pressed by the user. The pressed key is displayed in the console window.</summary>
@@ -576,7 +597,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
 		public static ConsoleKeyInfo ReadKey()
 		{
-			return new ConsoleKeyInfo(_NOAI_l0Connection_UnderlyingTypeBaseInstance.ReadKey());
+			return new ConsoleKeyInfo(NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.ReadKey()));
 		}
 
 		/// <summary>Obtains the next character or function key pressed by the user. The pressed key is displayed in the console window.</summary>
@@ -588,7 +610,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
 		public static ConsoleKeyInfo ReadKey(System.Boolean intercept)
 		{
-			return new ConsoleKeyInfo(_NOAI_l0Connection_UnderlyingTypeBaseInstance.ReadKey(intercept));
+			return new ConsoleKeyInfo(NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.ReadKey(intercept)));
 		}
 
 		/// <summary>Sets the foreground and background console colors to their defaults.</summary>
@@ -600,28 +623,32 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
 		public static void ResetColor()
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.ResetColor();
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.ResetColor());
 		}
 
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		public static void SetBufferSize(System.Int32 width, System.Int32 height)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetBufferSize(width, height);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetBufferSize(width, height));
 		}
 
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		public static void SetWindowPosition(System.Int32 left, System.Int32 top)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetWindowPosition(left, top);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetWindowPosition(left, top));
 		}
 
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		public static void SetWindowSize(System.Int32 width, System.Int32 height)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetWindowSize(width, height);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetWindowSize(width, height));
 		}
 
 		/// <summary>Gets the position of the cursor.</summary>
@@ -633,7 +660,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
 		public static ValueTuple`2 GetCursorPosition()
 		{
-			return new ValueTuple`2(_NOAI_l0Connection_UnderlyingTypeBaseInstance.GetCursorPosition());
+			return new ValueTuple`2(NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.GetCursorPosition()));
 		}
 
 		/// <summary>Plays the sound of a beep through the console speaker.</summary>
@@ -644,7 +672,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
 		public static void Beep()
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Beep();
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Beep());
 		}
 
 		/// <summary>Plays the sound of a beep through the console speaker.</summary>
@@ -652,21 +681,24 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		public static void Beep(System.Int32 frequency, System.Int32 duration)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Beep(frequency, duration);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Beep(frequency, duration));
 		}
 
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		public static void MoveBufferArea(System.Int32 sourceLeft, System.Int32 sourceTop, System.Int32 sourceWidth, System.Int32 sourceHeight, System.Int32 targetLeft, System.Int32 targetTop)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.MoveBufferArea(sourceLeft, sourceTop, sourceWidth, sourceHeight, targetLeft, targetTop);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.MoveBufferArea(sourceLeft, sourceTop, sourceWidth, sourceHeight, targetLeft, targetTop));
 		}
 
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		public static void MoveBufferArea(System.Int32 sourceLeft, System.Int32 sourceTop, System.Int32 sourceWidth, System.Int32 sourceHeight, System.Int32 targetLeft, System.Int32 targetTop, System.Char sourceChar, ConsoleColor sourceForeColor, ConsoleColor sourceBackColor)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.MoveBufferArea(sourceLeft, sourceTop, sourceWidth, sourceHeight, targetLeft, targetTop, sourceChar, sourceForeColor, sourceBackColor);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.MoveBufferArea(sourceLeft, sourceTop, sourceWidth, sourceHeight, targetLeft, targetTop, sourceChar, sourceForeColor, sourceBackColor));
 		}
 
 		/// <summary>Clears the console buffer and corresponding console window of display information.</summary>
@@ -676,7 +708,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
 		public static void Clear()
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.Clear();
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Clear());
 		}
 
 		/// 
@@ -686,21 +719,24 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
 		public static void SetCursorPosition(System.Int32 left, System.Int32 top)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetCursorPosition(left, top);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetCursorPosition(left, top));
 		}
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void add_CancelKeyPress(ConsoleCancelEventHandler value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.add_CancelKeyPress(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.add_CancelKeyPress(value));
 		}
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void remove_CancelKeyPress(ConsoleCancelEventHandler value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.remove_CancelKeyPress(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.remove_CancelKeyPress(value));
 		}
 
 		/// <summary>Acquires the standard input stream.</summary>
@@ -711,7 +747,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
 		public static Stream OpenStandardInput()
 		{
-			return new Stream(_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardInput());
+			return new Stream(NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardInput()));
 		}
 
 		/// <summary>Acquires the standard input stream.</summary>
@@ -720,35 +757,40 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("browser")]
 		public static Stream OpenStandardInput(System.Int32 bufferSize)
 		{
-			return new Stream(_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardInput(bufferSize));
+			return new Stream(NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardInput(bufferSize)));
 		}
 
 		/// <summary>Acquires the standard output stream.</summary>
 		/// <returns>The standard output stream.</returns>
 		public static Stream OpenStandardOutput()
 		{
-			return new Stream(_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardOutput());
+			return new Stream(NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardOutput()));
 		}
 
 		/// <summary>Acquires the standard output stream.</summary>
 		/// <returns>The standard output stream.</returns>
 		public static Stream OpenStandardOutput(System.Int32 bufferSize)
 		{
-			return new Stream(_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardOutput(bufferSize));
+			return new Stream(NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardOutput(bufferSize)));
 		}
 
 		/// <summary>Acquires the standard error stream.</summary>
 		/// <returns>The standard error stream.</returns>
 		public static Stream OpenStandardError()
 		{
-			return new Stream(_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardError());
+			return new Stream(NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardError()));
 		}
 
 		/// <summary>Acquires the standard error stream.</summary>
 		/// <returns>The standard error stream.</returns>
 		public static Stream OpenStandardError(System.Int32 bufferSize)
 		{
-			return new Stream(_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardError(bufferSize));
+			return new Stream(NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.OpenStandardError(bufferSize)));
 		}
 
 		/// 
@@ -758,19 +800,22 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
 		public static void SetIn(TextReader newIn)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetIn(newIn);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetIn(newIn));
 		}
 
 		/// 
 		public static void SetOut(TextWriter newOut)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetOut(newOut);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetOut(newOut));
 		}
 
 		/// 
 		public static void SetError(TextWriter newError)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetError(newError);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.SetError(newError));
 		}
 
 		/// <summary>Reads the next character from the standard input stream.</summary>
@@ -780,7 +825,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("browser")]
 		public static System.Int32 Read()
 		{
-			return _NOAI_l0Connection_UnderlyingTypeBaseInstance.Read();
+			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Read());
 		}
 
 		/// <summary>Reads the next line of characters from the standard input stream.</summary>
@@ -793,28 +839,32 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("browser")]
 		public static System.String ReadLine()
 		{
-			return _NOAI_l0Connection_UnderlyingTypeBaseInstance.ReadLine();
+			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.ReadLine());
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine()
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine();
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine());
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(System.Boolean value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(System.Char value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
@@ -822,42 +872,48 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void WriteLine(Char[] buffer)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(buffer);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(buffer));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(Char[] buffer, System.Int32 index, System.Int32 count)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(buffer, index, count);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(buffer, index, count));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(Decimal value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(System.Double value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(System.Single value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(System.Int32 value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
@@ -865,14 +921,16 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.CLSCompliantAttribute(false)]
 		public static void WriteLine(System.UInt32 value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		public static void WriteLine(System.Int64 value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
@@ -880,7 +938,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.CLSCompliantAttribute(false)]
 		public static void WriteLine(System.UInt64 value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
@@ -888,7 +947,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void WriteLine(Object value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
@@ -896,7 +956,8 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		public static void WriteLine(System.String value)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value);
+			NOAI_l1Runtime_IOCenterContext.Instance.Enter(
+				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(value));
 		}
 
 	}
