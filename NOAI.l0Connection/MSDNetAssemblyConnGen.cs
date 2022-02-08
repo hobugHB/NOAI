@@ -48,8 +48,8 @@ namespace NOAI.l0Connection
             }
             {
                 properties.Namespace = "NOAI_" +
-                    context.FixWin32PathSymbol(typeInfo.Assembly.FullName ?? "") + "_" +
                     context.FixWin32PathSymbol(typeInfo.Namespace ?? "") + "_" +
+                    context.FixWin32PathSymbol(typeInfo.Assembly.FullName ?? "") + "_" +
                     context.FixWin32PathSymbol(context.ContextDate.ToUniversalTime().ToLongTimeString());
             }
 
