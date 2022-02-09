@@ -8,11 +8,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TestCases\CodeReflectableCSharpCode_UnitTest1\AssemblyHashAlgorithm_1.cs" />
     <Compile Remove="TestCases\CodeReflectableCSharpCode_UnitTest1\Console_1.cs" />
+    <Compile Remove="TestCases\CodeReflectableCSharpCode_UnitTest1\IComparer_1.cs" />
+    <Compile Remove="TestCases\CodeReflectableCSharpCode_UnitTest1\SafeFileHandle_1.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="TestCases\CodeReflectableCSharpCode_UnitTest1\IComparer_1.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="TestCases\CodeReflectableCSharpCode_UnitTest1\AssemblyHashAlgorithm_1.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
     <None Include="TestCases\CodeReflectableCSharpCode_UnitTest1\Console_1.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestCases\CodeReflectableCSharpCode_UnitTest1\SafeFileHandle_1.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

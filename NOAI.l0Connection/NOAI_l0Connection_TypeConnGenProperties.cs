@@ -49,7 +49,7 @@ namespace NOAI.l0Connection
         public object IsCOMObject { get; set; }
         public object IsConstructedGenericType { get; set; }
         public object IsContextful { get; set; }
-        public object IsEnum { get; set; }
+        public bool IsEnum { get; set; }
         public object IsExplicitLayout { get; set; }
 
         public object IsImport { get; set; }

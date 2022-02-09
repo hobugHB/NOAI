@@ -148,7 +148,7 @@ namespace NOAI.l0Connection
         }
 
         public string CodeTypeNameInConnGenWithContext(TypeInfo typeInfo,
-            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
             if (IsConnGenHiddenCodeType(typeInfo))
             {
@@ -156,14 +156,14 @@ namespace NOAI.l0Connection
             }
 
             {
-                var codeConnGenTypeProperties = codeConnGenType(typeInfo);
+                var codeConnGenTypeProperties = codeConnGenTypeHandler(typeInfo);
             }
 
             return typeInfo.Name;
         }
 
         public string CodeTypeNameInUnderlyingTypeBase(TypeInfo typeInfo,
-            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
             return typeInfo.FullName;
         }
@@ -181,23 +181,23 @@ namespace NOAI.l0Connection
         }
 
         public void CodeMemberAttributeBlockCSharpCode(MemberInfo i, int indent, StringBuilder builder,
-            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
             foreach (var attribute in i.CustomAttributes)
             {
                 CodeMemberAttributeBlockCSharpCode(attribute, indent, builder,
-                    CodeTypeNameInUnderlyingTypeBase, codeConnGenType);
+                    CodeTypeNameInUnderlyingTypeBase, codeConnGenTypeHandler);
             }
         }
 
         public void CodeMemberAttributeBlockCSharpCode(CustomAttributeData i, int indent, StringBuilder builder,
-            Func<TypeInfo, Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>, string> codeTypeName,
-            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
+            Func<TypeInfo, Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>, string> codeTypeNameHandler,
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
             var header = CodeIndentBlankHeader(indent);
 
             builder.AppendLine(header +
-                "[" + codeTypeName(i.Constructor.DeclaringType.GetTypeInfo(), codeConnGenType) + "(" +
+                "[" + codeTypeNameHandler(i.Constructor.DeclaringType.GetTypeInfo(), codeConnGenTypeHandler) + "(" +
 
                string.Join(",", i.ConstructorArguments.Select(arg =>
                {
@@ -218,7 +218,7 @@ namespace NOAI.l0Connection
                        }
                        else if (arg.Value is Type)
                        {
-                           writer.Write("typeof(" + CodeTypeNameInConnGenWithContext(((Type)arg.Value).GetTypeInfo(), codeConnGenType) + ")");
+                           writer.Write("typeof(" + CodeTypeNameInConnGenWithContext(((Type)arg.Value).GetTypeInfo(), codeConnGenTypeHandler) + ")");
                        }
                        else
                        {
