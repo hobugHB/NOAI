@@ -449,37 +449,37 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(System.String format, Object arg0)
+		public static void WriteLine(System.String format, System.Object arg0)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(
 					format,
-					arg0.NOAI_l0Connection_UnderlyingTypeBaseInstance));
+					arg0));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		public static void WriteLine(System.String format, Object arg0, Object arg1)
+		public static void WriteLine(System.String format, System.Object arg0, System.Object arg1)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(
 					format,
-					arg0.NOAI_l0Connection_UnderlyingTypeBaseInstance,
-					arg1.NOAI_l0Connection_UnderlyingTypeBaseInstance));
+					arg0,
+					arg1));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		public static void WriteLine(System.String format, Object arg0, Object arg1, Object arg2)
+		public static void WriteLine(System.String format, System.Object arg0, System.Object arg1, System.Object arg2)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(
 					format,
-					arg0.NOAI_l0Connection_UnderlyingTypeBaseInstance,
-					arg1.NOAI_l0Connection_UnderlyingTypeBaseInstance,
-					arg2.NOAI_l0Connection_UnderlyingTypeBaseInstance));
+					arg0,
+					arg1,
+					arg2));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
@@ -493,35 +493,35 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(System.String format, Object arg0)
+		public static void Write(System.String format, System.Object arg0)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(
 					format,
-					arg0.NOAI_l0Connection_UnderlyingTypeBaseInstance));
+					arg0));
 		}
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		public static void Write(System.String format, Object arg0, Object arg1)
+		public static void Write(System.String format, System.Object arg0, System.Object arg1)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(
 					format,
-					arg0.NOAI_l0Connection_UnderlyingTypeBaseInstance,
-					arg1.NOAI_l0Connection_UnderlyingTypeBaseInstance));
+					arg0,
+					arg1));
 		}
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		public static void Write(System.String format, Object arg0, Object arg1, Object arg2)
+		public static void Write(System.String format, System.Object arg0, System.Object arg1, System.Object arg2)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(
 					format,
-					arg0.NOAI_l0Connection_UnderlyingTypeBaseInstance,
-					arg1.NOAI_l0Connection_UnderlyingTypeBaseInstance,
-					arg2.NOAI_l0Connection_UnderlyingTypeBaseInstance));
+					arg0,
+					arg1,
+					arg2));
 		}
 
 		/// 
@@ -628,11 +628,11 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// 
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		public static void Write(Object value)
+		public static void Write(System.Object value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Write(
-					value.NOAI_l0Connection_UnderlyingTypeBaseInstance));
+					value));
 		}
 
 		/// 
@@ -1059,11 +1059,11 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		public static void WriteLine(Object value)
+		public static void WriteLine(System.Object value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WriteLine(
-					value.NOAI_l0Connection_UnderlyingTypeBaseInstance));
+					value));
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>

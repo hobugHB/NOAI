@@ -141,7 +141,7 @@ namespace NOAI.l0Connection
 
         public bool IsConnGenHiddenCodeType(TypeInfo typeInfo)
         {
-            var isHiddenByValueFormInCodeManagedByUnderlyingTypeInfo = typeInfo.IsPrimitive;
+            var isHiddenByValueFormInCodeManagedByUnderlyingTypeInfo = typeInfo.IsPrimitive || typeInfo.FullName == "System.Object";
             var isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler = typeInfo.FullName == "System.String";
             return isHiddenByValueFormInCodeManagedByUnderlyingTypeInfo ||
                 isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler;
