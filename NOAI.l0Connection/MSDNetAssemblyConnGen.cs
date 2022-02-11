@@ -225,19 +225,22 @@ namespace NOAI.l0Connection
                     if (i.CanRead)
                     {
                         typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                            "get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>new " +
-                                context.CodeTypeNameInConnGenWithContext(i.PropertyType.GetTypeInfo(), codeConnGenType) + "(\r\n" +
+                            "get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>" + (
+                            context.IsConnGenHiddenCodeType(i.PropertyType.GetTypeInfo()) ? "" : ("new " +
+                                context.CodeTypeNameInConnGenWithContext(i.PropertyType.GetTypeInfo(), codeConnGenType) + "(")) + "\r\n" +
                                 header + context.CodeIndentBlankHeader(2) +
-                                "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + ")); }");
+                                "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + (
+                                context.IsConnGenHiddenCodeType(i.PropertyType.GetTypeInfo()) ? "" : ")") + ") }");
                     }
                     if (i.CanWrite)
                     {
                         typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
                             "set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>\r\n" +
                                 header + context.CodeIndentBlankHeader(2) +
-                                "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + " = \r\n" +
-                                header + context.CodeIndentBlankHeader(2) +
-                                "value.NOAI_l0Connection_UnderlyingTypeBaseInstance}; }");
+                                "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + " = value\r\n" +
+                                header + context.CodeIndentBlankHeader(3) +
+                                (context.IsConnGenHiddenCodeType(i.PropertyType.GetTypeInfo()) ? "" :
+                                ".NOAI_l0Connection_UnderlyingTypeBaseInstance") + ") }");
                     }
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
