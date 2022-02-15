@@ -11,6 +11,11 @@ namespace NOAI.l0Connection
     {
         public NOAI_l0Connection_TypeConnGenProperties CodeReflectableCSharpCode(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
         {
+            if (context.IsConnGenHiddenCodeType(typeInfo))
+            {
+                return new NOAI_l0Connection_TypeConnGenProperties();
+            }
+
             if (typeInfo.IsArray)
             {
                 return new NOAI_l0Connection_TypeConnGenProperties();
@@ -18,6 +23,12 @@ namespace NOAI.l0Connection
 
             //if (typeInfo.Name.EndsWith("&"))
             if (typeInfo.IsByRef)
+            {
+                return new NOAI_l0Connection_TypeConnGenProperties();
+            }
+
+            //if (typeInfo.Name.EndsWith("*"))
+            if (typeInfo.IsPointer)
             {
                 return new NOAI_l0Connection_TypeConnGenProperties();
             }
@@ -79,18 +90,32 @@ namespace NOAI.l0Connection
                 context.CodeMemberDocumentBlockCSharpCode(typeInfo, indent, typeConnGenBodyBuilder);
                 context.CodeMemberAttributeBlockCSharpCode(typeInfo, indent, typeConnGenBodyBuilder, codeConnGenTypeHandler);
                 typeConnGenBodyBuilder.AppendLine(header + "" + context.CodeTypeConnGenPropertiesCSharpCode(typeInfo, out srcTypeProperties));
+
+                var isHandled = false;
                 if (srcTypeProperties.IsEnum)
                 {
+                    isHandled = true;
                     typeConnGenBodyBuilder.AppendLine(header + "public " + "enum " + typeInfo.Name);
                 }
                 if (srcTypeProperties.IsInterface)
                 {
+                    isHandled = true;
                     typeConnGenBodyBuilder.AppendLine(header + "public " + "interface " + typeInfo.Name + " : " + context.GetFullName(typeInfo));
                 }
                 if (srcTypeProperties.IsClass)
                 {
+                    isHandled = true;
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name);
                 }
+                if (srcTypeProperties.IsValueType)
+                {
+                    isHandled = true;
+                    typeConnGenBodyBuilder.AppendLine(header + "public " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + "struct " + typeInfo.Name);
+                }
+                if (!isHandled)
+                {
+
+                }    
 
                 typeConnGenBodyBuilder.AppendLine(header + "{");
                 if (srcTypeProperties.IsEnum)

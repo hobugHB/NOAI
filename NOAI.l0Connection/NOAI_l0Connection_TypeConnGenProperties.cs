@@ -21,7 +21,7 @@ namespace NOAI.l0Connection
         public object IsSealed { get; set; }
         public object IsVisible { get; set; }
 
-        public object IsValueType { get; set; }
+        public bool IsValueType { get; set; }
 
         public object GUID { get; set; }
         public object Attributes { get; set; }

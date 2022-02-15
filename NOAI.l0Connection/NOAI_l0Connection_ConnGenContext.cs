@@ -141,10 +141,10 @@ namespace NOAI.l0Connection
 
         public bool IsConnGenHiddenCodeType(TypeInfo typeInfo)
         {
-            var isHiddenByValueFormInCodeManagedByUnderlyingTypeInfo = typeInfo.IsPrimitive || typeInfo.FullName == "System.Object";
-            var isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler = typeInfo.FullName == "System.String";
-            return isHiddenByValueFormInCodeManagedByUnderlyingTypeInfo ||
-                isHiddenByValueFormInCodeManagedByUnderlyingCodeCompiler;
+            return typeInfo.IsPrimitive || 
+                typeInfo.FullName == "System.Void" || 
+                typeInfo.FullName == "System.Object" || 
+                typeInfo.FullName == "System.String";
         }
 
         public string CodeTypeNameInConnGenWithContext(TypeInfo typeInfo,
