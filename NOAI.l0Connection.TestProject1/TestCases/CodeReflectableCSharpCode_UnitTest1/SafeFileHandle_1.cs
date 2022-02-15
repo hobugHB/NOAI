@@ -22,15 +22,21 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		{ get { return _NOAI_l0Connection_UnderlyingTypeBaseInstance; } }
 
 		/// 
-		public /*static*/ SafeFileHandle(System.IntPtr preexistingHandle, System.Boolean ownsHandle)
+		public /*static*/ SafeFileHandle(
+			System.IntPtr preexistingHandle,
+			System.Boolean ownsHandle)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance = new Microsoft.Win32.SafeHandles.SafeFileHandle(preexistingHandle, ownsHandle)
+			_NOAI_l0Connection_UnderlyingTypeBaseInstance = new Microsoft.Win32.SafeHandles.SafeFileHandle(
+			preexistingHandle,
+															ownsHandle)
 		}
 
 		/// 
-		public /*static*/ SafeFileHandle()
+		public /*static*/ SafeFileHandle(
+			)
 		{
-			_NOAI_l0Connection_UnderlyingTypeBaseInstance = new Microsoft.Win32.SafeHandles.SafeFileHandle()
+			_NOAI_l0Connection_UnderlyingTypeBaseInstance = new Microsoft.Win32.SafeHandles.SafeFileHandle(
+			)
 		}
 
 		/// 
