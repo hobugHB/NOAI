@@ -1,5 +1,4 @@
 using NOAI.l0Connection;
-using NOAI_System_System__Private__CoreLib____Version__6__0__0__0____Culture__neutral____PublicKeyToken__7cec85d7bea7798e_0__00__00;
 using NOAI_System__Threading_System__Private__CoreLib____Version__6__0__0__0____Culture__neutral____PublicKeyToken__7cec85d7bea7798e_0__00__00;
 
 namespace NOAI_Microsoft__Win32__SafeHandles_System__Private__CoreLib____Version__6__0__0__0____Culture__neutral____PublicKeyToken__7cec85d7bea7798e_0__00__00
@@ -19,6 +18,9 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 			_NOAI_l0Connection_UnderlyingTypeBaseInstance = _NOAI_l0Connection_Constructor_UnderlyingTypeBaseInstance;
 		}
 
+		public /*static*/ Microsoft.Win32.SafeHandles.SafeFileHandle NOAI_l0Connection_UnderlyingTypeBaseInstance
+		{ get { return _NOAI_l0Connection_UnderlyingTypeBaseInstance; } }
+
 		/// 
 		public /*static*/ SafeFileHandle(System.IntPtr preexistingHandle, System.Boolean ownsHandle)
 		{
@@ -34,31 +36,37 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		public /*static*/ System.String Path
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
-				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.Path); }
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Path) }
 		}
 
 		/// 
 		public /*static*/ System.Boolean IsAsync
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
-				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsAsync); }
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsAsync) }
 		}
 
 		/// 
 		public /*static*/ System.Boolean CanSeek
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
-				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.CanSeek); }
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CanSeek) }
 		}
 
 		/// 
 		public /*static*/ ThreadPoolBoundHandle ThreadPoolBinding
 		{
-			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(
-				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.ThreadPoolBinding); }
-			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter((
-				()=>_NOAI_l0Connection_UnderlyingTypeBaseInstance.ThreadPoolBinding = value}; }
+			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>new ThreadPoolBoundHandle(
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.ThreadPoolBinding)) }
+			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.ThreadPoolBinding = value
+					.NOAI_l0Connection_UnderlyingTypeBaseInstance) }
+		}
+
+		public override int GetHashCode()
+		{
+			return _NOAI_l0Connection_UnderlyingTypeBaseInstance.GetHashCode();
 		}
 
 	}

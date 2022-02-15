@@ -9,7 +9,7 @@ namespace NOAI.l0Connection.TestProject1
     [TestClass]
     public class CodeReflectableCSharpCode_UnitTest1 : UnitTest
     {
-        [TestMethod]
+        //[TestMethod]
         public void Test_SystemString_Assembly()
         {
             using (var context = new NOAI_l0Connection_ConnGenContext())

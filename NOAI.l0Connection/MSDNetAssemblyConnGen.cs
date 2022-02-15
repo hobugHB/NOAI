@@ -107,7 +107,7 @@ namespace NOAI.l0Connection
                     isHandled = true;
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + "class " + typeInfo.Name);
                 }
-                if (srcTypeProperties.IsValueType)
+                if (srcTypeProperties.IsValueType && !srcTypeProperties.IsEnum)
                 {
                     isHandled = true;
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") + "struct " + typeInfo.Name);
@@ -127,7 +127,7 @@ namespace NOAI.l0Connection
                         var fieldInfo = typeInfo.GetField(name);
                         context.CodeMemberDocumentBlockCSharpCode(fieldInfo, indent, typeConnGenBodyBuilder);
                         context.CodeMemberAttributeBlockCSharpCode(fieldInfo, indent, typeConnGenBodyBuilder, codeConnGenTypeHandler);
-                        typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) + name + " = " + i + ",");
+                        typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) + name + " = " + Convert.ChangeType(i,typeof(int)) + ",");
                     }
                     indent--;
                 }
