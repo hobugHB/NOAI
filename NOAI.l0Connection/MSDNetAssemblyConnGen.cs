@@ -9,7 +9,8 @@ namespace NOAI.l0Connection
 {
     public class MSDNetAssemblyConnGen
     {
-        public NOAI_l0Connection_TypeConnGenProperties CodeReflectableCSharpCode(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
+        public NOAI_l0Connection_TypeConnGenProperties CodeReflectableCSharpCode(
+            TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
         {
             if (context.IsConnGenHiddenCodeType(typeInfo))
             {
@@ -43,7 +44,8 @@ namespace NOAI.l0Connection
                 return new NOAI_l0Connection_TypeConnGenProperties();
             }
 
-            if (typeInfo.CustomAttributes.Any(i => i.Constructor.DeclaringType == typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute)))
+            if (typeInfo.CustomAttributes.Any(i => i.Constructor.DeclaringType == 
+                typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute)))
             {
                 return new NOAI_l0Connection_TypeConnGenProperties();
             }
@@ -80,16 +82,17 @@ namespace NOAI.l0Connection
 
             NOAI_l0Connection_TypeConnGenProperties srcTypeProperties;
             var referCodedReflectableNamespace = new List<string>();
-            var codeConnGenTypeHandler = new Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>(type => CodeReferReflectableCSharpCode(
-                        referCodedReflectableNamespace, referConnGenNamespaceBuilder,
-                        type.GetTypeInfo(), context));
+            var codeConnGenTypeHandler = new Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>(
+                type => CodeReferReflectableCSharpCode(
+                    referCodedReflectableNamespace, referConnGenNamespaceBuilder, type.GetTypeInfo(), context));
 
             indent++;
             {
                 var header = context.CodeIndentBlankHeader(indent);
                 context.CodeMemberDocumentBlockCSharpCode(typeInfo, indent, typeConnGenBodyBuilder);
                 context.CodeMemberAttributeBlockCSharpCode(typeInfo, indent, typeConnGenBodyBuilder, codeConnGenTypeHandler);
-                typeConnGenBodyBuilder.AppendLine(header + "" + context.CodeTypeConnGenPropertiesCSharpCode(typeInfo, out srcTypeProperties));
+                typeConnGenBodyBuilder.AppendLine(header + "" + context.
+                    CodeTypeConnGenPropertiesCSharpCode(typeInfo, out srcTypeProperties));
 
                 var isHandled = false;
                 if (srcTypeProperties.IsEnum)
@@ -127,7 +130,8 @@ namespace NOAI.l0Connection
                         var fieldInfo = typeInfo.GetField(name);
                         context.CodeMemberDocumentBlockCSharpCode(fieldInfo, indent, typeConnGenBodyBuilder);
                         context.CodeMemberAttributeBlockCSharpCode(fieldInfo, indent, typeConnGenBodyBuilder, codeConnGenTypeHandler);
-                        typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) + name + " = " + Convert.ChangeType(i, typeof(int)) + ",");
+                        typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) + name + " = " + 
+                            Convert.ChangeType(i, typeof(int)) + ",");
                     }
                     indent--;
                 }
@@ -137,7 +141,8 @@ namespace NOAI.l0Connection
                 }
                 if (srcTypeProperties.IsClass)
                 {
-                    CodeClassBody(typeInfo, context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent, srcTypeProperties, referCodedReflectableNamespace, codeConnGenTypeHandler);
+                    CodeClassBody(typeInfo, context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent, 
+                        srcTypeProperties, referCodedReflectableNamespace, codeConnGenTypeHandler);
                 }
                 {
                     typeConnGenBodyBuilder.AppendLine(header + "}");
@@ -162,7 +167,10 @@ namespace NOAI.l0Connection
             return properties;
         }
 
-        private void CodeClassBody(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context, StringBuilder referConnGenNamespaceBuilder, StringBuilder typeConnGenBodyBuilder, int indent, NOAI_l0Connection_TypeConnGenProperties srcTypeProperties, List<string> referCodedReflectableNamespace, Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenType)
+        private void CodeClassBody(TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context, 
+            StringBuilder referConnGenNamespaceBuilder, StringBuilder typeConnGenBodyBuilder, int indent, 
+            NOAI_l0Connection_TypeConnGenProperties srcTypeProperties, List<string> referCodedReflectableNamespace, 
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
             indent++;
             {
@@ -182,12 +190,12 @@ namespace NOAI.l0Connection
                         srcTypeProperties.Name + " _NOAI_l0Connection_UnderlyingTypeBaseInstance;");
                     typeConnGenBodyBuilder.AppendLine("");
 
-                    var underlyingTypeBaseInstanceMethodParameterName = "_NOAI_l0Connection_Constructor_UnderlyingTypeBaseInstance";
+                    var underlyingTypeBaseInstanceConstructorParameterName = "NOAI_l0Connection_Constructor_UnderlyingTypeBaseInstance";
                     typeConnGenBodyBuilder.AppendLine(header + "public " + ("/*static*/ ") + srcTypeProperties.Name +
-                        "(" + context.GetFullName(typeInfo) + " " + underlyingTypeBaseInstanceMethodParameterName + ")");
+                        "(" + context.GetFullName(typeInfo) + " " + underlyingTypeBaseInstanceConstructorParameterName + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
-                        "_NOAI_l0Connection_UnderlyingTypeBaseInstance = " + underlyingTypeBaseInstanceMethodParameterName + ";");
+                        "_NOAI_l0Connection_UnderlyingTypeBaseInstance = " + underlyingTypeBaseInstanceConstructorParameterName + ";");
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
                     typeConnGenBodyBuilder.AppendLine(header + "public " + ("/*static*/ ") + context.GetFullName(typeInfo) +
@@ -207,16 +215,16 @@ namespace NOAI.l0Connection
                     }
 
                     context.CodeMemberDocumentBlockCSharpCode(i, indent, typeConnGenBodyBuilder);
-                    context.CodeMemberAttributeBlockCSharpCode(i, indent, typeConnGenBodyBuilder, codeConnGenType);
+                    context.CodeMemberAttributeBlockCSharpCode(i, indent, typeConnGenBodyBuilder, codeConnGenTypeHandler);
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (i.IsStatic ? "static " : "/*static*/ ") + srcTypeProperties.Name +
                         "(\r\n" + header + context.CodeIndentBlankHeader(1) +
                         string.Join(",\r\n" + header + context.CodeIndentBlankHeader(1), parameters.Select(p =>
-                        context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenType) + " " + p.Name)) + ")");
+                        context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenTypeHandler) + " " + p.Name)) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
                         "_NOAI_l0Connection_UnderlyingTypeBaseInstance = new " + context.GetFullName(typeInfo) +
-                        "(\r\n" + header + context.CodeIndentBlankHeader(1) +
-                        string.Join(",\r\n" + header + context.CodeIndentBlankHeader(13), parameters.Select(p => p.Name)) + ")");
+                        "(\r\n" + header + context.CodeIndentBlankHeader(2) +
+                        string.Join(",\r\n" + header + context.CodeIndentBlankHeader(2), parameters.Select(p => p.Name)) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
                 }
@@ -227,7 +235,8 @@ namespace NOAI.l0Connection
                 foreach (var i in typeInfo.DeclaredProperties//.Where(ii => ii.IsPublic)
                 )
                 {
-                    CodeMemberMetaBlockCSharpCode(context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent, referCodedReflectableNamespace, codeConnGenType, i);
+                    CodeMemberMetaBlockCSharpCode(context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent, 
+                        referCodedReflectableNamespace, codeConnGenTypeHandler, i);
 
                     {
                         var referConnGenProperties = CodeReferReflectableCSharpCode(
@@ -235,7 +244,7 @@ namespace NOAI.l0Connection
                             i.PropertyType.GetTypeInfo(), context);
 
                         typeConnGenBodyBuilder.AppendLine(header + "public " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") +
-                            context.CodeTypeNameInConnGenWithContext(i.PropertyType.GetTypeInfo(), codeConnGenType) + " " + i.Name);
+                            context.CodeTypeNameInConnGenWithContext(i.PropertyType.GetTypeInfo(), codeConnGenTypeHandler) + " " + i.Name);
                     }
 
                     typeConnGenBodyBuilder.AppendLine(header + "{");
@@ -244,7 +253,7 @@ namespace NOAI.l0Connection
                         typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
                             "get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>" + (
                             context.IsConnGenHiddenCodeType(i.PropertyType.GetTypeInfo()) ? "" : ("new " +
-                                context.CodeTypeNameInConnGenWithContext(i.PropertyType.GetTypeInfo(), codeConnGenType) + "(")) + "\r\n" +
+                                context.CodeTypeNameInConnGenWithContext(i.PropertyType.GetTypeInfo(), codeConnGenTypeHandler) + "(")) + "\r\n" +
                                 header + context.CodeIndentBlankHeader(2) +
                                 "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name + (
                                 context.IsConnGenHiddenCodeType(i.PropertyType.GetTypeInfo()) ? "" : ")") + ") }");
@@ -290,13 +299,14 @@ namespace NOAI.l0Connection
                                 i.ReturnType.GetTypeInfo(), context);
                     }
 
-                    CodeMemberMetaBlockCSharpCode(context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent, referCodedReflectableNamespace, codeConnGenType, i);
+                    CodeMemberMetaBlockCSharpCode(context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent, 
+                        referCodedReflectableNamespace, codeConnGenTypeHandler, i);
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (i.IsStatic ? "static " : "/*static*/ ") +
                         (i.ReturnType.FullName == "System.Void" ? "void" :
-                        context.CodeTypeNameInConnGenWithContext(i.ReturnType.GetTypeInfo(), codeConnGenType)) +
+                        context.CodeTypeNameInConnGenWithContext(i.ReturnType.GetTypeInfo(), codeConnGenTypeHandler)) +
                         " " + i.Name + "(\r\n" + header + context.CodeIndentBlankHeader(1) +
                         string.Join(",\r\n" + header + context.CodeIndentBlankHeader(1), parameters.Select(p =>
-                        context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenType) + " " + p.Name)) + ")");
+                        context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenTypeHandler) + " " + p.Name)) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
                         (i.ReturnType.FullName == "System.Void" ? "" : ("return ")) +
@@ -304,7 +314,7 @@ namespace NOAI.l0Connection
                         header + context.CodeIndentBlankHeader(2) +
                         (i.ReturnType.FullName == "System.Void" ? "" : (
                         (context.IsConnGenHiddenCodeType(i.ReturnType.GetTypeInfo()) ? "" : ("new " +
-                            context.CodeTypeNameInConnGenWithContext(i.ReturnType.GetTypeInfo(), codeConnGenType) + "(")))) +
+                            context.CodeTypeNameInConnGenWithContext(i.ReturnType.GetTypeInfo(), codeConnGenTypeHandler) + "(")))) +
                             "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name +
                         "(\r\n" + header + context.CodeIndentBlankHeader(3) +
                         string.Join(",\r\n" + header + context.CodeIndentBlankHeader(3),
