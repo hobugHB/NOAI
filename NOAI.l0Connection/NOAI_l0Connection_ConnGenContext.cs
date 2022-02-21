@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.CSharp;
 using System.CodeDom;
+using System.CodeDom.Compiler;
 
 namespace NOAI.l0Connection
 {
@@ -19,7 +20,11 @@ namespace NOAI.l0Connection
 
         public CSharpCodeProvider CSharpCodeProvider { get; set; } = new CSharpCodeProvider();
 
-        public string OutputCodeFileDirectory { get; set; } = "";
+        public TypeInfo[] InputSetReflectableObjects { get; set; } = new TypeInfo[0];
+        public NOAI_l0Connection_TypeConnGenProperties[] OutputSetConnGenProperties { get; set; } = 
+            new NOAI_l0Connection_TypeConnGenProperties[0];
+
+        public string OutputCodeFileBaseDirectory { get; set; } = "";
 
         private string _AssemblyXmlDocFileDirectory;
 
@@ -141,9 +146,9 @@ namespace NOAI.l0Connection
 
         public bool IsConnGenHiddenCodeType(TypeInfo typeInfo)
         {
-            return typeInfo.IsPrimitive || 
-                typeInfo.FullName == "System.Void" || 
-                typeInfo.FullName == "System.Object" || 
+            return typeInfo.IsPrimitive ||
+                typeInfo.FullName == "System.Void" ||
+                typeInfo.FullName == "System.Object" ||
                 typeInfo.FullName == "System.String";
         }
 
@@ -234,6 +239,13 @@ namespace NOAI.l0Connection
             ")]");
         }
 
+        public void SaveOutputWin32CSharpAssembly(CompilerParameters options, string[] searchDirs)
+        {
+            CSharpCodeProvider.CompileAssemblyFromSource(options,
+                searchDirs.SelectMany(i => new DirectoryInfo(i).
+                GetFiles("*.cs").Select(ii => ii.FullName)).ToArray());
+        }
+
         public string FixWin32PathSymbol(string path)
         {
             return (path ?? "").
@@ -263,7 +275,7 @@ namespace NOAI.l0Connection
 
             var contextPathNamespace = this.FixWin32PathSymbol(outputContext.Properties.Namespace);
             var contextPath = Path.GetFullPath(Path.Combine(
-                    this.OutputCodeFileDirectory,
+                    this.OutputCodeFileBaseDirectory,
                     contextPathNamespace,
                     this.FixWin32PathSymbol(outputContext.Properties.Name) + ".cs"));
             var contextPathLength = contextPath.Length;
@@ -282,7 +294,7 @@ namespace NOAI.l0Connection
         public void SaveOutputWin32CSharpCode()
         {
             {
-                var path = this.OutputCodeFileDirectory;
+                var path = this.OutputCodeFileBaseDirectory;
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -304,7 +316,7 @@ namespace NOAI.l0Connection
 
                     {
                         var path = Path.Combine(
-                                this.OutputCodeFileDirectory,
+                                this.OutputCodeFileBaseDirectory,
                                 diskPathNamespace);
                         if (!Directory.Exists(path))
                         {
@@ -314,7 +326,7 @@ namespace NOAI.l0Connection
 
                     {
                         var path = Path.Combine(
-                                this.OutputCodeFileDirectory,
+                                this.OutputCodeFileBaseDirectory,
                                 diskPathNamespace,
                                 this.FixWin32PathSymbol(outputContext.Properties.Name) + ".cs");
 

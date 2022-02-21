@@ -15,10 +15,11 @@ namespace NOAI.l0Connection.TestProject1
             using (var context = new NOAI_l0Connection_ConnGenContext())
             {
                 var root = GetAvialibleTestMethodOutputRoot();
-                context.OutputCodeFileDirectory = root;
+                context.OutputCodeFileBaseDirectory = root;
 
-                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(
-                    typeof(string).Assembly, context);
+                context.InputSetReflectableObjects =
+                    typeof(string).Assembly.ExportedTypes.Select(i => i.GetTypeInfo()).ToArray();
+                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(context);
                 context.SaveOutputWin32CSharpCode();
             }
         }
@@ -37,16 +38,19 @@ namespace NOAI.l0Connection.TestProject1
                 context.ContextGuid = Guid.Empty;
                 context.ContextDate = DateTime.MinValue;
 
-                context.OutputCodeFileDirectory = root;
+                context.OutputCodeFileBaseDirectory = root;
 
-                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(
-                    typeof(Console).GetTypeInfo(), context);
+                context.InputSetReflectableObjects = new TypeInfo[]
+                {
+                    typeof(Console).GetTypeInfo(),
+                };
+                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(context);
                 context.SaveOutputWin32CSharpCode();
 
                 var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
                     Where(i => new DirectoryInfo(i).Name.Contains("Console")).Single(), "Console.cs"));
                 var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode_UnitTest1\Console_1.cs");
-                if(!result.SequenceEqual(sample))
+                if (!result.SequenceEqual(sample))
                 {
                     throw new Exception("result is not equals to sample.");
                 }
@@ -67,10 +71,13 @@ namespace NOAI.l0Connection.TestProject1
                 context.ContextGuid = Guid.Empty;
                 context.ContextDate = DateTime.MinValue;
 
-                context.OutputCodeFileDirectory = root;
+                context.OutputCodeFileBaseDirectory = root;
 
-                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(
-                    typeof(Microsoft.Win32.SafeHandles.SafeFileHandle).GetTypeInfo(), context);
+                context.InputSetReflectableObjects = new TypeInfo[]
+                {
+                    typeof(Microsoft.Win32.SafeHandles.SafeFileHandle).GetTypeInfo(),
+                };
+                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(context);
                 context.SaveOutputWin32CSharpCode();
 
                 var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
@@ -97,10 +104,13 @@ namespace NOAI.l0Connection.TestProject1
                 context.ContextGuid = Guid.Empty;
                 context.ContextDate = DateTime.MinValue;
 
-                context.OutputCodeFileDirectory = root;
+                context.OutputCodeFileBaseDirectory = root;
 
-                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(
-                    typeof(AssemblyHashAlgorithm).GetTypeInfo(), context);
+                context.InputSetReflectableObjects = new TypeInfo[]
+                {
+                    typeof(AssemblyHashAlgorithm).GetTypeInfo(),
+                };
+                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(context);
                 context.SaveOutputWin32CSharpCode();
 
                 var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
@@ -127,10 +137,13 @@ namespace NOAI.l0Connection.TestProject1
                 context.ContextGuid = Guid.Empty;
                 context.ContextDate = DateTime.MinValue;
 
-                context.OutputCodeFileDirectory = root;
+                context.OutputCodeFileBaseDirectory = root;
 
-                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(
-                    typeof(System.Collections.IComparer).GetTypeInfo(), context);
+                context.InputSetReflectableObjects = new TypeInfo[]
+                {
+                    typeof(System.Collections.IComparer).GetTypeInfo(),
+                };
+                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(context);
                 context.SaveOutputWin32CSharpCode();
 
                 var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
