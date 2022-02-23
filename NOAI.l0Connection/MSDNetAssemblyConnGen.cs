@@ -81,6 +81,10 @@ namespace NOAI.l0Connection
                 context.RequestedCodeTypeSet.Add(context.GetFullName(typeInfo), properties);
             }
             {
+                properties.AssemblyName = "NOAI_" +
+                    context.FixWin32PathSymbol(typeInfo.Assembly.FullName ?? "") + "_" +
+                    context.FixWin32PathSymbol(context.ContextDate.ToUniversalTime().ToLongTimeString());
+
                 properties.Namespace = "NOAI_" +
                     context.FixWin32PathSymbol(typeInfo.Namespace ?? "") + "_" +
                     context.FixWin32PathSymbol(typeInfo.Assembly.FullName ?? "") + "_" +
@@ -100,8 +104,8 @@ namespace NOAI.l0Connection
             NOAI_l0Connection_TypeConnGenProperties srcTypeProperties;
             var referCodedReflectableNamespace = new List<string>();
             var codeConnGenTypeHandler = new Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>(
-                type => CodeReferReflectableCSharpCode(
-                    referCodedReflectableNamespace, referConnGenNamespaceBuilder, type.GetTypeInfo(), context));
+                type => CodeReferReflectableCSharpCode(typeInfo,
+                    type.GetTypeInfo(), referCodedReflectableNamespace, referConnGenNamespaceBuilder, context));
 
             indent++;
             {
@@ -173,7 +177,7 @@ namespace NOAI.l0Connection
                 typeConnGenBodyBuilder.AppendLine("}");
             }
 
-            context.SaveOutputContextWin32CSharpCode(new NOAI_l0Connection_ConnGenOutputContext()
+            context.SaveOutputContextWin32CSharpCode(new NOAI_l0Connection_TypeConnOutputContext()
             {
                 TypeInfo = typeInfo,
                 Properties = properties,
@@ -226,9 +230,9 @@ namespace NOAI.l0Connection
                     var parameters = i.GetParameters();
                     foreach (var parameter in parameters)
                     {
-                        var referConnGenProperties = CodeReferReflectableCSharpCode(
-                            referCodedReflectableNamespace, referConnGenNamespaceBuilder,
-                            parameter.ParameterType.GetTypeInfo(), context);
+                        var referConnGenProperties = CodeReferReflectableCSharpCode(typeInfo,
+                            parameter.ParameterType.GetTypeInfo(), referCodedReflectableNamespace,
+                            referConnGenNamespaceBuilder, context);
                     }
 
                     context.CodeMemberDocumentBlockCSharpCode(i, indent, typeConnGenBodyBuilder);
@@ -252,13 +256,14 @@ namespace NOAI.l0Connection
                 foreach (var i in typeInfo.DeclaredProperties//.Where(ii => ii.IsPublic)
                 )
                 {
-                    CodeMemberMetaBlockCSharpCode(context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent,
-                        referCodedReflectableNamespace, codeConnGenTypeHandler, i);
+                    CodeMemberMetaBlockCSharpCode(typeInfo,
+                        i, indent, context, referConnGenNamespaceBuilder,
+                        typeConnGenBodyBuilder, referCodedReflectableNamespace, codeConnGenTypeHandler);
 
                     {
-                        var referConnGenProperties = CodeReferReflectableCSharpCode(
-                            referCodedReflectableNamespace, referConnGenNamespaceBuilder,
-                            i.PropertyType.GetTypeInfo(), context);
+                        var referConnGenProperties = CodeReferReflectableCSharpCode(typeInfo,
+                            i.PropertyType.GetTypeInfo(), referCodedReflectableNamespace,
+                            referConnGenNamespaceBuilder, context);
 
                         typeConnGenBodyBuilder.AppendLine(header + "public " + (srcTypeProperties.IsStatic ? "static " : "/*static*/ ") +
                             context.CodeTypeNameInConnGenWithContext(i.PropertyType.GetTypeInfo(), codeConnGenTypeHandler) + " " + i.Name);
@@ -306,18 +311,19 @@ namespace NOAI.l0Connection
                     var parameters = i.GetParameters();
                     foreach (var parameter in parameters)
                     {
-                        var referConnGenProperties = CodeReferReflectableCSharpCode(
-                                referCodedReflectableNamespace, referConnGenNamespaceBuilder,
-                                parameter.ParameterType.GetTypeInfo(), context);
+                        var referConnGenProperties = CodeReferReflectableCSharpCode(typeInfo,
+                                parameter.ParameterType.GetTypeInfo(), referCodedReflectableNamespace,
+                                referConnGenNamespaceBuilder, context);
                     }
                     {
-                        var referConnGenProperties = CodeReferReflectableCSharpCode(
-                                referCodedReflectableNamespace, referConnGenNamespaceBuilder,
-                                i.ReturnType.GetTypeInfo(), context);
+                        var referConnGenProperties = CodeReferReflectableCSharpCode(typeInfo,
+                                i.ReturnType.GetTypeInfo(), referCodedReflectableNamespace,
+                                referConnGenNamespaceBuilder, context);
                     }
 
-                    CodeMemberMetaBlockCSharpCode(context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent,
-                        referCodedReflectableNamespace, codeConnGenTypeHandler, i);
+                    CodeMemberMetaBlockCSharpCode(typeInfo,
+                        i, indent, context, referConnGenNamespaceBuilder,
+                        typeConnGenBodyBuilder, referCodedReflectableNamespace, codeConnGenTypeHandler);
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (i.IsStatic ? "static " : "/*static*/ ") +
                         (i.ReturnType.FullName == "System.Void" ? "void" :
                         context.CodeTypeNameInConnGenWithContext(i.ReturnType.GetTypeInfo(), codeConnGenTypeHandler)) +
@@ -357,18 +363,22 @@ namespace NOAI.l0Connection
             indent--;
         }
 
-        private void CodeMemberMetaBlockCSharpCode(NOAI_l0Connection_ConnGenContext context,
-            StringBuilder referConnGenNamespaceBuilder, StringBuilder typeConnGenBodyBuilder, int indent,
+        private void CodeMemberMetaBlockCSharpCode(
+            TypeInfo currentTypeInfo, MemberInfo i, int indent,
+            NOAI_l0Connection_ConnGenContext context,
+            StringBuilder referConnGenNamespaceBuilder,
+            StringBuilder typeConnGenBodyBuilder,
             List<string> referCodedReflectableNamespace,
-            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler, MemberInfo i)
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
             context.CodeMemberDocumentBlockCSharpCode(i, indent, typeConnGenBodyBuilder);
             context.CodeMemberAttributeBlockCSharpCode(i, indent, typeConnGenBodyBuilder, codeConnGenTypeHandler);
             foreach (var attribute in i.CustomAttributes)
             {
                 var referConnGenProperties = CodeReferReflectableCSharpCode(
-                    referCodedReflectableNamespace, referConnGenNamespaceBuilder,
-                    attribute.Constructor.DeclaringType.GetTypeInfo(), context);
+                    currentTypeInfo,
+                    attribute.Constructor.DeclaringType.GetTypeInfo(), referCodedReflectableNamespace,
+                    referConnGenNamespaceBuilder, context);
 
                 context.CodeMemberAttributeBlockCSharpCode(attribute, indent, typeConnGenBodyBuilder,
                     context.CodeTypeNameInConnGenWithContext, codeConnGenTypeHandler);
@@ -376,20 +386,34 @@ namespace NOAI.l0Connection
         }
 
         private NOAI_l0Connection_TypeConnGenProperties CodeReferReflectableCSharpCode(
-            List<string> referCodedReflectableNamespace, StringBuilder referConnGenNamespaceBuilder,
-            TypeInfo typeInfo, NOAI_l0Connection_ConnGenContext context)
+            TypeInfo currentTypeInfo, TypeInfo referTypeInfo,
+            List<string> referCodedReflectableNamespace,
+            StringBuilder referConnGenNamespaceBuilder,
+            NOAI_l0Connection_ConnGenContext context)
         {
-            var referConnGenProperties = CodeReflectableCSharpCode(typeInfo, context);
+            if (!context.InputTypeReferenceSet.ContainsKey(currentTypeInfo))
+            {
+                context.InputTypeReferenceSet.Add(currentTypeInfo, new List<TypeInfo>());
+            }
+
+            var referConnGenProperties = CodeReflectableCSharpCode(referTypeInfo, context);
             if (string.IsNullOrEmpty(referConnGenProperties.Name))
             {
                 return referConnGenProperties;
             }
 
-            if (!referCodedReflectableNamespace.Contains(referConnGenProperties.Namespace))
+            if (!context.InputTypeReferenceSet[currentTypeInfo].Contains(referTypeInfo))
             {
-                referCodedReflectableNamespace.Add(referConnGenProperties.Namespace);
-                referConnGenNamespaceBuilder.AppendLine("using " + referConnGenProperties.Namespace + ";");
+                context.InputTypeReferenceSet[currentTypeInfo].Add(referTypeInfo);
             }
+
+            if (referCodedReflectableNamespace.Contains(referConnGenProperties.Namespace))
+            {
+                return referConnGenProperties;
+            }
+
+            referCodedReflectableNamespace.Add(referConnGenProperties.Namespace);
+            referConnGenNamespaceBuilder.AppendLine("using " + referConnGenProperties.Namespace + ";");
 
             return referConnGenProperties;
         }

@@ -12,6 +12,7 @@ namespace NOAI.l0Connection
         public Guid ContextGuid { get; set; }
         public DateTime ContextDate { get; set; }
 
+        public string AssemblyName { get; set; }
         public string Namespace { get; set; }
         public object IsPublic { get; set; }
         public bool IsStatic { get; set; }
@@ -78,7 +79,7 @@ namespace NOAI.l0Connection
         public object IsUnicodeClass { get; set; }
         public object IsVariableBoundArray { get; set; }
 
-        public object AssemblyName { get; set; }
+        public NOAI_l0Connection_AssemblyConnGenProperties AssemblyProperties { get; set; }
 
         public NOAI_l0Connection_TypeConnGenProperties()
         {
@@ -162,7 +163,7 @@ namespace NOAI.l0Connection
             //this.TypeInitializer = ExtractValue(() => typeInfo.TypeInitializer);
             //this.UnderlyingSystemType = ExtractValue(() => typeInfo.UnderlyingSystemType);
 
-            this.AssemblyName = new
+            this.AssemblyProperties = new NOAI_l0Connection_AssemblyConnGenProperties()
             {
                 Name = ExtractValue(() => typeAssemblyName.Name),
                 Version = ExtractValue(() => typeAssemblyName.Version),

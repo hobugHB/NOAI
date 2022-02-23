@@ -21,10 +21,16 @@ namespace NOAI.l0Connection
         public CSharpCodeProvider CSharpCodeProvider { get; set; } = new CSharpCodeProvider();
 
         public TypeInfo[] InputSetReflectableObjects { get; set; } = new TypeInfo[0];
-        public NOAI_l0Connection_TypeConnGenProperties[] OutputSetConnGenProperties { get; set; } = 
+
+        public Dictionary<TypeInfo, List<TypeInfo>> InputTypeReferenceSet { get; set; } =
+            new Dictionary<TypeInfo, List<TypeInfo>>();
+
+        public NOAI_l0Connection_TypeConnGenProperties[] OutputSetConnGenProperties { get; set; } =
             new NOAI_l0Connection_TypeConnGenProperties[0];
 
         public string OutputCodeFileBaseDirectory { get; set; } = "";
+
+        public string OutputCodeAssemblyDirectory { get; set; } = "";
 
         private string _AssemblyXmlDocFileDirectory;
 
@@ -39,6 +45,11 @@ namespace NOAI.l0Connection
                 _AssemblyXmlDocFileDirectory = value;
             }
         }
+
+        private List<NOAI_l0Connection_TypeConnOutputContext> outputContextList = new List<NOAI_l0Connection_TypeConnOutputContext>();
+        private Dictionary<string, List<int>> outputDiskPathLengthDeltaList = new Dictionary<string, List<int>>();
+        private Dictionary<string, NOAI_l0Connection_AssemblyConnOutputContext> outputAssemblyContextSet =
+            new Dictionary<string, NOAI_l0Connection_AssemblyConnOutputContext>();
 
         public string CodeTypeConnGenRefNameCSharpCode()
         {
@@ -239,11 +250,27 @@ namespace NOAI.l0Connection
             ")]");
         }
 
-        public void SaveOutputWin32CSharpAssembly(CompilerParameters options, string[] searchDirs)
+        public void SaveOutputWin32CSharpAssemblyFiles()
         {
-            CSharpCodeProvider.CompileAssemblyFromSource(options,
-                searchDirs.SelectMany(i => new DirectoryInfo(i).
-                GetFiles("*.cs").Select(ii => ii.FullName)).ToArray());
+            foreach (var key in outputAssemblyContextSet.Keys)
+            {
+                var options = new CompilerParameters()
+                {
+                    OutputAssembly = Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"),
+                };
+                options.ReferencedAssemblies.AddRange(new[]
+                {
+                    "NOAI.l0Connection.dll",
+                });
+
+                options.ReferencedAssemblies.AddRange(outputAssemblyContextSet[key].
+                    InputCodeReferAssemblySet.ToArray());
+
+                CSharpCodeProvider.CompileAssemblyFromSource(options,
+                    outputAssemblyContextSet[key].InputCodeFileDirectorySet.SelectMany(i =>
+                    new DirectoryInfo(Path.Combine(OutputCodeFileBaseDirectory, i)).
+                        GetFiles("*.cs").Select(ii => ii.FullName)).ToArray());
+            }
         }
 
         public string FixWin32PathSymbol(string path)
@@ -259,10 +286,7 @@ namespace NOAI.l0Connection
                 Replace("*", "__");
         }
 
-        private List<NOAI_l0Connection_ConnGenOutputContext> outputContextList = new List<NOAI_l0Connection_ConnGenOutputContext>();
-        private Dictionary<string, List<int>> outputDiskPathLengthDeltaList = new Dictionary<string, List<int>>();
-
-        public void SaveOutputContextWin32CSharpCode(NOAI_l0Connection_ConnGenOutputContext outputContext)
+        public void SaveOutputContextWin32CSharpCode(NOAI_l0Connection_TypeConnOutputContext outputContext)
         {
             outputContext.OutputFileContextPath = this.FixWin32PathSymbol(Path.Combine(
                 pathOutputContextWin32CSharpCode,
@@ -325,6 +349,32 @@ namespace NOAI.l0Connection
                     }
 
                     {
+                        var assemblyName = i.First().Properties.AssemblyName;
+                        if (!outputAssemblyContextSet.ContainsKey(assemblyName))
+                        {
+                            outputAssemblyContextSet.Add(assemblyName, new NOAI_l0Connection_AssemblyConnOutputContext()
+                            {
+                                AssemblyName = assemblyName,
+                            });
+                        }
+                        var outputAssemblyContext = outputAssemblyContextSet[assemblyName];
+                        if (!outputAssemblyContext.InputCodeFileDirectorySet.Contains(diskPathNamespace))
+                        {
+                            outputAssemblyContext.InputCodeFileDirectorySet.Add(diskPathNamespace);
+                        }
+
+                        if (!outputAssemblyContext.InputCodeReferAssemblySet.Contains(outputContext.TypeInfo.Assembly.FullName))
+                        {
+                            outputAssemblyContext.InputCodeReferAssemblySet.Add(outputContext.TypeInfo.Assembly.FullName);
+                        }
+                        if (InputTypeReferenceSet.ContainsKey(outputContext.TypeInfo))
+                        {
+                            foreach (var r in InputTypeReferenceSet[outputContext.TypeInfo])
+                            {
+                                outputAssemblyContext.InputCodeReferAssemblySet.Add(r.Assembly.FullName);
+                            }
+                        }
+
                         var path = Path.Combine(
                                 this.OutputCodeFileBaseDirectory,
                                 diskPathNamespace,

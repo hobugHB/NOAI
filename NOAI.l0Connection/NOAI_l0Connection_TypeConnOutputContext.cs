@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NOAI.l0Connection
 {
-    public class NOAI_l0Connection_ConnGenOutputContext
+    public class NOAI_l0Connection_TypeConnOutputContext
     {
         public Guid ContextGuid { get; set; } = Guid.NewGuid();
         public string OutputFileContextPath { get; set; }
