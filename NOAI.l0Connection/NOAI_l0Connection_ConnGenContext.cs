@@ -46,10 +46,11 @@ namespace NOAI.l0Connection
             }
         }
 
+        public Dictionary<string, NOAI_l0Connection_AssemblyConnOutputContext> OutputAssemblyContextSet =
+            new Dictionary<string, NOAI_l0Connection_AssemblyConnOutputContext>();
+
         private List<NOAI_l0Connection_TypeConnOutputContext> outputContextList = new List<NOAI_l0Connection_TypeConnOutputContext>();
         private Dictionary<string, List<int>> outputDiskPathLengthDeltaList = new Dictionary<string, List<int>>();
-        private Dictionary<string, NOAI_l0Connection_AssemblyConnOutputContext> outputAssemblyContextSet =
-            new Dictionary<string, NOAI_l0Connection_AssemblyConnOutputContext>();
 
         public string CodeTypeConnGenRefNameCSharpCode()
         {
@@ -250,10 +251,11 @@ namespace NOAI.l0Connection
             ")]");
         }
 
-        public void SaveOutputWin32CSharpAssemblyFiles()
+        public void SaveOutputWin32AssemblyFiles()
         {
-            foreach (var key in outputAssemblyContextSet.Keys)
+            foreach (var key in OutputAssemblyContextSet.Keys)
             {
+                var outputContext = OutputAssemblyContextSet[key];
                 var options = new CompilerParameters()
                 {
                     OutputAssembly = Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"),
@@ -263,11 +265,12 @@ namespace NOAI.l0Connection
                     "NOAI.l0Connection.dll",
                 });
 
-                options.ReferencedAssemblies.AddRange(outputAssemblyContextSet[key].
-                    InputCodeReferAssemblySet.ToArray());
+                options.ReferencedAssemblies.AddRange(
+                    outputContext.InputCodeReferAssemblySet.ToArray());
 
-                CSharpCodeProvider.CompileAssemblyFromSource(options,
-                    outputAssemblyContextSet[key].InputCodeFileDirectorySet.SelectMany(i =>
+                outputContext.CompilerResults =
+                    CSharpCodeProvider.CompileAssemblyFromSource(options,
+                    outputContext.InputCodeFileDirectorySet.SelectMany(i =>
                     new DirectoryInfo(Path.Combine(OutputCodeFileBaseDirectory, i)).
                         GetFiles("*.cs").Select(ii => ii.FullName)).ToArray());
             }
@@ -350,14 +353,14 @@ namespace NOAI.l0Connection
 
                     {
                         var assemblyName = i.First().Properties.AssemblyName;
-                        if (!outputAssemblyContextSet.ContainsKey(assemblyName))
+                        if (!OutputAssemblyContextSet.ContainsKey(assemblyName))
                         {
-                            outputAssemblyContextSet.Add(assemblyName, new NOAI_l0Connection_AssemblyConnOutputContext()
+                            OutputAssemblyContextSet.Add(assemblyName, new NOAI_l0Connection_AssemblyConnOutputContext()
                             {
                                 AssemblyName = assemblyName,
                             });
                         }
-                        var outputAssemblyContext = outputAssemblyContextSet[assemblyName];
+                        var outputAssemblyContext = OutputAssemblyContextSet[assemblyName];
                         if (!outputAssemblyContext.InputCodeFileDirectorySet.Contains(diskPathNamespace))
                         {
                             outputAssemblyContext.InputCodeFileDirectorySet.Add(diskPathNamespace);

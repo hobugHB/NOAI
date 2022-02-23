@@ -13,5 +13,7 @@ namespace NOAI.l0Connection
         public List<string> InputCodeFileDirectorySet { get; set; } = new List<string>();
 
         public List<string> InputCodeReferAssemblySet { get; set; } = new List<string>();
+
+        public System.CodeDom.Compiler.CompilerResults CompilerResults { get; set; }
     }
 }

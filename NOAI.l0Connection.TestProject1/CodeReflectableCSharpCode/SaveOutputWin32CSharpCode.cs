@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace NOAI.l0Connection.TestProject1
+namespace NOAI.l0Connection.TestProject1.CodeReflectableCSharpCode
 {
     [TestClass]
-    public class CodeReflectableCSharpCode_UnitTest1 : UnitTest
+    public class SaveOutputWin32CSharpCode : UnitTest
     {
         //[TestMethod]
         public void Test_SystemString_Assembly()
@@ -49,7 +49,7 @@ namespace NOAI.l0Connection.TestProject1
 
                 var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
                     Where(i => new DirectoryInfo(i).Name.Contains("Console")).Single(), "Console.cs"));
-                var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode_UnitTest1\Console_1.cs");
+                var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode\Console_1.cs");
                 if (!result.SequenceEqual(sample))
                 {
                     throw new Exception("result is not equals to sample.");
@@ -82,7 +82,7 @@ namespace NOAI.l0Connection.TestProject1
 
                 var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
                     Where(i => new DirectoryInfo(i).Name.Contains("SafeHandles")).Single(), "SafeFileHandle.cs"));
-                var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode_UnitTest1\SafeFileHandle_1.cs");
+                var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode\SafeFileHandle_1.cs");
                 if (!result.SequenceEqual(sample))
                 {
                     throw new Exception("result is not equals to sample.");
@@ -115,7 +115,7 @@ namespace NOAI.l0Connection.TestProject1
 
                 var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
                     Where(i => new DirectoryInfo(i).Name.Contains("Metadata")).Single(), "AssemblyHashAlgorithm.cs"));
-                var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode_UnitTest1\AssemblyHashAlgorithm_1.cs");
+                var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode\AssemblyHashAlgorithm_1.cs");
                 if (!result.SequenceEqual(sample))
                 {
                     throw new Exception("result is not equals to sample.");
@@ -148,7 +148,7 @@ namespace NOAI.l0Connection.TestProject1
 
                 var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
                     Where(i => new DirectoryInfo(i).Name.Contains("Collections")).Single(), "IComparer.cs"));
-                var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode_UnitTest1\IComparer_1.cs");
+                var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode\IComparer_1.cs");
                 if (!result.SequenceEqual(sample))
                 {
                     throw new Exception("result is not equals to sample.");
