@@ -9,6 +9,8 @@ using System.Text.Json.Serialization;
 using Microsoft.CSharp;
 using System.CodeDom;
 using System.CodeDom.Compiler;
+using Microsoft.CodeAnalysis.CSharp;
+//using Microsoft.CodeAnalysis;
 
 namespace NOAI.l0Connection
 {
@@ -256,23 +258,78 @@ namespace NOAI.l0Connection
             foreach (var key in OutputAssemblyContextSet.Keys)
             {
                 var outputContext = OutputAssemblyContextSet[key];
-                var options = new CompilerParameters()
-                {
-                    OutputAssembly = Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"),
-                };
-                options.ReferencedAssemblies.AddRange(new[]
-                {
-                    "NOAI.l0Connection.dll",
-                });
+                //var options = new CompilerParameters()
+                //{
+                //    OutputAssembly = Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"),
+                //};
+                //options.ReferencedAssemblies.AddRange(new[]
+                //{
+                //    "NOAI.l0Connection.dll",
+                //});
 
-                options.ReferencedAssemblies.AddRange(
-                    outputContext.InputCodeReferAssemblySet.ToArray());
+                //options.ReferencedAssemblies.AddRange(
+                //    outputContext.InputCodeReferAssemblySet.ToArray());
 
-                outputContext.CompilerResults =
-                    CSharpCodeProvider.CompileAssemblyFromSource(options,
-                    outputContext.InputCodeFileDirectorySet.SelectMany(i =>
-                    new DirectoryInfo(Path.Combine(OutputCodeFileBaseDirectory, i)).
-                        GetFiles("*.cs").Select(ii => ii.FullName)).ToArray());
+                //outputContext.CompilerResults =
+                //    CSharpCodeProvider.CompileAssemblyFromSource(options,
+                //    outputContext.InputCodeFileDirectorySet.SelectMany(i =>
+                //    new DirectoryInfo(Path.Combine(OutputCodeFileBaseDirectory, i)).
+                //        GetFiles("*.cs").Select(ii => ii.FullName)).ToArray());
+
+                //var syntaxTree = CSharpSyntaxTree.ParseText(codeToCompile);
+
+                //string assemblyName = Path.GetRandomFileName();
+                //var refPaths = new[] {
+                //    typeof(System.Object).GetTypeInfo().Assembly.Location,
+                //    typeof(Console).GetTypeInfo().Assembly.Location,
+                //    Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
+                //};
+                //var  references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
+
+                //Write("Adding the following references");
+                //foreach (var r in refPaths)
+                //    Write(r);
+
+                //Write("Compiling ...");
+                CSharpCompilation compilation = CSharpCompilation.Create(
+                    Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"),
+                    syntaxTrees: outputContext.InputCodeFileDirectorySet.SelectMany(i =>
+                        new DirectoryInfo(Path.Combine(OutputCodeFileBaseDirectory, i)).
+                            GetFiles("*.cs").Select(ii => CSharpSyntaxTree.ParseText(
+                                File.ReadAllText(ii.FullName)))).ToArray(),
+                    references: outputContext.InputCodeReferAssemblyFiles.Select(i => 
+                        Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(i)).ToArray(),
+                    options: new CSharpCompilationOptions(
+                        Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary));
+
+                using (var ms = new MemoryStream())
+                {
+                    outputContext.EmitResult = compilation.Emit(ms);
+
+                    //if (!result.Success)
+                    //{
+                    //    //Write("Compilation failed!");
+                    //    var failures = result.Diagnostics.Where(diagnostic =>
+                    //        diagnostic.IsWarningAsError ||
+                    //        diagnostic.Severity == DiagnosticSeverity.Error);
+
+                    //    foreach (Diagnostic diagnostic in failures)
+                    //    {
+                    //        //Console.Error.WriteLine("\t{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    //Write("Compilation successful! Now instantiating and executing the code ...");
+                    //    ms.Seek(0, SeekOrigin.Begin);
+
+                    //    Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
+                    //    //var type = assembly.GetType("RoslynCompileSample.Writer");
+                    //    //var instance = assembly.CreateInstance("RoslynCompileSample.Writer");
+                    //    //var meth = type.GetMember("Write").First() as MethodInfo;
+                    //    //meth.Invoke(instance, new[] { "joel" });
+                    //}
+                }
             }
         }
 
@@ -366,15 +423,15 @@ namespace NOAI.l0Connection
                             outputAssemblyContext.InputCodeFileDirectorySet.Add(diskPathNamespace);
                         }
 
-                        if (!outputAssemblyContext.InputCodeReferAssemblySet.Contains(outputContext.TypeInfo.Assembly.FullName))
+                        if (!outputAssemblyContext.InputCodeReferAssemblyFiles.Contains(outputContext.TypeInfo.Assembly.Location))
                         {
-                            outputAssemblyContext.InputCodeReferAssemblySet.Add(outputContext.TypeInfo.Assembly.FullName);
+                            outputAssemblyContext.InputCodeReferAssemblyFiles.Add(outputContext.TypeInfo.Assembly.Location);
                         }
                         if (InputTypeReferenceSet.ContainsKey(outputContext.TypeInfo))
                         {
                             foreach (var r in InputTypeReferenceSet[outputContext.TypeInfo])
                             {
-                                outputAssemblyContext.InputCodeReferAssemblySet.Add(r.Assembly.FullName);
+                                outputAssemblyContext.InputCodeReferAssemblyFiles.Add(r.Assembly.Location);
                             }
                         }
 
