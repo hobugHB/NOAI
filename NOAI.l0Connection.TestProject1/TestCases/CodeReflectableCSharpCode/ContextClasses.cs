@@ -70,6 +70,7 @@ namespace NOAI.l0Connection.TestProject1.TestCases.CodeReflectableCSharpCode
                 context.ContextDate = DateTime.MinValue;
 
                 context.OutputCodeFileBaseDirectory = root;
+                context.OutputCodeAssemblyDirectory = root;
 
                 context.InputSetReflectableObjects = new TypeInfo[]
                 {

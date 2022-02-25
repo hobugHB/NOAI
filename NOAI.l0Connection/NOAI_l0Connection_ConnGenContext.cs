@@ -269,8 +269,7 @@ namespace NOAI.l0Connection
             {
                 var outputContext = OutputAssemblyContextSet[key];
 
-                CSharpCompilation compilation = CSharpCompilation.Create(
-                    Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"),
+                CSharpCompilation compilation = CSharpCompilation.Create(key,
                     syntaxTrees: outputContext.InputCodeFileDirectorySet.SelectMany(i =>
                         new DirectoryInfo(Path.Combine(OutputCodeFileBaseDirectory, i)).
                             GetFiles("*.cs").Select(ii => CSharpSyntaxTree.ParseText(
@@ -289,29 +288,17 @@ namespace NOAI.l0Connection
                 {
                     outputContext.EmitResult = compilation.Emit(ms);
 
-                    //if (!result.Success)
-                    //{
-                    //    //Write("Compilation failed!");
-                    //    var failures = result.Diagnostics.Where(diagnostic =>
-                    //        diagnostic.IsWarningAsError ||
-                    //        diagnostic.Severity == DiagnosticSeverity.Error);
+                    if (outputContext.EmitResult.Success)
+                    {
+                        //    Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
 
-                    //    foreach (Diagnostic diagnostic in failures)
-                    //    {
-                    //        //Console.Error.WriteLine("\t{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    //Write("Compilation successful! Now instantiating and executing the code ...");
-                    //    ms.Seek(0, SeekOrigin.Begin);
-
-                    //    Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
-                    //    //var type = assembly.GetType("RoslynCompileSample.Writer");
-                    //    //var instance = assembly.CreateInstance("RoslynCompileSample.Writer");
-                    //    //var meth = type.GetMember("Write").First() as MethodInfo;
-                    //    //meth.Invoke(instance, new[] { "joel" });
-                    //}
+                        using (var file = new FileStream(
+                            Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"), 
+                            FileMode.Create, FileAccess.Write))
+                        {
+                            ms.WriteTo(file);
+                        }
+                    }
                 }
             }
         }
