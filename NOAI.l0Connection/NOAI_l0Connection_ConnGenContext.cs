@@ -133,7 +133,7 @@ namespace NOAI.l0Connection
 
             builder.Append(
                 "[" + typeof(NOAI_l0Connection_ConnGenAttribute).Name + "(\r\n" +
-                    "TypeInfoJson:\"" + JsonSerialize(properties).Replace("\"", "\\\"") + "\", \r\n" +
+                    "TypeInfoJson=\"" + JsonSerialize(properties).Replace("\"", "\\\"") + "\" \r\n" +
                 ")]");
             return builder.ToString();
         }
@@ -255,50 +255,33 @@ namespace NOAI.l0Connection
 
         public void SaveOutputWin32AssemblyFiles()
         {
+            var root = new FileInfo(typeof(object).Assembly.Location).Directory.FullName;
+            var refers = new[]
+            {
+                //"System.Core.dll",
+                "System.Private.CoreLib.dll",
+                "System.Runtime.dll",
+            }.
+            Select(i => Path.Combine(root, i)).
+            ToArray();
+
             foreach (var key in OutputAssemblyContextSet.Keys)
             {
                 var outputContext = OutputAssemblyContextSet[key];
-                //var options = new CompilerParameters()
-                //{
-                //    OutputAssembly = Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"),
-                //};
-                //options.ReferencedAssemblies.AddRange(new[]
-                //{
-                //    "NOAI.l0Connection.dll",
-                //});
 
-                //options.ReferencedAssemblies.AddRange(
-                //    outputContext.InputCodeReferAssemblySet.ToArray());
-
-                //outputContext.CompilerResults =
-                //    CSharpCodeProvider.CompileAssemblyFromSource(options,
-                //    outputContext.InputCodeFileDirectorySet.SelectMany(i =>
-                //    new DirectoryInfo(Path.Combine(OutputCodeFileBaseDirectory, i)).
-                //        GetFiles("*.cs").Select(ii => ii.FullName)).ToArray());
-
-                //var syntaxTree = CSharpSyntaxTree.ParseText(codeToCompile);
-
-                //string assemblyName = Path.GetRandomFileName();
-                //var refPaths = new[] {
-                //    typeof(System.Object).GetTypeInfo().Assembly.Location,
-                //    typeof(Console).GetTypeInfo().Assembly.Location,
-                //    Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
-                //};
-                //var  references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
-
-                //Write("Adding the following references");
-                //foreach (var r in refPaths)
-                //    Write(r);
-
-                //Write("Compiling ...");
                 CSharpCompilation compilation = CSharpCompilation.Create(
                     Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"),
                     syntaxTrees: outputContext.InputCodeFileDirectorySet.SelectMany(i =>
                         new DirectoryInfo(Path.Combine(OutputCodeFileBaseDirectory, i)).
                             GetFiles("*.cs").Select(ii => CSharpSyntaxTree.ParseText(
                                 File.ReadAllText(ii.FullName)))).ToArray(),
-                    references: outputContext.InputCodeReferAssemblyFiles.Select(i => 
-                        Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(i)).ToArray(),
+                    references: refers.Concat(new[]
+                        {
+                            "NOAI.l0Connection.dll",
+                        }).
+                        Concat(outputContext.InputCodeReferAssemblyFiles).
+                        Select(i => Microsoft.CodeAnalysis.MetadataReference.CreateFromFile(i)).
+                        ToArray(),
                     options: new CSharpCompilationOptions(
                         Microsoft.CodeAnalysis.OutputKind.DynamicallyLinkedLibrary));
 
