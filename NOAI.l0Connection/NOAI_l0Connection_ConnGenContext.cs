@@ -160,32 +160,53 @@ namespace NOAI.l0Connection
 
         public bool IsConnGenHiddenCodeType(TypeInfo typeInfo)
         {
+            if(string.IsNullOrEmpty(typeInfo.FullName))
+            {
+                return true;
+            }
+
             return typeInfo.IsPrimitive ||
                 typeInfo.FullName == "System.Void" ||
                 typeInfo.FullName == "System.Object" ||
-                typeInfo.FullName == "System.String";
+                typeInfo.FullName == "System.String" ||
+                (typeInfo.IsByRef && typeInfo.FullName.StartsWith("System.") && 
+                    Type.GetType(typeInfo.FullName.Substring(0, typeInfo.FullName.IndexOf("&"))).IsPrimitive);
         }
 
         public string CodeTypeNameInConnGenWithContext(TypeInfo typeInfo,
             Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
-            if (IsConnGenHiddenCodeType(typeInfo))
+            var fullName = typeInfo.FullName;
+            var shortName = typeInfo.Name;
+            if (string.IsNullOrEmpty(fullName))
             {
-                return typeInfo.FullName;
+                fullName = "System." + shortName;
             }
 
+            var codeName = fullName;
+            if (!IsConnGenHiddenCodeType(typeInfo))
             {
-                var codeConnGenTypeProperties = codeConnGenTypeHandler(typeInfo);
+                codeName = shortName;
+            }
+
+            if (typeInfo.IsByRef)
+            {
+                codeName = codeName.Substring(0, codeName.IndexOf("&"));
             }
 
             if (typeInfo.GenericTypeArguments.Length > 0)
             {
-                return typeInfo.Name.Substring(0, typeInfo.Name.IndexOf("`")) + "<" + String.Join(", ",
+                codeName = codeName.Substring(0, codeName.IndexOf("`")) + "<" + String.Join(", ",
                     typeInfo.GenericTypeArguments.Select(i =>
                         CodeTypeNameInConnGenWithContext(i.GetTypeInfo(), codeConnGenTypeHandler))) + ">";
             }
 
-            return typeInfo.Name;
+            if (typeInfo.IsByRef)
+            {
+                codeName = "out " + codeName;
+            }
+
+            return codeName;
         }
 
         public string CodeTypeNameInUnderlyingTypeBase(TypeInfo typeInfo,

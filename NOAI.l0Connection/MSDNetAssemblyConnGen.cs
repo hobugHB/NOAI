@@ -245,7 +245,7 @@ namespace NOAI.l0Connection
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
                         "_NOAI_l0Connection_UnderlyingTypeBaseInstance = new " + context.GetFullName(typeInfo) +
                         "(\r\n" + header + context.CodeIndentBlankHeader(2) +
-                        string.Join(",\r\n" + header + context.CodeIndentBlankHeader(2), parameters.Select(p => p.Name)) + ")");
+                        string.Join(",\r\n" + header + context.CodeIndentBlankHeader(2), parameters.Select(p => p.Name)) + ");");
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
                 }
