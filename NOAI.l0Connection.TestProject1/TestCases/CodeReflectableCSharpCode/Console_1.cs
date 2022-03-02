@@ -11,7 +11,7 @@ namespace NOAI_System_System__Console____Version__6__0__0__0____Culture__neutral
 	[System.Runtime.CompilerServices.NullableContextAttribute(1)]
 	[System.Runtime.CompilerServices.NullableAttribute(0)]
 	[NOAI_l0Connection_ConnGenAttribute(
-TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000000\",\"ContextDate\":\"0001-01-01T00:00:00\",\"AssemblyName\":null,\"Namespace\":\"System\",\"IsPublic\":true,\"IsStatic\":true,\"Name\":\"Console\",\"IsPrimitive\":false,\"IsSealed\":true,\"IsVisible\":true,\"IsValueType\":false,\"GUID\":\"34cc8e06-04c2-361d-a47d-874838ca8e3b\",\"Attributes\":1048961,\"HasElementType\":false,\"IsGenericMethodParameter\":false,\"IsGenericParameter\":false,\"IsGenericType\":false,\"IsGenericTypeDefinition\":false,\"IsGenericTypeParameter\":false,\"GenericParameterAttributes\":0,\"GenericParameterPosition\":0,\"GenericTypeArguments\":[],\"IsAbstract\":true,\"IsAnsiClass\":true,\"IsArray\":false,\"IsAutoClass\":false,\"IsAutoLayout\":true,\"IsByRef\":false,\"IsByRefLike\":false,\"IsClass\":true,\"IsCOMObject\":false,\"IsConstructedGenericType\":false,\"IsContextful\":false,\"IsEnum\":false,\"IsExplicitLayout\":false,\"IsImport\":false,\"IsInterface\":false,\"IsLayoutSequential\":false,\"IsMarshalByRef\":false,\"IsNested\":false,\"IsNestedAssembly\":false,\"IsNestedFamANDAssem\":false,\"IsNestedFamily\":false,\"IsNestedFamORAssem\":false,\"IsNestedPrivate\":false,\"IsNestedPublic\":false,\"IsNotPublic\":false,\"IsPointer\":false,\"IsSecurityCritical\":true,\"IsSecuritySafeCritical\":false,\"IsSecurityTransparent\":false,\"IsSerializable\":false,\"IsSignatureType\":false,\"IsSpecialName\":false,\"IsSZArray\":false,\"IsTypeDefinition\":true,\"IsUnicodeClass\":false,\"IsVariableBoundArray\":false,\"AssemblyProperties\":{\"$id\":\"2\",\"Name\":\"System.Console\",\"Version\":\"6.0.0.0\",\"FullName\":\"System.Console, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a\",\"CodeBase\":\"file:///C:/Program Files/dotnet/shared/Microsoft.NETCore.App/6.0.1/System.Console.dll\",\"EscapedCodeBase\":\"file:///C:/Program%20Files/dotnet/shared/Microsoft.NETCore.App/6.0.1/System.Console.dll\",\"VersionCompatibility\":1,\"ContentType\":0,\"CultureName\":\"\",\"Flags\":1,\"HashAlgorithm\":32772,\"KeyPair\":null,\"ProcessorArchitecture\":1}}", 
+TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000000\",\"ContextDate\":\"0001-01-01T00:00:00\",\"AssemblyName\":null,\"Namespace\":\"System\",\"IsPublic\":true,\"IsStatic\":true,\"Name\":\"Console\",\"IsPrimitive\":false,\"IsSealed\":true,\"IsVisible\":true,\"IsValueType\":false,\"GUID\":\"34cc8e06-04c2-361d-a47d-874838ca8e3b\",\"Attributes\":1048961,\"HasElementType\":false,\"IsGenericMethodParameter\":false,\"IsGenericParameter\":false,\"IsGenericType\":false,\"IsGenericTypeDefinition\":false,\"IsGenericTypeParameter\":false,\"GenericParameterAttributes\":0,\"GenericParameterPosition\":0,\"GenericTypeArguments\":[],\"IsAbstract\":true,\"IsAnsiClass\":true,\"IsArray\":false,\"IsAutoClass\":false,\"IsAutoLayout\":true,\"IsByRef\":false,\"IsByRefLike\":false,\"IsClass\":true,\"IsCOMObject\":false,\"IsConstructedGenericType\":false,\"IsContextful\":false,\"IsEnum\":false,\"IsExplicitLayout\":false,\"IsImport\":false,\"IsInterface\":false,\"IsLayoutSequential\":false,\"IsMarshalByRef\":false,\"IsNested\":false,\"IsNestedAssembly\":false,\"IsNestedFamANDAssem\":false,\"IsNestedFamily\":false,\"IsNestedFamORAssem\":false,\"IsNestedPrivate\":false,\"IsNestedPublic\":false,\"IsNotPublic\":false,\"IsPointer\":false,\"IsSecurityCritical\":true,\"IsSecuritySafeCritical\":false,\"IsSecurityTransparent\":false,\"IsSerializable\":false,\"IsSignatureType\":false,\"IsSpecialName\":false,\"IsSZArray\":false,\"IsTypeDefinition\":true,\"IsUnicodeClass\":false,\"IsVariableBoundArray\":false,\"AssemblyProperties\":{\"$id\":\"2\",\"Name\":\"System.Console\",\"Version\":\"6.0.0.0\",\"FullName\":\"System.Console, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a\",\"CodeBase\":\"file:///C:/Program Files/dotnet/shared/Microsoft.NETCore.App/6.0.1/System.Console.dll\",\"EscapedCodeBase\":\"file:///C:/Program%20Files/dotnet/shared/Microsoft.NETCore.App/6.0.1/System.Console.dll\",\"VersionCompatibility\":1,\"ContentType\":0,\"CultureName\":\"\",\"Flags\":1,\"HashAlgorithm\":32772,\"KeyPair\":null,\"ProcessorArchitecture\":1}}" 
 )]
 	public static class Console
 	{
@@ -33,7 +33,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static TextReader In
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>new TextReader(
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.In)) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.In)); }
 		}
 
 		/// <summary>Gets or sets the encoding the console uses to read input.</summary>
@@ -52,10 +52,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static Encoding InputEncoding
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>new Encoding(
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.InputEncoding)) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.InputEncoding)); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.InputEncoding = value
-					.NOAI_l0Connection_UnderlyingTypeBaseInstance) }
+					.NOAI_l0Connection_UnderlyingTypeBaseInstance); }
 		}
 
 		/// <summary>Gets or sets the encoding the console uses to write output.</summary>
@@ -66,10 +66,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static Encoding OutputEncoding
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>new Encoding(
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.OutputEncoding)) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.OutputEncoding)); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.OutputEncoding = value
-					.NOAI_l0Connection_UnderlyingTypeBaseInstance) }
+					.NOAI_l0Connection_UnderlyingTypeBaseInstance); }
 		}
 
 		/// <summary>Gets a value indicating whether a key press is available in the input stream.</summary>
@@ -80,7 +80,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Boolean KeyAvailable
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.KeyAvailable) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.KeyAvailable); }
 		}
 
 		/// <summary>Gets the standard output stream.</summary>
@@ -88,7 +88,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static TextWriter Out
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>new TextWriter(
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Out)) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Out)); }
 		}
 
 		/// <summary>Gets the standard error output stream.</summary>
@@ -96,7 +96,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static TextWriter Error
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>new TextWriter(
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Error)) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Error)); }
 		}
 
 		/// <summary>Gets a value that indicates whether input has been redirected from the standard input stream.</summary>
@@ -105,7 +105,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Boolean IsInputRedirected
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsInputRedirected) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsInputRedirected); }
 		}
 
 		/// <summary>Gets a value that indicates whether output has been redirected from the standard output stream.</summary>
@@ -114,7 +114,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Boolean IsOutputRedirected
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsOutputRedirected) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsOutputRedirected); }
 		}
 
 		/// <summary>Gets a value that indicates whether the error output stream has been redirected from the standard error stream.</summary>
@@ -123,7 +123,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Boolean IsErrorRedirected
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsErrorRedirected) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.IsErrorRedirected); }
 		}
 
 		/// <summary>Gets or sets the height of the cursor within a character cell.</summary>
@@ -135,10 +135,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 CursorSize
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorSize) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorSize); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorSize = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets a value indicating whether the NUM LOCK keyboard toggle is turned on or turned off.</summary>
@@ -150,7 +150,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Boolean NumberLock
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.NumberLock) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.NumberLock); }
 		}
 
 		/// <summary>Gets a value indicating whether the CAPS LOCK keyboard toggle is turned on or turned off.</summary>
@@ -162,7 +162,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Boolean CapsLock
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CapsLock) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CapsLock); }
 		}
 
 		/// <summary>Gets or sets the background color of the console.</summary>
@@ -181,10 +181,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static ConsoleColor BackgroundColor
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>new ConsoleColor(
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.BackgroundColor)) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.BackgroundColor)); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.BackgroundColor = value
-					.NOAI_l0Connection_UnderlyingTypeBaseInstance) }
+					.NOAI_l0Connection_UnderlyingTypeBaseInstance); }
 		}
 
 		/// <summary>Gets or sets the foreground color of the console.</summary>
@@ -203,10 +203,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static ConsoleColor ForegroundColor
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>new ConsoleColor(
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.ForegroundColor)) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.ForegroundColor)); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.ForegroundColor = value
-					.NOAI_l0Connection_UnderlyingTypeBaseInstance) }
+					.NOAI_l0Connection_UnderlyingTypeBaseInstance); }
 		}
 
 		/// <summary>Gets or sets the width of the buffer area.</summary>
@@ -222,10 +222,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 BufferWidth
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferWidth) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferWidth); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferWidth = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets or sets the height of the buffer area.</summary>
@@ -241,10 +241,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 BufferHeight
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferHeight) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferHeight); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.BufferHeight = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets or sets the leftmost position of the console window area relative to the screen buffer.</summary>
@@ -257,10 +257,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 WindowLeft
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowLeft) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowLeft); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowLeft = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets or sets the top position of the console window area relative to the screen buffer.</summary>
@@ -273,10 +273,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 WindowTop
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowTop) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowTop); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowTop = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets or sets the width of the console window.</summary>
@@ -291,10 +291,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 WindowWidth
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowWidth) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowWidth); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowWidth = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets or sets the height of the console window area.</summary>
@@ -309,10 +309,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 WindowHeight
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowHeight) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowHeight); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.WindowHeight = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets the largest possible number of console window columns, based on the current font and screen resolution.</summary>
@@ -328,7 +328,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 LargestWindowWidth
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.LargestWindowWidth) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.LargestWindowWidth); }
 		}
 
 		/// <summary>Gets the largest possible number of console window rows, based on the current font and screen resolution.</summary>
@@ -344,7 +344,7 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 LargestWindowHeight
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.LargestWindowHeight) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.LargestWindowHeight); }
 		}
 
 		/// <summary>Gets or sets a value indicating whether the cursor is visible.</summary>
@@ -356,10 +356,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Boolean CursorVisible
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorVisible) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorVisible); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorVisible = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets or sets the column position of the cursor within the buffer area.</summary>
@@ -380,10 +380,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 CursorLeft
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorLeft) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorLeft); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorLeft = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets or sets the row position of the cursor within the buffer area.</summary>
@@ -404,10 +404,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Int32 CursorTop
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorTop) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorTop); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.CursorTop = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets or sets the title to display in the console title bar.</summary>
@@ -420,10 +420,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.String Title
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Title) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Title); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.Title = value
-					) }
+					); }
 		}
 
 		/// <summary>Gets or sets a value indicating whether the combination of the <see cref="F:System.ConsoleModifiers.Control" /> modifier key and <see cref="F:System.ConsoleKey.C" /> console key (Ctrl+C) is treated as ordinary input or as an interruption that is handled by the operating system.</summary>
@@ -441,10 +441,10 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		public static System.Boolean TreatControlCAsInput
 		{
 			get { return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				_NOAI_l0Connection_UnderlyingTypeBaseInstance.TreatControlCAsInput) }
+				_NOAI_l0Connection_UnderlyingTypeBaseInstance.TreatControlCAsInput); }
 			set { NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
 				_NOAI_l0Connection_UnderlyingTypeBaseInstance.TreatControlCAsInput = value
-					) }
+					); }
 		}
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
@@ -798,11 +798,11 @@ TypeInfoJson:"{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static ValueTuple`2 GetCursorPosition(
+		public static ValueTuple<System.Int32, System.Int32> GetCursorPosition(
 			)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
-				new ValueTuple`2(_NOAI_l0Connection_UnderlyingTypeBaseInstance.GetCursorPosition(
+				new ValueTuple<System.Int32, System.Int32>(_NOAI_l0Connection_UnderlyingTypeBaseInstance.GetCursorPosition(
 					)));
 		}
 

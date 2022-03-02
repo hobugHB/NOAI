@@ -178,6 +178,13 @@ namespace NOAI.l0Connection
                 var codeConnGenTypeProperties = codeConnGenTypeHandler(typeInfo);
             }
 
+            if (typeInfo.GenericTypeArguments.Length > 0)
+            {
+                return typeInfo.Name.Substring(0, typeInfo.Name.IndexOf("`")) + "<" + String.Join(", ",
+                    typeInfo.GenericTypeArguments.Select(i =>
+                        CodeTypeNameInConnGenWithContext(i.GetTypeInfo(), codeConnGenTypeHandler))) + ">";
+            }
+
             return typeInfo.Name;
         }
 
@@ -218,39 +225,51 @@ namespace NOAI.l0Connection
             builder.AppendLine(header +
                 "[" + codeTypeNameHandler(i.Constructor.DeclaringType.GetTypeInfo(), codeConnGenTypeHandler) + "(" +
 
-               string.Join(",", i.ConstructorArguments.Select(arg =>
-               {
-                   using (var writer = new StringWriter())
-                   {
-                       if (!(arg.Value is string) && typeof(System.Collections.IEnumerable).IsAssignableFrom(arg.Value.GetType()))
-                       {
-                           CSharpCodeProvider.GenerateCodeFromExpression(
-                                new CodeArrayCreateExpression(
-                                    arg.ArgumentType,
-                                    ((System.Collections.IEnumerable)arg.Value).AsQueryable().Cast<CustomAttributeTypedArgument>().AsEnumerable().
-                                        Select(v =>
-                                        {
-                                            return new CodePrimitiveExpression(v.Value);
-                                        }).
-                                        ToArray()),
-                               writer, null);
-                       }
-                       else if (arg.Value is Type)
-                       {
-                           writer.Write("typeof(" + CodeTypeNameInConnGenWithContext(((Type)arg.Value).GetTypeInfo(), codeConnGenTypeHandler) + ")");
-                       }
-                       else
-                       {
-                           CSharpCodeProvider.GenerateCodeFromExpression(
-                               new CodePrimitiveExpression(arg.Value), writer, null);
-                       }
-
-                       return writer.ToString();
-                   }
-               }
+                string.Join(",", i.ConstructorArguments.Select(arg =>
+                    new Tuple<TypeInfo, object>(arg.ArgumentType.GetTypeInfo(), arg.Value)).Select(arg =>
+                    {
+                        return CodeObjectCSharpValueExpression(codeConnGenTypeHandler, arg);
+                    }
             )) +
 
             ")]");
+        }
+
+        private string CodeObjectCSharpValueExpression(
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler,
+            Tuple<TypeInfo, object> arg)
+        {
+            using (var writer = new StringWriter())
+            {
+                if (arg.Item2 == null)
+                {
+                    writer.Write("null");
+                }
+                else if (arg.Item1 == typeof(Type).GetTypeInfo())
+                {
+                    writer.Write("typeof(" + CodeTypeNameInConnGenWithContext(((Type)arg.Item2).GetTypeInfo(), codeConnGenTypeHandler) + ")");
+                }
+                else if (arg.Item1 != typeof(string).GetTypeInfo() && typeof(System.Collections.IEnumerable).IsAssignableFrom(arg.Item1))
+                {
+                    CSharpCodeProvider.GenerateCodeFromExpression(
+                         new CodeArrayCreateExpression(
+                             arg.Item1,
+                             ((System.Collections.IEnumerable)arg.Item2).AsQueryable().Cast<CustomAttributeTypedArgument>().AsEnumerable().
+                                 Select(typeArg =>
+                                 {
+                                     return new CodePrimitiveExpression(typeArg.Value);
+                                 }).
+                                 ToArray()),
+                        writer, null);
+                }
+                else
+                {
+                    CSharpCodeProvider.GenerateCodeFromExpression(
+                        new CodePrimitiveExpression(arg.Item2), writer, null);
+                }
+
+                return writer.ToString();
+            }
         }
 
         public void SaveOutputWin32AssemblyFiles()
@@ -293,7 +312,7 @@ namespace NOAI.l0Connection
                         //    Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
 
                         using (var file = new FileStream(
-                            Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"), 
+                            Path.Combine(OutputCodeAssemblyDirectory, key + ".dll"),
                             FileMode.Create, FileAccess.Write))
                         {
                             ms.WriteTo(file);
