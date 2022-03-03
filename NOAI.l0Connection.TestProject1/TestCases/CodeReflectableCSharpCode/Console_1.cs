@@ -8,8 +8,8 @@ using NOAI_System_System__Private__CoreLib____Version__6__0__0__0____Culture__ne
 namespace NOAI_System_System__Console____Version__6__0__0__0____Culture__neutral____PublicKeyToken__b03f5f7f11d50a3a_0__00__00
 {
 	/// <summary>Represents the standard input, output, and error streams for console applications. This class cannot be inherited.</summary>
-	[System.Runtime.CompilerServices.NullableContextAttribute(1)]
-	[System.Runtime.CompilerServices.NullableAttribute(0)]
+	//[System.Runtime.CompilerServices.NullableContextAttribute(1)]
+	//[System.Runtime.CompilerServices.NullableAttribute(0)]
 	[NOAI_l0Connection_ConnGenAttribute(
 TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000000\",\"ContextDate\":\"0001-01-01T00:00:00\",\"AssemblyName\":null,\"Namespace\":\"System\",\"IsPublic\":true,\"IsStatic\":true,\"Name\":\"Console\",\"IsPrimitive\":false,\"IsSealed\":true,\"IsVisible\":true,\"IsValueType\":false,\"GUID\":\"34cc8e06-04c2-361d-a47d-874838ca8e3b\",\"Attributes\":1048961,\"HasElementType\":false,\"IsGenericMethodParameter\":false,\"IsGenericParameter\":false,\"IsGenericType\":false,\"IsGenericTypeDefinition\":false,\"IsGenericTypeParameter\":false,\"GenericParameterAttributes\":0,\"GenericParameterPosition\":0,\"GenericTypeArguments\":[],\"IsAbstract\":true,\"IsAnsiClass\":true,\"IsArray\":false,\"IsAutoClass\":false,\"IsAutoLayout\":true,\"IsByRef\":false,\"IsByRefLike\":false,\"IsClass\":true,\"IsCOMObject\":false,\"IsConstructedGenericType\":false,\"IsContextful\":false,\"IsEnum\":false,\"IsExplicitLayout\":false,\"IsImport\":false,\"IsInterface\":false,\"IsLayoutSequential\":false,\"IsMarshalByRef\":false,\"IsNested\":false,\"IsNestedAssembly\":false,\"IsNestedFamANDAssem\":false,\"IsNestedFamily\":false,\"IsNestedFamORAssem\":false,\"IsNestedPrivate\":false,\"IsNestedPublic\":false,\"IsNotPublic\":false,\"IsPointer\":false,\"IsSecurityCritical\":true,\"IsSecuritySafeCritical\":false,\"IsSecurityTransparent\":false,\"IsSerializable\":false,\"IsSignatureType\":false,\"IsSpecialName\":false,\"IsSZArray\":false,\"IsTypeDefinition\":true,\"IsUnicodeClass\":false,\"IsVariableBoundArray\":false,\"AssemblyProperties\":{\"$id\":\"2\",\"Name\":\"System.Console\",\"Version\":\"6.0.0.0\",\"FullName\":\"System.Console, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a\",\"CodeBase\":\"file:///C:/Program Files/dotnet/shared/Microsoft.NETCore.App/6.0.1/System.Console.dll\",\"EscapedCodeBase\":\"file:///C:/Program%20Files/dotnet/shared/Microsoft.NETCore.App/6.0.1/System.Console.dll\",\"VersionCompatibility\":1,\"ContentType\":0,\"CultureName\":\"\",\"Flags\":1,\"HashAlgorithm\":32772,\"KeyPair\":null,\"ProcessorArchitecture\":1}}" 
 )]
@@ -461,8 +461,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void WriteLine(
 			System.String format,
 			System.Object arg0,
@@ -477,8 +477,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void WriteLine(
 			System.String format,
 			System.Object arg0,
@@ -517,8 +517,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void Write(
 			System.String format,
 			System.Object arg0,
@@ -532,8 +532,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void Write(
 			System.String format,
 			System.Object arg0,
@@ -578,8 +578,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void Write(
 			Char[] buffer)
 		{
@@ -669,8 +669,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void Write(
 			System.Object value)
 		{
@@ -680,8 +680,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void Write(
 			System.String value)
 		{
@@ -788,12 +788,12 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Gets the position of the cursor.</summary>
 		/// <returns>The column and row position of the cursor.</returns>
-		[System.Runtime.CompilerServices.NullableContextAttribute(0)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(0)]
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("android")]
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("browser")]
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("ios")]
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("tvos")]
-		[NullableContextAttribute(0)]
+		//[NullableContextAttribute(0)]
 		[UnsupportedOSPlatformAttribute("android")]
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
@@ -922,8 +922,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void add_CancelKeyPress(
 			ConsoleCancelEventHandler value)
 		{
@@ -933,8 +933,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void remove_CancelKeyPress(
 			ConsoleCancelEventHandler value)
 		{
@@ -1070,10 +1070,10 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.OutOfMemoryException">There is insufficient memory to allocate a buffer for the returned string.</exception>
 		/// <exception cref="T:System.ArgumentOutOfRangeException">The number of characters in the next line of characters is greater than <see cref="F:System.Int32.MaxValue" />.</exception>
 		/// <returns>The next line of characters from the input stream, or <see langword="null" /> if no more lines are available.</returns>
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("android")]
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("browser")]
-		[NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		[UnsupportedOSPlatformAttribute("android")]
 		[UnsupportedOSPlatformAttribute("browser")]
 		public static System.String ReadLine(
@@ -1116,8 +1116,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void WriteLine(
 			Char[] buffer)
 		{
@@ -1216,8 +1216,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void WriteLine(
 			System.Object value)
 		{
@@ -1228,8 +1228,8 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		[System.Runtime.CompilerServices.NullableContextAttribute(2)]
-		[NullableContextAttribute(2)]
+		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
+		//[NullableContextAttribute(2)]
 		public static void WriteLine(
 			System.String value)
 		{

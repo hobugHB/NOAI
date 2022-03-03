@@ -160,7 +160,7 @@ namespace NOAI.l0Connection
 
         public bool IsConnGenHiddenCodeType(TypeInfo typeInfo)
         {
-            if(string.IsNullOrEmpty(typeInfo.FullName))
+            if (string.IsNullOrEmpty(typeInfo.FullName))
             {
                 return true;
             }
@@ -169,8 +169,27 @@ namespace NOAI.l0Connection
                 typeInfo.FullName == "System.Void" ||
                 typeInfo.FullName == "System.Object" ||
                 typeInfo.FullName == "System.String" ||
-                (typeInfo.IsByRef && typeInfo.FullName.StartsWith("System.") && 
+                (typeInfo.IsByRef && typeInfo.FullName.StartsWith("System.") &&
                     Type.GetType(typeInfo.FullName.Substring(0, typeInfo.FullName.IndexOf("&"))).IsPrimitive);
+        }
+
+        private static readonly List<string> reservedNames = new List<string>()
+        {
+            "object",
+            "int",
+            "double",
+            "byte",
+            "new",
+        };
+
+        public string CodeObjectNameInConnGenWithContext(string @object)
+        {
+            if (reservedNames.Contains(@object))
+            {
+                return "@" + @object;
+            }
+
+            return @object;
         }
 
         public string CodeTypeNameInConnGenWithContext(TypeInfo typeInfo,
@@ -241,7 +260,12 @@ namespace NOAI.l0Connection
             Func<TypeInfo, Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>, string> codeTypeNameHandler,
             Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
+
             var header = CodeIndentBlankHeader(indent);
+            if (!i.Constructor.DeclaringType.IsPublic)
+            {
+                header += "//";
+            }
 
             builder.AppendLine(header +
                 "[" + codeTypeNameHandler(i.Constructor.DeclaringType.GetTypeInfo(), codeConnGenTypeHandler) + "(" +

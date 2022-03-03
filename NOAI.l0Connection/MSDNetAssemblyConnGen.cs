@@ -240,12 +240,14 @@ namespace NOAI.l0Connection
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (i.IsStatic ? "static " : "/*static*/ ") + srcTypeProperties.Name +
                         "(\r\n" + header + context.CodeIndentBlankHeader(1) +
                         string.Join(",\r\n" + header + context.CodeIndentBlankHeader(1), parameters.Select(p =>
-                        context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenTypeHandler) + " " + p.Name)) + ")");
+                        context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenTypeHandler) + " " +
+                        context.CodeObjectNameInConnGenWithContext(p.Name))) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
                         "_NOAI_l0Connection_UnderlyingTypeBaseInstance = new " + context.GetFullName(typeInfo) +
                         "(\r\n" + header + context.CodeIndentBlankHeader(2) +
-                        string.Join(",\r\n" + header + context.CodeIndentBlankHeader(2), parameters.Select(p => p.Name)) + ");");
+                        string.Join(",\r\n" + header + context.CodeIndentBlankHeader(2), parameters.Select(p =>
+                        context.CodeObjectNameInConnGenWithContext(p.Name))) + ");");
                     typeConnGenBodyBuilder.AppendLine(header + "}");
                     typeConnGenBodyBuilder.AppendLine("");
                 }
@@ -329,7 +331,8 @@ namespace NOAI.l0Connection
                         context.CodeTypeNameInConnGenWithContext(i.ReturnType.GetTypeInfo(), codeConnGenTypeHandler)) +
                         " " + i.Name + "(\r\n" + header + context.CodeIndentBlankHeader(1) +
                         string.Join(",\r\n" + header + context.CodeIndentBlankHeader(1), parameters.Select(p =>
-                        context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenTypeHandler) + " " + p.Name)) + ")");
+                        context.CodeTypeNameInConnGenWithContext(p.ParameterType.GetTypeInfo(), codeConnGenTypeHandler) + " " +
+                        context.CodeObjectNameInConnGenWithContext(p.Name))) + ")");
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
                         (i.ReturnType.FullName == "System.Void" ? "" : ("return ")) +
@@ -341,7 +344,9 @@ namespace NOAI.l0Connection
                             "_NOAI_l0Connection_UnderlyingTypeBaseInstance." + i.Name +
                         "(\r\n" + header + context.CodeIndentBlankHeader(3) +
                         string.Join(",\r\n" + header + context.CodeIndentBlankHeader(3),
-                            parameters.Select(p => p.Name + (context.IsConnGenHiddenCodeType(p.ParameterType.GetTypeInfo()) ? "" :
+                            parameters.Select(p =>
+                            context.CodeObjectNameInConnGenWithContext(p.Name) + 
+                            (context.IsConnGenHiddenCodeType(p.ParameterType.GetTypeInfo()) ? "" :
                             ".NOAI_l0Connection_UnderlyingTypeBaseInstance"))) + ")" +
                         (i.ReturnType.FullName == "System.Void" ? "" : (context.IsConnGenHiddenCodeType(i.ReturnType.GetTypeInfo()) ? "" : (")"))) +
                         ");");

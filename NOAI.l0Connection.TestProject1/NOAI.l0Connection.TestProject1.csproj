@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Remove="TestCases\CodeReflectableCSharpCode\AssemblyHashAlgorithm_1.cs" />
+    <Compile Remove="TestCases\CodeReflectableCSharpCode\ClassWithObject1_1.cs" />
     <Compile Remove="TestCases\CodeReflectableCSharpCode\ClassWithOut1_1.cs" />
     <Compile Remove="TestCases\CodeReflectableCSharpCode\ClassWithTuple2_1.cs" />
     <Compile Remove="TestCases\CodeReflectableCSharpCode\Console_1.cs" />
@@ -17,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="TestCases\CodeReflectableCSharpCode\ClassWithObject1_1.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TestCases\CodeReflectableCSharpCode\ClassWithOut1_1.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

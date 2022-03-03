@@ -168,13 +168,15 @@ namespace NOAI.l0Connection
 
         }
 
-        public static string GetDocumentation(this ParameterInfo parameterInfo, string assemblyXmlDocFilesStore)
+        public static string GetDocumentation(this ParameterInfo parameterInfo, string assemblyXmlDocFilesStore,
+            NOAI_l0Connection_ConnGenContext context)
         {
             string memberDocumentation = parameterInfo.Member.GetDocumentation(assemblyXmlDocFilesStore);
             if (memberDocumentation != null)
             {
                 string regexPattern =
-                    Regex.Escape(@"<param name=" + "\"" + parameterInfo.Name + "\"" + @">") +
+                    Regex.Escape(@"<param name=" + "\"" +
+                    context.CodeObjectNameInConnGenWithContext(parameterInfo.Name) + "\"" + @">") +
                     ".*?" +
                     Regex.Escape(@"</param>");
                 Match match = Regex.Match(memberDocumentation, regexPattern);
