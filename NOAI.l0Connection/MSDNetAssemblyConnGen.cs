@@ -323,10 +323,13 @@ namespace NOAI.l0Connection
                                 referConnGenNamespaceBuilder, context);
                     }
 
+                    var isAsyncMethod = i.GetCustomAttribute(typeof(System.Runtime.CompilerServices.AsyncStateMachineAttribute)) != null;
+
                     CodeMemberMetaBlockCSharpCode(typeInfo,
                         i, indent, context, referConnGenNamespaceBuilder,
                         typeConnGenBodyBuilder, referCodedReflectableNamespace, codeConnGenTypeHandler);
                     typeConnGenBodyBuilder.AppendLine(header + "public " + (i.IsStatic ? "static " : "/*static*/ ") +
+                        (isAsyncMethod ? "async " : "/*async*/ ") +
                         (i.ReturnType.FullName == "System.Void" ? "void" :
                         context.CodeTypeNameInConnGenWithContext(i.ReturnType.GetTypeInfo(), codeConnGenTypeHandler)) +
                         " " + i.Name + "(\r\n" + header + context.CodeIndentBlankHeader(1) +
@@ -345,7 +348,7 @@ namespace NOAI.l0Connection
                         "(\r\n" + header + context.CodeIndentBlankHeader(3) +
                         string.Join(",\r\n" + header + context.CodeIndentBlankHeader(3),
                             parameters.Select(p =>
-                            context.CodeObjectNameInConnGenWithContext(p.Name) + 
+                            context.CodeObjectNameInConnGenWithContext(p.Name) +
                             (context.IsConnGenHiddenCodeType(p.ParameterType.GetTypeInfo()) ? "" :
                             ".NOAI_l0Connection_UnderlyingTypeBaseInstance"))) + ")" +
                         (i.ReturnType.FullName == "System.Void" ? "" : (context.IsConnGenHiddenCodeType(i.ReturnType.GetTypeInfo()) ? "" : (")"))) +

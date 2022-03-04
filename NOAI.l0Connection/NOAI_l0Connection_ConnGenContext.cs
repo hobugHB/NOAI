@@ -208,6 +208,21 @@ namespace NOAI.l0Connection
                 codeName = shortName;
             }
 
+            return CodeTypeNameInConnGenWithContext(typeInfo, codeConnGenTypeHandler, codeName);
+        }
+
+        public string CodeTypeNameInUnderlyingTypeBase(TypeInfo typeInfo,
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
+        {
+            var fullName = typeInfo.FullName;
+            var codeName = fullName;
+            return CodeTypeNameInConnGenWithContext(typeInfo, codeConnGenTypeHandler, codeName);
+        }
+
+        private string CodeTypeNameInConnGenWithContext(TypeInfo typeInfo,
+            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler,
+            string codeName)
+        {
             if (typeInfo.IsByRef)
             {
                 codeName = codeName.Substring(0, codeName.IndexOf("&"));
@@ -226,12 +241,6 @@ namespace NOAI.l0Connection
             }
 
             return codeName;
-        }
-
-        public string CodeTypeNameInUnderlyingTypeBase(TypeInfo typeInfo,
-            Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
-        {
-            return typeInfo.FullName;
         }
 
         public void CodeMemberDocumentBlockCSharpCode(MemberInfo i, int indent, StringBuilder builder)
@@ -262,25 +271,37 @@ namespace NOAI.l0Connection
         {
 
             var header = CodeIndentBlankHeader(indent);
+            var list = i.ConstructorArguments.Select(arg =>
+                      new Tuple<TypeInfo, object>(arg.ArgumentType.GetTypeInfo(), arg.Value)).ToArray();
             if (!i.Constructor.DeclaringType.IsPublic)
             {
                 header += "//";
             }
+            if (i.Constructor.DeclaringType == typeof(System.Runtime.CompilerServices.AsyncStateMachineAttribute))
+            {
+                header += "//";
+                list = new[]
+                {
+                    new Tuple<TypeInfo, object>(typeof(Type).GetTypeInfo(),null),
+                };
+            }
 
-            builder.AppendLine(header +
+            var code = header +
                 "[" + codeTypeNameHandler(i.Constructor.DeclaringType.GetTypeInfo(), codeConnGenTypeHandler) + "(" +
 
-                string.Join(",", i.ConstructorArguments.Select(arg =>
-                    new Tuple<TypeInfo, object>(arg.ArgumentType.GetTypeInfo(), arg.Value)).Select(arg =>
+                string.Join(",", list.Select(arg =>
                     {
-                        return CodeObjectCSharpValueExpression(codeConnGenTypeHandler, arg);
+                        return CodeObjectCSharpValueExpression(
+                            codeTypeNameHandler, codeConnGenTypeHandler, arg);
                     }
             )) +
+            ")]";
 
-            ")]");
+            builder.AppendLine(code);
         }
 
         private string CodeObjectCSharpValueExpression(
+            Func<TypeInfo, Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties>, string> codeTypeNameHandler,
             Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler,
             Tuple<TypeInfo, object> arg)
         {
@@ -292,7 +313,7 @@ namespace NOAI.l0Connection
                 }
                 else if (arg.Item1 == typeof(Type).GetTypeInfo())
                 {
-                    writer.Write("typeof(" + CodeTypeNameInConnGenWithContext(((Type)arg.Item2).GetTypeInfo(), codeConnGenTypeHandler) + ")");
+                    writer.Write("typeof(" + codeTypeNameHandler(((Type)arg.Item2).GetTypeInfo(), codeConnGenTypeHandler) + ")");
                 }
                 else if (arg.Item1 != typeof(string).GetTypeInfo() && typeof(System.Collections.IEnumerable).IsAssignableFrom(arg.Item1))
                 {

@@ -55,6 +55,51 @@ namespace NOAI.l0Connection.TestProject1.TestCases.CodeReflectableCSharpCode
             }
         }
 
+        public NOAI_l0Connection_ConnGenContext FactorContext_SystemIOTextReader_Type_Renew(
+            UnitTest testInstance, bool testCodeSample, bool testAssemblySample)
+        {
+            var root = testInstance.GetAvialibleTestMethodOutputRoot();
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, true);
+            }
+
+            var context = new NOAI_l0Connection_ConnGenContext();
+            {
+                context.ContextGuid = Guid.Empty;
+                context.ContextDate = DateTime.MinValue;
+
+                context.OutputCodeFileBaseDirectory = root;
+                context.OutputCodeAssemblyDirectory = root;
+
+                context.InputSetReflectableObjects = new TypeInfo[]
+                {
+                    typeof(TextReader).GetTypeInfo(),
+                };
+                new MSDNetAssemblyConnGen().CodeReflectableCSharpCode(context);
+
+                if (testCodeSample)
+                {
+                    context.SaveOutputWin32CSharpCode();
+
+                    var result = File.ReadAllText(Path.Combine(root, Directory.GetDirectories(root).
+                        Where(i => new DirectoryInfo(i).Name.Contains("IO")).Single(), "TextReader.cs"));
+                    var sample = File.ReadAllText(@"TestCases\CodeReflectableCSharpCode\TextReader_1.cs");
+                    if (!result.SequenceEqual(sample))
+                    {
+                        throw new Exception("result is not equals to sample.");
+                    }
+                }
+
+                if (testAssemblySample)
+                {
+                    context.SaveOutputWin32AssemblyFiles();
+                }
+
+                return context;
+            }
+        }
+
         public NOAI_l0Connection_ConnGenContext FactorContext_SystemReflectionAssemblyHashAlgorithm_Type_Renew(
             UnitTest testInstance, bool testCodeSample, bool testAssemblySample)
         {

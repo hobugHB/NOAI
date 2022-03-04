@@ -449,7 +449,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.String format,
 			System.Object arg0)
 		{
@@ -463,7 +463,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.String format,
 			System.Object arg0,
 			System.Object arg1)
@@ -479,7 +479,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.String format,
 			System.Object arg0,
 			System.Object arg1,
@@ -495,7 +495,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.String format,
 			Object[] arg)
 		{
@@ -506,7 +506,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			System.String format,
 			System.Object arg0)
 		{
@@ -519,7 +519,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void Write(
+		public static /*async*/ void Write(
 			System.String format,
 			System.Object arg0,
 			System.Object arg1)
@@ -534,7 +534,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void Write(
+		public static /*async*/ void Write(
 			System.String format,
 			System.Object arg0,
 			System.Object arg1,
@@ -549,7 +549,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			System.String format,
 			Object[] arg)
 		{
@@ -560,7 +560,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			System.Boolean value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -569,7 +569,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			System.Char value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -580,7 +580,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void Write(
+		public static /*async*/ void Write(
 			Char[] buffer)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -589,7 +589,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			Char[] buffer,
 			System.Int32 index,
 			System.Int32 count)
@@ -602,7 +602,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			System.Double value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -611,7 +611,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			Decimal value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -620,7 +620,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			System.Single value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -629,7 +629,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			System.Int32 value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -640,7 +640,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		[System.CLSCompliantAttribute(false)]
 		[CLSCompliantAttribute(false)]
-		public static void Write(
+		public static /*async*/ void Write(
 			System.UInt32 value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -649,7 +649,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void Write(
+		public static /*async*/ void Write(
 			System.Int64 value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -660,7 +660,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		[System.CLSCompliantAttribute(false)]
 		[CLSCompliantAttribute(false)]
-		public static void Write(
+		public static /*async*/ void Write(
 			System.UInt64 value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -671,7 +671,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void Write(
+		public static /*async*/ void Write(
 			System.Object value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -682,7 +682,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void Write(
+		public static /*async*/ void Write(
 			System.String value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -701,7 +701,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static ConsoleKeyInfo ReadKey(
+		public static /*async*/ ConsoleKeyInfo ReadKey(
 			)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -720,7 +720,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static ConsoleKeyInfo ReadKey(
+		public static /*async*/ ConsoleKeyInfo ReadKey(
 			System.Boolean intercept)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -739,7 +739,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static void ResetColor(
+		public static /*async*/ void ResetColor(
 			)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -750,7 +750,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		[SupportedOSPlatformAttribute("windows")]
-		public static void SetBufferSize(
+		public static /*async*/ void SetBufferSize(
 			System.Int32 width,
 			System.Int32 height)
 		{
@@ -763,7 +763,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		[SupportedOSPlatformAttribute("windows")]
-		public static void SetWindowPosition(
+		public static /*async*/ void SetWindowPosition(
 			System.Int32 left,
 			System.Int32 top)
 		{
@@ -776,7 +776,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		[SupportedOSPlatformAttribute("windows")]
-		public static void SetWindowSize(
+		public static /*async*/ void SetWindowSize(
 			System.Int32 width,
 			System.Int32 height)
 		{
@@ -798,7 +798,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static ValueTuple<System.Int32, System.Int32> GetCursorPosition(
+		public static /*async*/ ValueTuple<System.Int32, System.Int32> GetCursorPosition(
 			)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -816,7 +816,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static void Beep(
+		public static /*async*/ void Beep(
 			)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -828,7 +828,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.Security.HostProtectionException">This method was executed on a server, such as SQL Server, that does not permit access to a user interface.</exception>
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		[SupportedOSPlatformAttribute("windows")]
-		public static void Beep(
+		public static /*async*/ void Beep(
 			System.Int32 frequency,
 			System.Int32 duration)
 		{
@@ -841,7 +841,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		[SupportedOSPlatformAttribute("windows")]
-		public static void MoveBufferArea(
+		public static /*async*/ void MoveBufferArea(
 			System.Int32 sourceLeft,
 			System.Int32 sourceTop,
 			System.Int32 sourceWidth,
@@ -862,7 +862,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		[System.Runtime.Versioning.SupportedOSPlatformAttribute("windows")]
 		[SupportedOSPlatformAttribute("windows")]
-		public static void MoveBufferArea(
+		public static /*async*/ void MoveBufferArea(
 			System.Int32 sourceLeft,
 			System.Int32 sourceTop,
 			System.Int32 sourceWidth,
@@ -894,7 +894,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("android")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static void Clear(
+		public static /*async*/ void Clear(
 			)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -911,7 +911,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static void SetCursorPosition(
+		public static /*async*/ void SetCursorPosition(
 			System.Int32 left,
 			System.Int32 top)
 		{
@@ -924,7 +924,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void add_CancelKeyPress(
+		public static /*async*/ void add_CancelKeyPress(
 			ConsoleCancelEventHandler value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -935,7 +935,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// 
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void remove_CancelKeyPress(
+		public static /*async*/ void remove_CancelKeyPress(
 			ConsoleCancelEventHandler value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -953,7 +953,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static Stream OpenStandardInput(
+		public static /*async*/ Stream OpenStandardInput(
 			)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -967,7 +967,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("android")]
 		[UnsupportedOSPlatformAttribute("browser")]
-		public static Stream OpenStandardInput(
+		public static /*async*/ Stream OpenStandardInput(
 			System.Int32 bufferSize)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -977,7 +977,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Acquires the standard output stream.</summary>
 		/// <returns>The standard output stream.</returns>
-		public static Stream OpenStandardOutput(
+		public static /*async*/ Stream OpenStandardOutput(
 			)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -987,7 +987,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Acquires the standard output stream.</summary>
 		/// <returns>The standard output stream.</returns>
-		public static Stream OpenStandardOutput(
+		public static /*async*/ Stream OpenStandardOutput(
 			System.Int32 bufferSize)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -997,7 +997,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Acquires the standard error stream.</summary>
 		/// <returns>The standard error stream.</returns>
-		public static Stream OpenStandardError(
+		public static /*async*/ Stream OpenStandardError(
 			)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1007,7 +1007,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Acquires the standard error stream.</summary>
 		/// <returns>The standard error stream.</returns>
-		public static Stream OpenStandardError(
+		public static /*async*/ Stream OpenStandardError(
 			System.Int32 bufferSize)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1024,7 +1024,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("ios")]
 		[UnsupportedOSPlatformAttribute("tvos")]
-		public static void SetIn(
+		public static /*async*/ void SetIn(
 			TextReader newIn)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1033,7 +1033,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void SetOut(
+		public static /*async*/ void SetOut(
 			TextWriter newOut)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1042,7 +1042,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		}
 
 		/// 
-		public static void SetError(
+		public static /*async*/ void SetError(
 			TextWriter newError)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1057,7 +1057,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		[System.Runtime.Versioning.UnsupportedOSPlatformAttribute("browser")]
 		[UnsupportedOSPlatformAttribute("android")]
 		[UnsupportedOSPlatformAttribute("browser")]
-		public static System.Int32 Read(
+		public static /*async*/ System.Int32 Read(
 			)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1076,7 +1076,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		//[NullableContextAttribute(2)]
 		[UnsupportedOSPlatformAttribute("android")]
 		[UnsupportedOSPlatformAttribute("browser")]
-		public static System.String ReadLine(
+		public static /*async*/ System.String ReadLine(
 			)
 		{
 			return NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1086,7 +1086,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1096,7 +1096,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.Boolean value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1106,7 +1106,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.Char value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1118,7 +1118,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			Char[] buffer)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1128,7 +1128,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			Char[] buffer,
 			System.Int32 index,
 			System.Int32 count)
@@ -1142,7 +1142,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			Decimal value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1152,7 +1152,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.Double value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1162,7 +1162,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.Single value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1172,7 +1172,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.Int32 value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1184,7 +1184,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		[System.CLSCompliantAttribute(false)]
 		[CLSCompliantAttribute(false)]
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.UInt32 value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1194,7 +1194,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 
 		/// <summary>Writes the current line terminator to the standard output stream.</summary>
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.Int64 value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1206,7 +1206,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		[System.CLSCompliantAttribute(false)]
 		[CLSCompliantAttribute(false)]
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.UInt64 value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1218,7 +1218,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.Object value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
@@ -1230,7 +1230,7 @@ TypeInfoJson="{\"$id\":\"1\",\"ContextGuid\":\"00000000-0000-0000-0000-000000000
 		/// <exception cref="T:System.IO.IOException">An I/O error occurred.</exception>
 		//[System.Runtime.CompilerServices.NullableContextAttribute(2)]
 		//[NullableContextAttribute(2)]
-		public static void WriteLine(
+		public static /*async*/ void WriteLine(
 			System.String value)
 		{
 			NOAI_l1Runtime_IOCenterContext.Instance.Enter(()=>
