@@ -141,9 +141,9 @@ namespace NOAI.l0Connection
 
                 }
 
-                typeConnGenBodyBuilder.AppendLine(header + "{");
                 if (srcTypeProperties.IsEnum)
                 {
+                    typeConnGenBodyBuilder.AppendLine(header + "{");
                     indent++;
                     foreach (var i in typeInfo.GetEnumValues())
                     {
@@ -155,18 +155,22 @@ namespace NOAI.l0Connection
                             Convert.ChangeType(i, typeof(int)) + ",");
                     }
                     indent--;
+                    typeConnGenBodyBuilder.AppendLine(header + "}");
                 }
                 if (srcTypeProperties.IsInterface)
                 {
-
+                    typeConnGenBodyBuilder.AppendLine(header + "{");
+                    typeConnGenBodyBuilder.AppendLine(header + "}");
                 }
                 if (srcTypeProperties.IsClass)
                 {
                     CodeClassBody(typeInfo, context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent,
                         srcTypeProperties, referCodedReflectableNamespace, codeConnGenTypeHandler);
                 }
+                if (srcTypeProperties.IsValueType && !srcTypeProperties.IsEnum)
                 {
-                    typeConnGenBodyBuilder.AppendLine(header + "}");
+                    CodeClassBody(typeInfo, context, referConnGenNamespaceBuilder, typeConnGenBodyBuilder, indent,
+                        srcTypeProperties, referCodedReflectableNamespace, codeConnGenTypeHandler);
                 }
             }
 
@@ -193,7 +197,26 @@ namespace NOAI.l0Connection
             NOAI_l0Connection_TypeConnGenProperties srcTypeProperties, List<string> referCodedReflectableNamespace,
             Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
+            {
+                var header = context.CodeIndentBlankHeader(indent);
+
+                var interfaces = typeInfo.ImplementedInterfaces.ToArray();
+                foreach (var @interface in interfaces)
+                {
+                    var referConnGenProperties = CodeReferReflectableCSharpCode(typeInfo,
+                            @interface.GetTypeInfo(), referCodedReflectableNamespace,
+                            referConnGenNamespaceBuilder, context);
+                }
+                if (interfaces.Length > 0)
+                {
+                    typeConnGenBodyBuilder.AppendLine(header + " : " + String.Join(", ", interfaces.Select(i =>
+                    context.CodeTypeNameInConnGenWithContext(i.GetTypeInfo(), codeConnGenTypeHandler))));
+                }
+
+                typeConnGenBodyBuilder.AppendLine(header + "{");
+            }
             indent++;
+
             {
                 var header = context.CodeIndentBlankHeader(indent);
                 if (srcTypeProperties.IsStatic)
@@ -214,6 +237,7 @@ namespace NOAI.l0Connection
                     var underlyingTypeBaseInstanceConstructorParameterName = "NOAI_l0Connection_Constructor_UnderlyingTypeBaseInstance";
                     typeConnGenBodyBuilder.AppendLine(header + "public " + ("/*static*/ ") + srcTypeProperties.Name +
                         "(" + context.GetFullName(typeInfo) + " " + underlyingTypeBaseInstanceConstructorParameterName + ")");
+
                     typeConnGenBodyBuilder.AppendLine(header + "{");
                     typeConnGenBodyBuilder.AppendLine(header + context.CodeIndentBlankHeader(1) +
                         "_NOAI_l0Connection_UnderlyingTypeBaseInstance = " + underlyingTypeBaseInstanceConstructorParameterName + ";");
@@ -368,7 +392,12 @@ namespace NOAI.l0Connection
                     typeConnGenBodyBuilder.AppendLine("");
                 }
             }
+
             indent--;
+            {
+                var header = context.CodeIndentBlankHeader(indent);
+                typeConnGenBodyBuilder.AppendLine(header + "}");
+            }
         }
 
         private void CodeMemberMetaBlockCSharpCode(
@@ -394,7 +423,7 @@ namespace NOAI.l0Connection
         }
 
         private NOAI_l0Connection_TypeConnGenProperties CodeReferReflectableCSharpCode(
-            TypeInfo currentTypeInfo, TypeInfo referTypeInfo,
+            TypeInfo currentTypeInfo, TypeInfo referenceTypeInfo,
             List<string> referCodedReflectableNamespace,
             StringBuilder referConnGenNamespaceBuilder,
             NOAI_l0Connection_ConnGenContext context)
@@ -404,15 +433,15 @@ namespace NOAI.l0Connection
                 context.InputTypeReferenceSet.Add(currentTypeInfo, new List<TypeInfo>());
             }
 
-            var referConnGenProperties = CodeReflectableCSharpCode(referTypeInfo, context);
+            var referConnGenProperties = CodeReflectableCSharpCode(referenceTypeInfo, context);
             if (string.IsNullOrEmpty(referConnGenProperties.Name))
             {
                 return referConnGenProperties;
             }
 
-            if (!context.InputTypeReferenceSet[currentTypeInfo].Contains(referTypeInfo))
+            if (!context.InputTypeReferenceSet[currentTypeInfo].Contains(referenceTypeInfo))
             {
-                context.InputTypeReferenceSet[currentTypeInfo].Add(referTypeInfo);
+                context.InputTypeReferenceSet[currentTypeInfo].Add(referenceTypeInfo);
             }
 
             if (referCodedReflectableNamespace.Contains(referConnGenProperties.Namespace))

@@ -19,6 +19,24 @@ namespace NOAI.l0Connection.TestProject1.CodeReflectableCSharpCode
         }
 
         [TestMethod]
+        public void Test_SystemTextStringBuilderChunkEnumerator_Type_Renew()
+        {
+            using (var context = new TestCases.CodeReflectableCSharpCode.ContextClasses().
+                FactorContext_SystemTextStringBuilderChunkEnumerator_Type_Renew(this, true, true))
+            {
+            }
+        }
+
+        [TestMethod]
+        public void Test_SystemThreadingTasksTask_Type_Renew()
+        {
+            using (var context = new TestCases.CodeReflectableCSharpCode.ContextClasses().
+                FactorContext_SystemThreadingTasksTask_Type_Renew(this, true, true))
+            {
+            }
+        }
+
+        [TestMethod]
         public void Test_SystemIOTextReader_Type_Renew()
         {
             using (var context = new TestCases.CodeReflectableCSharpCode.ContextClasses().
