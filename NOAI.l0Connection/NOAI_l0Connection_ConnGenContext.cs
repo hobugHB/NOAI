@@ -113,7 +113,7 @@ namespace NOAI.l0Connection
             return Directory.GetDirectories(dir).OrderBy(i => i.Sum(ii => (int)ii)).Reverse().FirstOrDefault();
         }
 
-        public string GetFullName(TypeInfo typeInfo)
+        public string GetIdentifyName(TypeInfo typeInfo)
         {
             if (!string.IsNullOrEmpty(typeInfo.FullName))
             {
@@ -195,7 +195,7 @@ namespace NOAI.l0Connection
         public string CodeTypeNameInConnGenWithContext(TypeInfo typeInfo,
             Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
-            var fullName = typeInfo.FullName;
+            var fullName = (typeInfo.FullName ?? "").Replace("+", ".");
             var shortName = typeInfo.Name;
             if (string.IsNullOrEmpty(fullName))
             {
@@ -214,7 +214,7 @@ namespace NOAI.l0Connection
         public string CodeTypeNameInUnderlyingTypeBase(TypeInfo typeInfo,
             Func<TypeInfo, NOAI_l0Connection_TypeConnGenProperties> codeConnGenTypeHandler)
         {
-            var fullName = typeInfo.FullName;
+            var fullName = typeInfo.FullName.Replace("+", ".");
             var codeName = fullName;
             return CodeTypeNameInConnGenWithContext(typeInfo, codeConnGenTypeHandler, codeName);
         }
